@@ -506,7 +506,7 @@
                                                             <input type="hidden" name="replyCommentID" value="<%= cmt.getCommentID()%>" />
 
                                                             <div class="form-group">
-                                                                <label style="font-weight: bold" for="comment"><%= user.getName()%> (<%= user.getRoleName()%>)</label>
+                                                                <label style="font-weight: bold" for="comment"><%= user.getName()%> (<%= user.getRoleID()%>)</label>
                                                                 <textarea name="content" class="form-control" rows="3"></textarea>
                                                             </div>
                                                             <button type="submit" name="action" value="ReplyComment" class="btn btn-outline-info">Send</button>
