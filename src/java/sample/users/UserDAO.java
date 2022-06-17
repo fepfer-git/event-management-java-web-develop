@@ -73,6 +73,10 @@ public class UserDAO {
 
     private static final String UPLOAD_IMAGE = "UPDATE tblUsers SET avatarUrl = ? WHERE userID = ?";
 
+        private static final String GET_ALL_MANAGERS_BY_ROLE = "SELECT userID, fullName, password, email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
+            + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
+            + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID AND tblUsers.roleID = ?";
+    
     public boolean updateImage(String path, String userID) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -862,4 +866,47 @@ public class UserDAO {
         return check;
     }
 
+    public List<ManagerDTO> getAllManagersByRole(String roleID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        List<ManagerDTO> list = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ptm = conn.prepareStatement(GET_ALL_MANAGERS_BY_ROLE);
+            ptm.setString(1, roleID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                String userID = rs.getString("userID");
+                String fullName = rs.getString("fullName");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String typeID = rs.getString("typeID");
+                String typeName = rs.getString("typeName");
+                
+                String gender = rs.getString("gender");
+                String phoneNumber = rs.getString("phone");
+                String avatarUrl = rs.getString("avatarUrl");
+                String orgID = rs.getString("orgID");
+                String orgName = rs.getString("orgName");
+                boolean status = rs.getBoolean("status");
+
+                list.add(new ManagerDTO(orgID, orgName, userID, fullName, password, email, status, typeID, typeName, roleID, gender, phoneNumber, avatarUrl));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
 }

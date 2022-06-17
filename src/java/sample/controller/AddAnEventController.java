@@ -7,6 +7,8 @@ package sample.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +22,7 @@ import sample.posts.EventPostError;
 import sample.users.ManagerDTO;
 import sample.users.UserDAO;
 import sample.users.UserDTO;
+import sample.users.UserNotification;
 
 /**
  *
@@ -30,7 +33,7 @@ public class AddAnEventController extends HttpServlet {
 
     private static final String ERROR = "EventTypeAndLocationController";
     private static final String CLB_PAGE = "EventListByOrgController";
-        private static final String MOD_PAGE = "EventListController";
+    private static final String MOD_PAGE = "EventListController";
 
     private static final String MODERATOR = "MOD";
 
@@ -48,7 +51,8 @@ public class AddAnEventController extends HttpServlet {
         HttpSession session = request.getSession();
         UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         ManagerDTO manager = new ManagerDTO();
-
+        UserNotification userNoti = new UserNotification();
+        List<ManagerDTO> listManager = new ArrayList<>();
         try {
             while (true) {
                 id = "EVT" + ThreadLocalRandom.current().nextInt(1, 100000);
@@ -96,9 +100,16 @@ public class AddAnEventController extends HttpServlet {
                         id, orgID, title, content, createDate.toString(), imgUrl, numberOfView, summary, status);
                 boolean checkCreate = evtDao.createAnEvent(event);
                 if (checkCreate == true) {
-                    if("MOD".equals(manager.getRoleID())) {
-                           url = MOD_PAGE;
-                    }  else {
+                    if ("MOD".equals(manager.getRoleID())) {
+                        url = MOD_PAGE;
+                    } else {
+                        String notiContent = manager.getOrgID() + " have a new post need to be approve. Check it out!";
+                        listManager = userDao.getAllManagersByRole("MOD");
+
+                        for (ManagerDTO managerNoti : listManager) {
+                            userNoti = new UserNotification(managerNoti.getId(), id, createDate.toString(), notiContent);
+                            userDao.addNoti(userNoti);
+                        }
                         url = CLB_PAGE;
                     }
 

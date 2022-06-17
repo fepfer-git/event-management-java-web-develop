@@ -60,7 +60,7 @@ public class UploadImageController extends HttpServlet {
             String fileName = filePart.getSubmittedFileName();
             if (!fileName.isEmpty()) {
                 for (Part part : request.getParts()) {
-                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management\\event-management-java-web\\web\\Image\\" + fileName);
+                    part.write("D:\\FPTU\\event-management-java-web-develop\\web\\Image\\" + fileName);
                 }
                 String path = "Image\\" + fileName;
                 if ("Admin_UserForm.jsp".equals(page)) {
