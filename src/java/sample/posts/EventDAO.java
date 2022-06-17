@@ -1,0 +1,852 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sample.posts;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sample.posts.EventLocation;
+import sample.posts.EventPost;
+import sample.posts.EventType;
+import sample.users.UserDTO;
+import sample.util.DBUtils;
+
+/**
+ *
+ * @author tvfep
+ */
+public class EventDAO {
+
+    private static final String GET_ALL_EVENT_POST = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
+            + "			status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "            WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID\n";
+
+    private static final String GET_ALL_EVENT_BY_TITLE = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
+            + "            status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "            WHERE (dbo.ufn_removeMark(tblEventPost.title) LIKE ? or title LIKE ?)\n"
+            + "            and tblEventPost.eventTypeID = tblEventType.eventTypeID and \n"
+            + "            tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID";
+
+    private static final String GET_AN_EVENT_BY_ID = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
+            + "            status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "            WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID \n"
+            + "            and tblEventPost.statusTypeID = tblStatusType.statusTypeID and tblEventPost.eventID LIKE ?\n";
+
+    private static final String ADD_AN_EVENT = "INSERT INTO [dbo].[tblEventPost]\n"
+            + "           ([eventID], [orgID], [status], [statusTypeID] ,[createDate] ,[takePlaceDate], [content],\n"
+            + "		   [title], [location] ,[imgUrl], [eventTypeID], [numberOfView], [speaker], [approvalDes], [summary])\n"
+            + "     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)\n";
+
+    private static final String CHECK_EVENT_DUPLICATE = "SELECT eventID FROM tblEventPost where eventID = ?";
+
+    private static final String UPDATE_AN_EVENT = "UPDATE [dbo].[tblEventPost]\n"
+            + "   SET [takePlaceDate] = ?\n"
+            + "      ,[content] = ?\n"
+            + "      ,[title] = ?\n"
+            + "      ,[location] = ?\n"
+            + "      ,[imgUrl] = ?\n"
+            + "      ,[eventTypeID] = ?\n"
+            + "      ,[speaker] = ?\n"
+            + "      ,[summary] = ?\n"
+            + " WHERE eventID = ?";
+
+    private static final String UPDATE_AN_EVENT_BY_MOD = "UPDATE [dbo].[tblEventPost]\n"
+            + "   SET [takePlaceDate] = ?\n"
+            + "      ,[content] = ?\n"
+            + "      ,[title] = ?\n"
+            + "      ,[location] = ?\n"
+            + "      ,[imgUrl] = ?\n"
+            + "      ,[eventTypeID] = ?\n"
+            + "      ,[speaker] = ?\n"
+            + "      ,[summary] = ?\n"
+            + "      ,[status] = ?\n"
+            + " WHERE eventID = ?";
+
+    private static final String GET_ALL_EVENT_TYPE = "SELECT eventTypeID, eventTypeName\n"
+            + "FROM tblEventType";
+
+    private static final String GET_ALL_EVENT_LOCATION = "SELECT locationID, locationName\n"
+            + "FROM tblLocation";
+
+    private static final String GET_NUMBER_OF_PARTICIPANTS = "SELECT COUNT(userID) as total\n"
+            + "  FROM tblParticipants\n"
+            + "  Where eventID = ?";
+
+    private static final String GET_ALL_EVENT_BY_ORG = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID,\n"
+            + "numberOfView, speaker, summary, status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID AND tblEventPost.location = tblLocation.locationID\n"
+            + "AND tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.orgID = ? ";
+
+    private static final String GET_ALL_EVENT_BY_TYPE_AND_ORG = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID,\n"
+            + "numberOfView, speaker, summary, status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID AND tblEventPost.location = tblLocation.locationID\n"
+            + "AND tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.orgID = ? AND tblEventPost.statusTypeID = ?";
+
+    private static final String UPDATE_STATUS_EVENT = "UPDATE [dbo].[tblEventPost]\n"
+            + "   SET [status] = ?\n"
+            + " WHERE eventID = ?";
+
+    private static final String GET_ALL_ORG_EVENT_BY_TITLE = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
+            + "            status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "            WHERE (dbo.ufn_removeMark(tblEventPost.title) LIKE ? or title LIKE ?)\n"
+            + "            and tblEventPost.eventTypeID = tblEventType.eventTypeID and \n"
+            + "            tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.orgID = ?";
+
+    private static final String APPROVE_EVENT = "UPDATE tblEventPost SET statusTypeID = ? WHERE eventID = ?";
+
+    private static final String DECLINE_DESCRIPTION = "UPDATE tblEventPost SET approvalDes = ? WHERE eventID = ?";
+
+    private static final String GET_ALL_EVENT_BY_TYPE = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
+            + "			status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "            WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.statusTypeID = ?\n";
+
+        private static final String GET_ALL_PARTICIPANTS_BY_EVENT_ID = "select fullName, email, phone, gender from tblParticipants, tblUsers where tblParticipants.userID = tblUsers.userID AND eventID = ?";
+
+    public List<EventPost> getAllEventByType(String eventType, String roleID, String orgID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String onGoing = "ON";
+        String approve = "AP";
+        List<EventPost> listEvent = new ArrayList<>();
+        long millis = System.currentTimeMillis();
+        java.sql.Date nowDate = new java.sql.Date(millis);
+        try {
+            conn = DBUtils.getConnection();
+            if (eventType != onGoing) {
+                if ("MOD".equals(roleID)) {
+                    ps = conn.prepareStatement(GET_ALL_EVENT_BY_TYPE);
+                    ps.setString(1, eventType);
+
+                } else {
+                    ps = conn.prepareStatement(GET_ALL_EVENT_BY_TYPE_AND_ORG);
+                    ps.setString(1, orgID);
+                    ps.setString(2, eventType);
+
+                }
+            } else {
+                if ("MOD".equals(roleID)) {
+                    ps = conn.prepareStatement(GET_ALL_EVENT_BY_TYPE);
+                    ps.setString(1, approve);
+
+                } else {
+                    ps = conn.prepareStatement(GET_ALL_EVENT_BY_TYPE_AND_ORG);
+                    ps.setString(1, orgID);
+                    ps.setString(2, approve);
+
+                }
+            }
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("eventID");
+                String createDate = rs.getString("createDate");
+                Date takePlaceDate = rs.getDate("takePlaceDate");
+                String content = rs.getString("content");
+                String title = rs.getString("title");
+                String location = rs.getString("location");
+                String imgUrl = rs.getString("imgUrl");
+                int numberOfView = rs.getInt("numberOfView");
+                String speaker = rs.getString("speaker");
+                String summary = rs.getString("summary");
+                Boolean status = rs.getBoolean("status");
+                String eventTypeName = rs.getString("eventTypeName");
+                String locationName = rs.getString("locationName");
+                String statusTypeID = rs.getString("statusTypeID");
+                String statusTypeName = rs.getString("statusTypeName");
+                String approvalDes = rs.getString("approvalDes");
+
+                if (eventType != onGoing ) {
+                    EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                    listEvent.add(event);
+                } else {
+                    if (nowDate.before(takePlaceDate) && status == true) {
+                        EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                        listEvent.add(event);
+                    }
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listEvent;
+
+    }
+
+    public boolean addDeclineDescription(String eventID, String approvalDes) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        boolean check = false;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(DECLINE_DESCRIPTION);
+                ps.setString(1, approvalDes);
+                ps.setString(2, eventID);
+
+                if (ps.executeUpdate() > 0) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean approveAnEvent(String eventID, String statusTypeID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        boolean check = false;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(APPROVE_EVENT);
+                ps.setString(1, statusTypeID);
+                ps.setString(2, eventID);
+
+                if (ps.executeUpdate() > 0) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+        } finally {
+
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public List<EventPost> getAllEvent() throws SQLException {
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<EventPost> listEvent = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(GET_ALL_EVENT_POST);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("eventID");
+                String orgID = rs.getString("orgID");
+                String createDate = rs.getString("createDate");
+                String takePlaceDate = rs.getString("takePlaceDate");
+                String content = rs.getString("content");
+                String title = rs.getString("title");
+                String location = rs.getString("location");
+                String imgUrl = rs.getString("imgUrl");
+                String eventType = rs.getString("eventTypeID");
+                int numberOfView = rs.getInt("numberOfView");
+                String speaker = rs.getString("speaker");
+                String summary = rs.getString("summary");
+                Boolean status = rs.getBoolean("status");
+                String eventTypeName = rs.getString("eventTypeName");
+                String locationName = rs.getString("locationName");
+                String statusTypeID = rs.getString("statusTypeID");
+                String statusTypeName = rs.getString("statusTypeName");
+                String approvalDes = rs.getString("approvalDes");
+
+                EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                listEvent.add(event);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listEvent;
+
+    }
+
+    public List<EventPost> getListEventByTitle(String search) throws SQLException {
+        List<EventPost> listEvent = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(GET_ALL_EVENT_BY_TITLE);
+                ps.setString(1, "%" + search + "%");
+                ps.setString(2, "%" + search + "%");
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString("eventID");
+                    String orgID = rs.getString("orgID");
+                    String createDate = rs.getString("createDate");
+                    String takePlaceDate = rs.getString("takePlaceDate");
+                    String content = rs.getString("content");
+                    String title = rs.getString("title");
+                    String location = rs.getString("location");
+                    String imgUrl = rs.getString("imgUrl");
+                    String eventType = rs.getString("eventTypeID");
+                    int numberOfView = rs.getInt("numberOfView");
+                    String speaker = rs.getString("speaker");
+                    String summary = rs.getString("summary");
+                    Boolean status = rs.getBoolean("status");
+                    String eventTypeName = rs.getString("eventTypeName");
+                    String locationName = rs.getString("locationName");
+                    String statusTypeID = rs.getString("statusTypeID");
+                    String statusTypeName = rs.getString("statusTypeName");
+                    String approvalDes = rs.getString("approvalDes");
+
+                    EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                    listEvent.add(event);
+                }
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listEvent;
+    }
+
+    public EventPost getAnEventByID(String eventID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        EventPost event = new EventPost();
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(GET_AN_EVENT_BY_ID);
+                ps.setString(1, "%" + eventID + "%");
+
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    String id = rs.getString("eventID");
+                    String orgID = rs.getString("orgID");
+                    String createDate = rs.getString("createDate");
+                    String takePlaceDate = rs.getString("takePlaceDate");
+                    String content = rs.getString("content");
+                    String title = rs.getString("title");
+                    String location = rs.getString("location");
+                    String imgUrl = rs.getString("imgUrl");
+                    String eventType = rs.getString("eventTypeID");
+                    int numberOfView = rs.getInt("numberOfView");
+                    String speaker = rs.getString("speaker");
+                    String summary = rs.getString("summary");
+                    Boolean status = rs.getBoolean("status");
+                    String eventTypeName = rs.getString("eventTypeName");
+                    String locationName = rs.getString("locationName");
+                    String statusTypeID = rs.getString("statusTypeID");
+                    String statusTypeName = rs.getString("statusTypeName");
+                    String approvalDes = rs.getString("approvalDes");
+
+                    event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return event;
+    }
+
+    public boolean checkEventIDDuplicate(String eventID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean check = true;
+        String checkID = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(CHECK_EVENT_DUPLICATE);
+                ps.setString(1, eventID);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    checkID = rs.getString("eventID");
+                }
+                if (checkID == null) {
+                    check = false;
+                }
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean createAnEvent(EventPost event) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(ADD_AN_EVENT);
+                ps.setString(1, event.getId());
+                ps.setString(2, event.getOrgID());
+                ps.setBoolean(3, event.isStatus());
+                ps.setString(4, event.getStatusTypeID());
+                ps.setString(5, event.getCreateDate());
+                ps.setString(6, event.getTakePlaceDate());
+                ps.setString(7, event.getContent());
+                ps.setString(8, event.getTitle());
+                ps.setString(9, event.getLocation());
+                ps.setString(10, event.getImgUrl());
+                ps.setString(11, event.getEventType());
+                ps.setInt(12, event.getNumberOfView());
+                ps.setString(13, event.getSpeaker());
+                ps.setString(14, event.getApprovalDes());
+                ps.setString(15, event.getSummary());
+
+                if (ps.executeUpdate() > 0) {
+                    check = true;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean updateAnEvent(EventPost event) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(UPDATE_AN_EVENT);
+                ps.setString(1, event.getTakePlaceDate());
+                ps.setString(2, event.getContent());
+                ps.setString(3, event.getTitle());
+                ps.setString(4, event.getLocation());
+                ps.setString(5, event.getImgUrl());
+                ps.setString(6, event.getEventType());
+                ps.setString(7, event.getSpeaker());
+                ps.setString(8, event.getSummary());
+                ps.setString(9, event.getId());
+
+                int checkUpdate = ps.executeUpdate();
+                if (checkUpdate > 0) {
+                    check = true;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean updateAnEventByAdmin(EventPost event) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(UPDATE_AN_EVENT_BY_MOD);
+                ps.setString(1, event.getTakePlaceDate());
+                ps.setString(2, event.getContent());
+                ps.setString(3, event.getTitle());
+                ps.setString(4, event.getLocation());
+                ps.setString(5, event.getImgUrl());
+                ps.setString(6, event.getEventType());
+                ps.setString(7, event.getSpeaker());
+                ps.setString(8, event.getSummary());
+                ps.setBoolean(9, event.isStatus());
+                ps.setString(10, event.getId());
+
+                int checkUpdate = ps.executeUpdate();
+                if (checkUpdate > 0) {
+                    check = true;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public List<EventType> getAllEventType() throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<EventType> listTypes = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(GET_ALL_EVENT_TYPE);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String eventTypeID = rs.getString("eventTypeID");
+                String eventTypeName = rs.getString("eventTypeName");
+
+                EventType evtType = new EventType(eventTypeID, eventTypeName);
+                listTypes.add(evtType);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listTypes;
+    }
+
+    public List<EventLocation> getAllEventLocation() throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<EventLocation> listLocations = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(GET_ALL_EVENT_LOCATION);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String locationID = rs.getString("locationID");
+                String locationName = rs.getString("locationName");
+
+                EventLocation evtLocation = new EventLocation(locationID, locationName);
+                listLocations.add(evtLocation);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listLocations;
+    }
+
+    public int getNumberOfParticipants(String eventID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int total = 0;
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(GET_NUMBER_OF_PARTICIPANTS);
+            ps.setString(1, eventID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                total = rs.getInt("total");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return total;
+    }
+
+    public boolean updateStatusEventByID(String eventID, boolean status) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(UPDATE_STATUS_EVENT);
+                ps.setBoolean(1, status);
+                ps.setString(2, eventID);
+
+                int checkUpdate = ps.executeUpdate();
+                if (checkUpdate > 0) {
+                    check = true;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public List<EventPost> getAllOrgEvent(String memberOrgID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<EventPost> listEvent = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ps = conn.prepareStatement(GET_ALL_EVENT_BY_ORG);
+            ps.setString(1, memberOrgID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("eventID");
+                String orgID = rs.getString("orgID");
+                String createDate = rs.getString("createDate");
+                String takePlaceDate = rs.getString("takePlaceDate");
+                String content = rs.getString("content");
+                String title = rs.getString("title");
+                String location = rs.getString("location");
+                String imgUrl = rs.getString("imgUrl");
+                String eventType = rs.getString("eventTypeID");
+                int numberOfView = rs.getInt("numberOfView");
+                String speaker = rs.getString("speaker");
+                String summary = rs.getString("summary");
+                Boolean status = rs.getBoolean("status");
+                String eventTypeName = rs.getString("eventTypeName");
+                String locationName = rs.getString("locationName");
+                String statusTypeID = rs.getString("statusTypeID");
+                String statusTypeName = rs.getString("statusTypeName");
+                String approvalDes = rs.getString("approvalDes");
+
+                EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                listEvent.add(event);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listEvent;
+    }
+
+    public List<EventPost> getOrgListEventByTitle(String search, String memberOrgID) throws SQLException {
+        List<EventPost> listEvent = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(GET_ALL_ORG_EVENT_BY_TITLE);
+                ps.setString(1, "%" + search + "%");
+                ps.setString(2, "%" + search + "%");
+                ps.setString(3, memberOrgID);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String id = rs.getString("eventID");
+                    String orgID = rs.getString("orgID");
+                    String createDate = rs.getString("createDate");
+                    String takePlaceDate = rs.getString("takePlaceDate");
+                    String content = rs.getString("content");
+                    String title = rs.getString("title");
+                    String location = rs.getString("location");
+                    String imgUrl = rs.getString("imgUrl");
+                    String eventType = rs.getString("eventTypeID");
+                    int numberOfView = rs.getInt("numberOfView");
+                    String speaker = rs.getString("speaker");
+                    String summary = rs.getString("summary");
+                    Boolean status = rs.getBoolean("status");
+                    String eventTypeName = rs.getString("eventTypeName");
+                    String locationName = rs.getString("locationName");
+                    String statusTypeID = rs.getString("statusTypeID");
+                    String statusTypeName = rs.getString("statusTypeName");
+                    String approvalDes = rs.getString("approvalDes");
+
+                    EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                    listEvent.add(event);
+                }
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listEvent;
+    }
+
+    public List<UserDTO> getAllParticipantsByEventID(String eventID) throws SQLException {
+        List<UserDTO> listUser = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ps = conn.prepareStatement(GET_ALL_PARTICIPANTS_BY_EVENT_ID);
+                ps.setString(1, eventID);
+
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String name = rs.getString("fullName");
+                    String email = rs.getString("email");
+                    String phoneNumber = rs.getString("phone");
+                    String gender = rs.getString("gender");
+
+                    UserDTO participants = new UserDTO("", name, "", email, true, "", "", gender, phoneNumber, "");
+                    listUser.add(participants);
+                }
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listUser;
+    }
+}

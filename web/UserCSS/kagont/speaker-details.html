@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <title>F.E.M</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/x-icon/Biểu-tượng-không-chữ1.png">
+
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/icofont.min.css">
+    <link rel="stylesheet" href="assets/css/lightcase.css">
+    <link rel="stylesheet" href="assets/css/swiper.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="assets/css/style2.css">
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js'></script>
+    <script src="assets/css/script.js"></script>
+</head>
+
+<body>
+
+    <!-- preloader start here -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- preloader ending here -->
+
+
+    <!-- ==========Header Section Starts Here========== -->
+    <header class="header-section">
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="assets/images/resize-logo/TEXT-(153x50)1.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="menu-area">
+                        <ul class="menu">
+                            <li>
+                                <a href="index.html"><i class="fa fa-home"></i>Home</a>
+                            </li>
+
+                            <li>
+                                <a href="shop.html"><i class="fa fa-cube"></i> Club</a>
+                            </li>
+                            <li>
+                                <a href="speakers.html"><i class="fa fa-calendar-check"></i>Event</a>
+                                <!-- <ul class="submenu">
+                                    <li><a class="active" href="speakers.html">All Speakers</a></li>
+                                    <li><a href="speaker-details.html">Speaker Details</a></li>
+                                </ul> -->
+                            </li>
+                            <li>
+                                <a href="#0"><i class="icofont-institution"></i>Features</a>
+                                <ul class="submenu">
+                                    <li><a href="gallery.html">Gallery<i class="icofont-pixels"></i></a></li>
+                                    <li><a href="coming-soon.html">Coming-soon<i class="icofont-delivery-time"></i></a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+
+                            <li>
+                                <a href="blog.html"><i class="fa fa-newspaper"></i>Blog</a>
+                                <!-- <ul class="submenu">
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="blog-single.html">Blog Single</a></li>
+                                </ul> -->
+                            </li>
+                            <li><a href="contact.html"><i class="icofont-ui-message"></i>Contact</a></li>
+
+                        </ul>
+                        <!-- partial:index.partial.html -->
+                        <div ng-app="demoApp" class="dropdowns">
+                            <div class="wrapper" ng-controller="demoController">
+                                <div class="nav-bar">
+                                    <ul>
+                                        <li>
+                                            <div class="dropdowns-wrapper">
+                                                <div class="dropdown-container">
+                                                    <div class="notifications dropdown dd-trigger"
+                                                        ng-click="showNotifications($event)">
+                                                        <span class="count animated"
+                                                            id="notifications-count">{{awaitingNotifications}}</span>
+                                                        <span class="fa fa-bell-o"></span>
+                                                    </div>
+                                                    <div class="dropdown-menu animated" id="notification-dropdown">
+                                                        <div class="dropdown-header">
+                                                            <span class="triangle"></span>
+                                                            <span class="heading">Notifications</span>
+                                                            <span class="count"
+                                                                id="dd-notifications-count">{{newNotifications.length}}</span>
+                                                        </div>
+                                                        <div class="dropdown-body">
+                                                            <div class="notification new"
+                                                                ng-repeat="notification in newNotifications.slice().reverse() track by notification.timestamp">
+                                                                <div class="notification-image-wrapper">
+                                                                    <div class="notification-image">
+                                                                        <img src="{{notification.user.imageUrl}}" alt=""
+                                                                            width="32">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="notification-text">
+                                                                    <span
+                                                                        class="highlight">{{notification.user.name}}</span>
+                                                                    {{notification.action}} {{notification.target}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="notification"
+                                                                ng-repeat="notification in readNotifications.slice().reverse() track by $index">
+                                                                <div class="notification-image-wrapper">
+                                                                    <div class="notification-image">
+                                                                        <img src="{{notification.user.imageUrl}}" alt=""
+                                                                            width="32">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="notification-text">
+                                                                    <span
+                                                                        class="highlight">{{notification.user.name}}</span>
+                                                                    {{notification.action}} {{notification.target}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- partial -->
+                        <div class="padding">
+                            <i class="icofont-login"></i><a href="login.html">Log In/</a>
+                            <i class="icofont-user"></i><a href="registration.html">Sign Up</a>
+                        </div>
+
+
+                            <!-- toggle icons -->
+                            <div class="header-bar d-lg-none">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </header>
+    <!-- ==========Header Section Ends Here========== -->
+
+    <!-- Page Header Section Start Here -->
+    <section class="page-header bg_img padding-tb">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="page-header-content-area">
+                <h4 class="ph-title">Event Single</h4>
+                <ul class="lab-ul">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Event</a></li>
+                    <li><a class="active">Event Single</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Page Header Section Ending Here -->
+
+    <!-- Scholar single section start Here -->
+    <section class="shop-single padding-tb">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-12 sticky-widget">
+                    <div class="product-details">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 col-12">
+                                <div class="product-thumb">
+                                    <div class="swiper-container gallery-top">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="shop-item">
+                                                    <div class="shop-thumb">
+                                                        <img src="assets/images/resize-event/CLB-shop/Logo CSG.jpg"
+                                                            alt="shop-single">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                        <!-- <div class="shop-navigation d-flex flex-wrap">
+                                            <div class="shop-nav shop-slider-prev"><i class="icofont-simple-left"></i>
+                                            </div>
+                                            <div class="shop-nav shop-slider-next"><i class="icofont-simple-right"></i>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <!-- <div class="swiper-container gallery-thumbs">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="shop-item">
+                                                    <div class="shop-thumb">
+                                                        <img src="assets/images/product/single/01.jpg"
+                                                            alt="shop-single">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="shop-item">
+                                                    <div class="shop-thumb">
+                                                        <img src="assets/images/product/single/02.jpg"
+                                                            alt="shop-single">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="shop-item">
+                                                    <div class="shop-thumb">
+                                                        <img src="assets/images/product/single/03.jpg"
+                                                            alt="shop-single">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="shop-item">
+                                                    <div class="shop-thumb">
+                                                        <img src="assets/images/product/single/04.jpg"
+                                                            alt="shop-single">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="shop-item">
+                                                    <div class="shop-thumb">
+                                                        <img src="assets/images/product/single/05.jpg"
+                                                            alt="shop-single">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="post-content">
+                                    <h4>Cóc Sài Gòn</h4>
+                                    <p class="rating">
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        (3 review)
+                                    </p>
+                                    <h5 class="mb-3">
+                                        Hoạt động tổ chức sự kiện, truyền thông
+                                    </h5>
+                                    <h5>
+                                        Club's Description
+                                    </h5>
+                                    <p>
+                                        Câu lạc bộ truyền thông với những người trẻ có niềm đam mê trong lĩnh vực truyền thông, cùng nhau gắn kết và mang lại những giá trị cho cộng đồng trẻ
+                                    </p>
+                                    <!-- <form>
+                                        <div class="select-product size">
+                                            <select>
+                                                <option>Select Size</option>
+                                                <option>SM</option>
+                                                <option>MD</option>
+                                                <option>LG</option>
+                                                <option>XL</option>
+                                                <option>XXL</option>
+                                            </select>
+                                            <i class="fas fa-angle-down"></i>
+                                        </div>
+                                        <div class="select-product color">
+                                            <select>
+                                                <option>Select Color</option>
+                                                <option>Pink</option>
+                                                <option>Ash</option>
+                                                <option>Red</option>
+                                                <option>White</option>
+                                                <option>Blue</option>
+                                            </select>
+                                            <i class="fas fa-angle-down"></i>
+                                        </div>
+                                        <div class="cart-plus-minus">
+                                            <div class="dec qtybutton">-</div>
+                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
+                                            <div class="inc qtybutton">+</div>
+                                        </div>
+                                        <div class="discount-code">
+                                            <input type="text" placeholder="Enter Discount Code">
+                                        </div>
+                                        <button type="submit" class="lab-btn">Add To Cart</button>
+                                    </form> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review">
+                        <ul class="agri-ul review-nav">
+                            <li class="desc" data-target="description-show">Description</li>
+                            <li class="rev active" data-target="review-content-show">Reviews 2</li>
+                        </ul>
+                        <div class="review-content review-content-show">
+                            <div class="review-showing">
+                                <ul class="agri-ul content">
+                                    <li>
+                                        <div class="post-thumb">
+                                            <img src="assets/images/shop/daxua.jpg" alt="shop">
+                                        </div>
+                                        <div class="post-content">
+                                            <div class="entry-meta">
+                                                <div class="posted-on">
+                                                    <a href="#">Best daxua</a>
+                                                    <p>Posted on December 25, 2017 at 6:57 am</p>
+                                                </div>
+                                                <div class="rating">
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="entry-content">
+                                                <p>Club này thiếu bóng khí N20 quá. Chơi không đã</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="post-thumb">
+                                            <img src="assets/images/shop/huanhoahong-1_ugww.jpg" alt="shop">
+                                        </div>
+                                        <div class="post-content">
+                                            <div class="entry-meta">
+                                                <div class="posted-on">
+                                                    <a href="#">Huấn's Rose</a>
+                                                    <p>Posted on December 25, 2017 at 6:57 am</p>
+                                                </div>
+                                                <div class="rating">
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="entry-content">
+                                                <p>Không nàm mà đòi có ăn, thì chỉ có ăn shit, ăn dick</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+                                <div class="client-review">
+                                    <div class="review-form">
+                                        <div class="review-title">
+                                            <h5>Add a Review</h5>
+                                        </div>
+                                        <form action="action" class="row">
+                                            <div class="col-md-4 col-12">
+                                                <input type="text" name="name" placeholder="Full Name">
+                                            </div>
+                                            <div class="col-md-4 col-12">
+                                                <input type="text" name="email" placeholder="Email Adress">
+                                            </div>
+                                            <div class="col-md-4 col-12">
+                                                <div class="rating">
+                                                    <span class="rating-title">Your Rating : </span>
+                                                    <div class="rating">
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                        <i class="far fa-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-12">
+                                                <textarea rows="8" placeholder="Type Here Message"></textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="lab-btn" type="submit">Submit Review</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                                    deserunt mollit anim id est laborum.</p>
+                                <div class="post-item">
+                                    <div class="post-thumb">
+                                        <img src="assets/images/product/single/top/01.png" alt="shop">
+                                    </div>
+                                    <div class="post-content">
+                                        <ul class="agri-ul">
+                                            <li>
+                                                Donec non est at libero vulputate rutrum.
+                                            </li>
+                                            <li>
+                                                Morbi ornare lectus quis justo gravida semper.
+                                            </li>
+                                            <li>
+                                                Pellentesque aliquet, sem eget laoreet ultrices.
+                                            </li>
+                                            <li>
+                                                Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.
+                                            </li>
+                                            <li>
+                                                Donec a neque libero.
+                                            </li>
+                                            <li>
+                                                Pellentesque aliquet, sem eget laoreet ultrices.
+                                            </li>
+                                            <li>
+                                                Morbi ornare lectus quis justo gravida semper..
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Scholar single section end Here -->
+
+    <!-- Footer Section start here -->
+    <footer class="footer-section" style="background-image: url(assets/images/bg-images/footer-bg.png);">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row g-3 justify-content-center g-lg-0">
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="footer-top-item lab-item">
+                            <div class="lab-inner">
+                                <div class="lab-thumb">
+                                    <img src="assets/images/footer/footer-top/01.png" alt="Phone-icon">
+                                </div>
+                                <div class="lab-content">
+                                    <a href="#">Phone Number : +84 528 68 71 48</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="footer-top-item lab-item">
+                            <div class="lab-inner">
+                                <div class="lab-thumb">
+                                    <img src="assets/images/footer/footer-top/02.png" alt="email-icon">
+                                </div>
+                                <div class="lab-content">
+                                    <a href="emailto: daihoc.hcm@fpt.edu.vn">Email : daihoc.hcm@fpt.edu.vn</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="footer-top-item lab-item">
+                            <div class="lab-inner">
+                                <div class="lab-thumb">
+                                    <img src="assets/images/footer/footer-top/03.png" alt="location-icon">
+                                </div>
+                                <div class="lab-content">
+                                    <a href="#">Address: Tp. Thủ Đức, TP.HCM.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-middle padding-tb">
+            <div class="container">
+                <div class="row shape-c">
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="footer-middle-item-wrapper">
+                            <div class="footer-middle-item mb-5 mb-lg-0">
+                                <div class="fm-item-title">
+                                    <h5>About F.E.M</h5>
+                                </div>
+                                <div class="fm-item-content">
+                                    <p class="mb-30">Trang thông tin chính thức về chương trình dành cho FPTU campus
+                                        HCM: hoạt động CLB, chuyên đề cập nhật kiến thức mới, training kỹ năng sinh
+                                        viên, hoạt động trải nghiệm thực tế.</p>
+                                    <img class="rounded footer-abt-img"
+                                        src="assets/images/footer/footer-middle/370X200.jpg" alt="about-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="footer-middle-item-wrapper">
+                            <div class="footer-middle-item mb-5 mb-lg-0">
+                                <div class="fm-item-title">
+                                    <h5>our Recent news</h5>
+                                </div>
+                                <div class="fm-item-content">
+                                    <div class="fm-item-widget lab-item">
+                                        <div class="lab-inner">
+                                            <div class="lab-thumb">
+                                                <a
+                                                    href="https://hcmuni.fpt.edu.vn/o-dai-hoc-fpt-co-nhung-cau-lac-bo-nao">
+                                                    <img src="assets/images/footer/footer-middle/100X80.01.jpg"
+                                                        alt="footer-widget-img"></a>
+                                            </div>
+                                            <div class="lab-content">
+                                                <h6><a
+                                                        href="https://hcmuni.fpt.edu.vn/o-dai-hoc-fpt-co-nhung-cau-lac-bo-nao">
+                                                        Ở Đại học FPT có những Câu lạc bộ nào?</a></h6>
+                                                <p>September 20, 2022</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fm-item-widget lab-item">
+                                        <div class="lab-inner">
+                                            <div class="lab-thumb">
+                                                <a
+                                                    href="https://hcmuni.fpt.edu.vn/3-dieu-khien-nhieu-sinh-vien-ngung-mo-fvc"><img
+                                                        src="assets/images/footer/footer-middle/100X80.02.jpg"
+                                                        alt="footer-widget-img"></a>
+                                            </div>
+                                            <div class="lab-content">
+                                                <h6><a
+                                                        href="https://hcmuni.fpt.edu.vn/3-dieu-khien-nhieu-sinh-vien-ngung-mo-fvc">3
+                                                        điều khiến nhiều sinh viên “ngưỡng mộ” FVC.</a></h6>
+                                                <p>December 23, 2021</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fm-item-widget lab-item">
+                                        <div class="lab-inner">
+                                            <div class="lab-thumb">
+                                                <a
+                                                    href="https://hcmuni.fpt.edu.vn/an-tuong-voi-cau-lac-bo-truyen-thong-gao-coi-cua-truong-dai-hoc-fpt"><img
+                                                        src="assets/images/footer/footer-middle/100X80.03.jpg"
+                                                        alt="footer-widget-img"></a>
+                                            </div>
+                                            <div class="lab-content">
+                                                <h6><a
+                                                        href="https://hcmuni.fpt.edu.vn/an-tuong-voi-cau-lac-bo-truyen-thong-gao-coi-cua-truong-dai-hoc-fpt">Ấn
+                                                        tượng với Câu lạc bộ Truyền thông "gạo cội" của trường Đại học
+                                                        FPT
+                                                    </a></h6>
+                                                <p>July 29, 2021</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="footer-middle-item-wrapper">
+                            <div class="footer-middle-item-3 mb-5 mb-lg-0">
+                                <div class="fm-item-title">
+                                    <h5>OUR NEWSLETTER</h5>
+                                </div>
+                                <div class="fm-item-content">
+                                    <p>F.E.M is a event organization supported
+                                        by community leaders</p>
+                                    <form>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" placeholder="Enter email">
+                                        </div>
+                                        <a href="mailto:daihoc.hcm@fpt.edu.vn">
+                                            <button type="submit" class="lab-btn">Send Massage <i
+                                                    class="icofont-paper-plane"></i></button>
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="footer-bottom-content text-center">
+                            <p>&copy;2022 <a href="index.html">F.E.M</a> - Best For Event Management Schedule.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section end here -->
+
+
+
+    <!-- scrollToTop start here -->
+    <a href="#" class="scrollToTop"><i class="icofont-bubble-up"></i><span class="pluse_1"></span><span
+            class="pluse_2"></span></a>
+    <!-- scrollToTop ending here -->
+
+
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/fontawesome.min.js"></script>
+    <script src="assets/js/waypoints.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/circularProgressBar.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/lightcase.js"></script>
+    <script src="assets/js/functions.js"></script>
+</body>
+
+</html>
