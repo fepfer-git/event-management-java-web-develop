@@ -165,9 +165,11 @@ public class MainController extends HttpServlet {
     private static final String UPDATE_LOCATION_CONTROLLER = "UpdateLocationController";
 
     private static final String CREATE_LOCATION = "CreateLocation";
-        private static final String CREATE_LOCATION_CONTROLLER = "CreateLocationController";
+    private static final String CREATE_LOCATION_CONTROLLER = "CreateLocationController";
 
-    
+    private static final String SEARCH_LOCATION = "SearchLocation";
+    private static final String SEARCH_LOCATION_CONTROLLER = "SearchLocationController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

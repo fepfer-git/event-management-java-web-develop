@@ -12,60 +12,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.posts.EventDAO;
-import sample.posts.EventPost;
-import sample.users.ManagerDTO;
+import sample.location.Location;
+import sample.location.LocationDAO;
 
 /**
  *
  * @author light
  */
-@WebServlet(name = "FilterEventController", urlPatterns = {"/FilterEventController"})
-public class FilterEventController extends HttpServlet {
+@WebServlet(name = "SearchLocationController", urlPatterns = {"/SearchLocationController"})
+public class SearchLocationController extends HttpServlet {
 
-    private static final String ERROR = "";
-    private static final String PENDING_PAGE = "Pending";
-    private static final String APPROVED_PAGE = "Approved";
-    private static final String DECLINED_PAGE = "Declined";
-    private static final String ON_GOING_PAGE = "OnGoing";
-    private static final String ALL_PAGE = "All";
-    private static final String GET_NOTI = "DisplayNotificationController";
+    private static final String ERROR = "DisplayNotificationController";
+    private static final String SUCCESS = "DisplayNotificationController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
-        List<EventPost> listEvent = null;
-        EventDAO eveDao = new EventDAO();
+        LocationDAO dao = new LocationDAO();
         try {
-            HttpSession session = request.getSession();
-            ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
-
-            String type = request.getParameter("type");
-
-            if (PENDING_PAGE.equals(type)) {
-                listEvent = eveDao.getAllEventByType("PE", user.getRoleID(), user.getOrgID());
-                request.setAttribute("listEvent", listEvent);
-
-            } else if (APPROVED_PAGE.equals(type)) {
-                listEvent = eveDao.getAllEventByType("AP", user.getRoleID(), user.getOrgID());
-                request.setAttribute("listEvent", listEvent);
-
-            } else if (DECLINED_PAGE.equals(type)) {
-                listEvent = eveDao.getAllEventByType("DE", user.getRoleID(), user.getOrgID());
-                request.setAttribute("listEvent", listEvent);
-
-            } else if (ON_GOING_PAGE.equals(type)) {
-                listEvent = eveDao.getAllEventByType("ON", user.getRoleID(), user.getOrgID());
-                request.setAttribute("listEvent", listEvent);
+            String search = request.getParameter("search");
+            List<Location> searchLocation = dao.searchLocationName(search);
+            if(searchLocation != null) {
+                request.setAttribute("LIST_LOCATION", searchLocation);
+                url = SUCCESS;
             }
-            
-                url = GET_NOTI;
-            
-
         } catch (Exception e) {
-            log("Error at FilterController " + e.toString());
+            log("Error at Search Location Controller" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

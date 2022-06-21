@@ -69,7 +69,8 @@ public class DisplayNotificationController extends HttpServlet {
                     url = BLOG_DETAIL_PAGE;
                 } else if ("AdminProfile".equals(action) || "UpdateAdminProfile".equals(action)) {
                     url = ADM_PROFILE;
-                } else if ("ListLocation".equals(action) || "DeleteLocation".equals(action)) {
+                } else if ("ListLocation".equals(action) || "DeleteLocation".equals(action)
+                        || "SearchLocation".equals(action)) {
                     url = ADM_LOCATION;
                 }
 

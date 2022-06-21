@@ -21,6 +21,42 @@ public class LocationDAO {
 
     private static final String GET_ALL_LOCATION = "SELECT locationID, locationName, status FROM tblLocation";
     private static final String DELETE_LOCATION = "UPDATE tblLocation SET status = '0' WHERE locationID = ?";
+    private static final String SEARCH_LOCATION = "SELECT locationID, locationName, status FROM tblLocation WHERE dbo.ufn_removeMark(locationName) LIKE ? OR locationName like ?";
+
+    public List<Location> searchLocationName(String search) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        List<Location> list = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(SEARCH_LOCATION);
+                ptm.setString(1, "%" + search + "%");
+                ptm.setString(2, "%" + search + "%");
+
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int locationID = rs.getInt("locationID");
+                    String locationName = rs.getString("locationName");
+                    boolean status = rs.getBoolean("status");
+
+                    Location location = new Location(locationID, locationName, status);
+                    list.add(location);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
 
     public boolean deleteLocation(String id) throws SQLException {
         Connection conn = null;
@@ -28,11 +64,12 @@ public class LocationDAO {
         boolean check = false;
         try {
             conn = DBUtils.getConnection();
-            if(conn != null) {
+            if (conn != null) {
                 ptm = conn.prepareStatement(DELETE_LOCATION);
                 ptm.setString(1, id);
-                if(ptm.executeUpdate() > 0)
+                if (ptm.executeUpdate() > 0) {
                     check = true;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
