@@ -1,17 +1,18 @@
+<%@page import="sample.location.Location"%>
 <%@page import="sample.users.UserNotification"%>
 <%@page import="sample.users.ManagerDTO"%>
-<%@page import="sample.users.UserDTO"%>
-<%@page import="java.util.List"%>
 <%@page import="sample.posts.EventPost"%>
-<!DOCTYPE html>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
+
+<!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>F.E.M - Organization Event Page</title>
+        <title>F.E.M - FPT Event Admin</title>
         <!-- Favicon icon -->
         <link rel="icon" type="image/png" sizes="16x16" href="./css_Admin/images/Biểu-tượng-không-chữ.png">
         <link rel="stylesheet" href="./css_Admin/vendor/chartist/css/chartist.min.css">
@@ -22,21 +23,26 @@
         <link
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap"
             rel="stylesheet">
-
+        <style>
+            .status {
+                vertical-align: middle;
+                font-size: 35px;
+            }
+        </style>
     </head>
 
-    <% List<EventPost> listEvent = (List) request.getAttribute("listEvent");
-        ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
-        if (user == null) {
-            response.sendRedirect("Admin_Login.jsp");
-            return;
-        }
-
-        List<UserNotification> listNoti = (List) request.getAttribute("USER_NOTIFICATION");
-
-    %>
-
     <body>
+        <% List<Location> listLocation = (List) request.getAttribute("LIST_LOCATION");
+
+            ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
+            if (user == null || !user.getRoleID().equals("MOD")) {
+                response.sendRedirect("Admin_Login.jsp");
+                return;
+            }
+
+            List<UserNotification> listNoti = (List) request.getAttribute("USER_NOTIFICATION");
+        %>
+        %>
 
         <!--*******************
         Preloader start
@@ -61,16 +67,9 @@
         Nav header start
     ***********************************-->
             <div class="nav-header">
-                <%                    if (user.getRoleID().equals("CLB")) {
-                %>
-                <a href="MainController?action=ListOrgEvent" class="brand-logo">
-                    <img class="brand-title" src="./css_Admin/images/femLogo.png" alt="">
-                </a>
-                <% } else { %>
                 <a href="MainController?action=ListEvent" class="brand-logo">
                     <img class="brand-title" src="./css_Admin/images/femLogo.png" alt="">
                 </a>
-                <% }%>
 
                 <div class="nav-control">
                     <div class="hamburger">
@@ -82,9 +81,9 @@
         Nav header end
     ***********************************-->
 
-            <!--**********************************
-        Header start
-    ***********************************-->
+
+            Header start
+            ***********************************-->
             <div class="header">
                 <div class="header-content">
                     <nav class="navbar navbar-expand">
@@ -96,19 +95,14 @@
                             </div>
                             <ul class="navbar-nav header-right">
                                 <li class="nav-item">
-
                                     <form action="MainController" class="input-group search-area d-xl-inline-flex d-none">
                                         <input type="text" name="search" class="form-control" placeholder="Search here...">
                                         <div class="input-group-append">
-                                            <button type="submit" name="action" value="SearchOrgEvent" class="input-group-text"><i
+                                            <button type="submit" name="action" value="SearchEvent" class="input-group-text"><i
                                                     class="flaticon-381-search-2"></i></button>
                                         </div>
                                     </form>
-
                                 </li>
-
-                                <!--notification-->
-
                                 <li class="nav-item dropdown notification_dropdown">
                                     <a class="nav-link  ai-icon" href="javascript:void(0)" role="button"
                                        data-toggle="dropdown">
@@ -123,7 +117,8 @@
                                     <div class="dropdown-menu rounded dropdown-menu-right">
                                         <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3 height380">
                                             <ul class="timeline">
-                                                <%for (int i = 0; i < listNoti.size(); i++) {
+                                                <%
+                                                    for (int i = 0; i < listNoti.size(); i++) {
                                                 %>
 
                                                 <li>
@@ -132,7 +127,7 @@
                                                             <img alt="image" width="50" src="<%=listNoti.get(i).getNotiImg()%>">
                                                         </div>
                                                         <div class="media-body">
-                                                            <a href="MainController?action=EventDetail&eventID=<%=listNoti.get(i).getEventID() %>">
+                                                            <a href="MainController?action=EventDetail&eventID=<%=listNoti.get(i).getEventID()%>">
                                                                 <h6 class="mb-1"><%=listNoti.get(i).getContent()%></h6>
                                                                 <small class="d-block"><%=listNoti.get(i).getNotiDate()%></small>
                                                             </a>
@@ -143,7 +138,6 @@
                                                 <%
                                                     }
                                                 %>
-
                                             </ul>
                                         </div>
                                         <a class="all-notification" href="javascript:void(0)">See all notifications <i
@@ -151,15 +145,12 @@
                                     </div>
                                 </li>
 
-                                <!--profile-->
-
                                 <li class="nav-item dropdown header-profile">
                                     <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
-                                        <img src="<%=user.getPicture()%>" width="20" alt="" />
+                                        <img src="<%= user.getPicture()%>" width="20" alt="" />
                                         <div class="header-info">
-                                            <span class="text-black"><strong><%=user.getName()%></strong></span>
-                                            <p class="fs-12 mb-0"><%=user.getRoleID()%></p>
-                                        </div>
+                                            <span class="text-black"><strong><%= user.getName()%></strong></span>
+                                            <p class="fs-12 mb-0"><%= user.getRoleID()%></p>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="MainController?action=AdminProfile" class="dropdown-item ai-icon">
@@ -169,7 +160,7 @@
                                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="12" cy="7" r="4"></circle>
                                             </svg>
-                                            <span class="ml-2">Profile</span>
+                                            <span class="ml-2">Profile </span>
                                         </a>
 
                                         <a href="MainController?action=Logout" class="dropdown-item ai-icon">
@@ -198,21 +189,43 @@
     ***********************************-->
             <div class="deznav">
                 <div class="deznav-scroll">
-                    <a href="MainController?action=EventTypeAndLocation" class="add-menu-sidebar">+ New Event</a>
+                    <a href="MainController?action=CreateLocation" class="add-menu-sidebar">New Location</a>
                     <ul class="metismenu" id="menu">
-                        <li>
-                            <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                                 <i class="flaticon-381-networking"></i>
                                 <span class="nav-text">Dashboard</span>
                             </a>
                             <ul aria-expanded="false">
-                                <!--                                <li><a href="index.html">Dashboard</a></li>-->
-                                <li><a href="MainController?action=ListOrgEvent">Event</a></li>                               
-                                <li><a href="MainController?action=ListBlog">Blog</a></li>
+                                <li><a href="index.html">Dashboard</a></li>
 
+                                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Event</a>
+                                    <ul aria-expanded="false">
+                                        <li><a href="MainController?action=ListEvent">List Event</a></li>
+                                        <li><a href="MainController?action=ListLocation">Location</a></li>
+                                        <li><a href="MainController?action=ListEventType">Event Type</a></li>
+                                        </br>
+                                    </ul>
+                                </li>
+
+                                <li><a href="MainController?action=ListBlog">Blog</a></li>
                             </ul>
                         </li>
-                        <li>
+                        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                                <i class="flaticon-381-television"></i>
+                                <span class="nav-text">Apps</span>
+                            </a>
+                            <ul aria-expanded="false">
+
+                                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
+                                    <ul aria-expanded="false">
+                                        <li><a href="./email-compose.html">Compose</a></li>
+                                        <li><a href="./email-inbox.html">Inbox</a></li>
+                                        <li><a href="./email-read.html">Read</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="./app-calender.html">Calendar</a></li>
+
+                            </ul>
                         </li>
                     </ul>
                     <div class="copyright">
@@ -232,120 +245,27 @@
                 <!-- row -->
                 <div class="container-fluid">
                     <!-- Add Order -->
-             
+
                     <div class="d-flex flex-wrap mb-2 align-items-center justify-content-between">
 
                         <div class="event-tabs mb-3 mr-3">
                             <ul class="nav nav-tabs" role="tablist">
-                                <%
-                                    String type = request.getParameter("type");
-                                %>
-
-                                <li class="nav-item">
-                                    <%
-                                        if (type == null) {
-                                    %>
-                                    <a class="nav-link active"  href="MainController?action=ListOrgEvent" >
+                                <li class="nav-item">                                                              
+                                    <a class="nav-link active" href="MainController?action=ListEvent" >
                                         All
                                     </a>
-                                    <%
-                                    } else {
-                                    %>
-                                    <a class="nav-link" href="MainController?action=ListOrgEvent" >
-                                        All
-                                    </a>
-                                    <%
-                                        }
-                                    %>
                                 </li>
-
-
-                                <li class="nav-item">
-                                    <%
-                                        if ("Pending".equals(type)) {
-                                    %>
-                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=Pending" >
-                                        Pending
-                                    </a>
-                                    <%
-                                    } else {
-                                    %>
-                                    <a class="nav-link" href="MainController?action=FilterEvent&type=Pending" >
-                                        Pending
-                                    </a>
-                                    <%
-                                        }
-                                    %>
-                                </li>
-
-
-                                <li class="nav-item">
-                                    <%
-                                        if ("Approved".equals(type)) {
-                                    %>
-                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=Approved" >
-                                        Approved
-                                    </a>
-                                    <%
-                                    } else {
-                                    %>
-                                    <a class="nav-link" href="MainController?action=FilterEvent&type=Approved" >
-                                        Approved
-                                    </a>
-                                    <%
-                                        }
-                                    %>
-                                </li>
-
-
-                                <li class="nav-item">
-                                    <%
-                                        if ("Declined".equals(type)) {
-                                    %>
-                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=Declined" >
-                                        Declined
-                                    </a>
-                                    <%
-                                    } else {
-                                    %>
-                                    <a class="nav-link" href="MainController?action=FilterEvent&type=Declined" >
-                                        Declined
-                                    </a>
-                                    <%
-                                        }
-                                    %>
-                                </li>
-
-
-                                <li class="nav-item">
-                                    <%
-                                        if ("OnGoing".equals(type)) {
-                                    %>
-                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=OnGoing" >
-                                        On-Going
-                                    </a>
-                                    <%
-                                    } else {
-                                    %>
-                                    <a class="nav-link" href="MainController?action=FilterEvent&type=OnGoing" >
-                                        On-Going
-                                    </a>
-                                    <%
-                                        }
-                                    %>
-                                </li>
-
 
                             </ul>
                         </div>
 
+                        <div class="d-flex mb-3">
 
 
-                        <div class="d-flex mb-3">                                                       
                         </div>
                         <div class="mb-3 mr-3">
-                            <h6 class="fs-16 text-black font-w600 mb-0"><%=listEvent.size()%> Event Has Been Posted!</h6>
-                            <span class="fs-14">Based your activate</span>
+                            <h6 class="fs-16 text-black font-w600 mb-0"><%=listLocation.size()%> Location Has Located</h6>
+                            <span class="fs-14">All Location</span>
                         </div>
                     </div>
                     <div class="row">
@@ -356,46 +276,25 @@
                                         <table id="example2" class="table card-table display dataTablesCard">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center">EventID</th>                                                    
-                                                    <th class="text-center">Take Place Date</th>
-                                                    <th class="text-center">Event Title</th>
-                                                    <th class="text-center">Event Type</th>
-                                                    <th class="text-center">Type</th>
-                                                    <th class="text-center">Status</th>
-                                                    <th class="text-center">View Detail</th>
+                                                    <th class="text-center">Location ID</th>
+                                                    <th class="text-center">Location Name</th>    
+                                                    <th class="text-center">Status</th>                                                   
                                                     <th class="text-center">Action</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <%
-                                                    for (int i = 0; i < listEvent.size(); i++) {
+                                                    for (int i = 0; i < listLocation.size(); i++) {
                                                 %>
 
-
                                                 <tr>
-                                                    <td class="text-center"><%=listEvent.get(i).getId()%></td>                                                   
-                                                    <td class="text-center"><%=listEvent.get(i).getTakePlaceDate()%></td>
-                                                    <td class="text-left"><span class="text-wrap"><%=listEvent.get(i).getTitle()%></span>
-                                                    </td>
+                                                    <td class="text-center">#<%= listLocation.get(i).getLocationID()%></td>
+                                                    <td class="text-center"><%= listLocation.get(i).getLocationName()%></td>
 
-                                                    <td class="text-center"><%=listEvent.get(i).getEventTypeName()%></td>
-                                                    <%
-                                                        if (listEvent.get(i).getStatusTypeName().equals("Approved")) {
-                                                    %>
-                                                    <td style="color: green; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
-                                                    <%
-                                                    } else if (listEvent.get(i).getStatusTypeName().equals("Declined")) {
-                                                    %>
-                                                    <td style="color: red; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
-                                                    <%
-                                                    } else {
-                                                    %>
-                                                    <td style="color: #ffcc33; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
-
-                                                    <% }%>
-                                                    <td class="text-center">
+                                                    <td class="text-center">                                                       
                                                         <%
-                                                            if (listEvent.get(i).isStatus() == true) {
+                                                            if (listLocation.get(i).isStatus() == true) {
                                                         %>
                                                         <span class="status text-success">&bull;</span>
                                                         <%
@@ -405,38 +304,30 @@
                                                         <% }%>
 
 
-                                                        <%if (listEvent.get(i).isStatus()) {
+                                                        <%if (listLocation.get(i).isStatus()) {
                                                         %>
                                                         <span style="color: green">Active</span>
                                                         <%
                                                         } else {
+
                                                         %>
                                                         <span style="color: red">Inactive</span>
-                                                        <%
-                                                            }
-                                                        %>
+                                                        <%                                                                                        }
+                                                        %>                                                    
 
                                                     </td>
-
-                                                    <td class="text-center"><a href="MainController?action=EventDetail&eventID=<%=listEvent.get(i).getId()%>"
-                                                                               class="btn btn-primary btn-sm light">View</a></td>
 
                                                     <td>
-                                                        <div class="text-center">
-                                                            <a href="MainController?action=EventTypeAndLocation&eventID=<%=listEvent.get(i).getId()%>" class="mr-4">
-                                                                <i class=" las la-pencil-alt scale-2"></i>
-                                                            </a>
-
-                                                            <a href="MainController?action=DeleteEvent&eventID=<%=listEvent.get(i).getId()%>">
-                                                                <i class="las la-trash-alt scale-2 text-danger"></i>
-                                                            </a>
-                                                        </div>   
+                                                        <div class="d-flex justify-content-center">
+                                                            <a href="MainController?action=UpdateLocation&id=<%= listLocation.get(i).getLocationID()%>"
+                                                               class="btn btn-info btn-sm light px-4">Update</a>
+                                                            <a href="MainController?action=DeleteLocation&id=<%= listLocation.get(i).getLocationID()%>"
+                                                               class="btn btn-danger  btn-sm light ml-2 px-4">Delete</a>
+                                                        </div>
                                                     </td>
                                                 </tr>
-
                                                 <%                    }
                                                 %>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -446,6 +337,7 @@
                     </div>
                 </div>
             </div>
+
             <!--**********************************
         Content body end
     ***********************************-->

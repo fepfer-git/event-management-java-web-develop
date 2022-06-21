@@ -196,7 +196,16 @@
                                                         </a>
                                                         <ul aria-expanded="false">
                                                             <li><a href="index.html">Dashboard</a></li>
-                                                            <li><a href="MainController?action=ListEvent">Event</a></li>
+                                                            
+                                                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Event</a>
+                                                                <ul aria-expanded="false">
+                                                                    <li><a href="MainController?action=ListEvent">List Event</a></li>
+                                                                    <li><a href="MainController?action=ListLocation">Location</a></li>
+                                                                    <li><a href="MainController?action=ListEventType">Event Type</a></li>
+                                                                    </br>
+                                                                </ul>
+                                                            </li>
+                                                            
                                                             <li><a href="MainController?action=ListBlog">Blog</a></li>
                                                         </ul>
                                                     </li>

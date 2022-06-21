@@ -31,6 +31,9 @@ public class MainController extends HttpServlet {
     private static final String LIST_EVENT = "ListEvent";
     private static final String LIST_EVENT_CONTROLLER = "EventListController";
 
+    private static final String LIST_LOCATION = "ListLocation";
+    private static final String LIST_LOCATION_CONTROLLER = "ListLocationController";
+
     private static final String LIST_ORG_EVENT = "ListOrgEvent";
     private static final String LIST_ORG_EVENT_CONTROLLER = "EventListByOrgController";
 
@@ -151,10 +154,20 @@ public class MainController extends HttpServlet {
 
     private static final String ADMIN_PROFILE = "AdminProfile";
     private static final String ADMIN_PROFILE_CONTROLLER = "DisplayNotificationController";
-    
+
     private static final String LIST_PARTICIPANTS = "ListParticipants";
     private static final String LIST_PARTICIPANTS_CONTROLLER = "ListParticipantsController";
 
+    private static final String DELETE_LOCATION = "DeleteLocation";
+    private static final String DELETE_LOCATION_CONTROLLER = "DeleteLocationController";
+
+    private static final String UPDATE_LOCATION = "UpdateLocation";
+    private static final String UPDATE_LOCATION_CONTROLLER = "UpdateLocationController";
+
+    private static final String CREATE_LOCATION = "CreateLocation";
+        private static final String CREATE_LOCATION_CONTROLLER = "CreateLocationController";
+
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -290,8 +303,22 @@ public class MainController extends HttpServlet {
 
             } else if (ADMIN_PROFILE.equals(action)) {
                 url = ADMIN_PROFILE_CONTROLLER;
+
             } else if (LIST_PARTICIPANTS.equals(action)) {
                 url = LIST_PARTICIPANTS_CONTROLLER;
+
+            } else if (LIST_LOCATION.equals(action)) {
+                url = LIST_LOCATION_CONTROLLER;
+
+            } else if (DELETE_LOCATION.equals(action)) {
+                url = DELETE_LOCATION_CONTROLLER;
+
+            } else if (UPDATE_LOCATION.equals(action)) {
+                url = UPDATE_LOCATION_CONTROLLER;
+
+            } else if (CREATE_LOCATION.equals(action)) {
+                url = CREATE_LOCATION_CONTROLLER;
+
             }
 
         } catch (Exception e) {

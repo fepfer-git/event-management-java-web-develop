@@ -33,7 +33,8 @@ public class DisplayNotificationController extends HttpServlet {
     private static final String EVENT_DETAIL_PAGE = "Club_Event_Detail.jsp";
     private static final String BLOG_DETAIL_PAGE = "Club_Blog_Detail.jsp";
     private static final String ADM_PROFILE = "Admin_Profile.jsp";
-
+    private static final String ADM_LOCATION = "Admin_Location.jsp";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -68,6 +69,8 @@ public class DisplayNotificationController extends HttpServlet {
                     url = BLOG_DETAIL_PAGE;
                 } else if ("AdminProfile".equals(action) || "UpdateAdminProfile".equals(action)) {
                     url = ADM_PROFILE;
+                } else if ("ListLocation".equals(action) || "DeleteLocation".equals(action)) {
+                    url = ADM_LOCATION;
                 }
 
             } else if ("CLB".equals(user.getRoleID())) {
