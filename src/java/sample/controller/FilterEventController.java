@@ -29,7 +29,6 @@ public class FilterEventController extends HttpServlet {
     private static final String APPROVED_PAGE = "Approved";
     private static final String DECLINED_PAGE = "Declined";
     private static final String ON_GOING_PAGE = "OnGoing";
-    private static final String ALL_PAGE = "All";
     private static final String GET_NOTI = "DisplayNotificationController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

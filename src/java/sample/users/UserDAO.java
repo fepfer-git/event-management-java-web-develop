@@ -67,7 +67,7 @@ public class UserDAO {
             + "FROM tblEventPost eve, tblOrgPage org, tblOrg_Follower fl "
             + "WHERE eve.orgID = org.orgID AND org.orgID = fl.orgID AND eve.eventID = ? AND fl.status = '1'";
 
-    private static final String GET_MANAGER_BY_ID = "SELECT userID, fullName, password, email, status, roleID, gender, phone, avatarURL, orgID, tblUserTypes.typeID, tblUserTypes.typeName\n"
+    private static final String GET_MANAGER_BY_ID = "SELECT userID, fullName, password, email, tblUsers.status, roleID, gender, phone, avatarURL, orgID, tblUserTypes.typeID, tblUserTypes.typeName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes\n"
             + "WHERE tblManagers.managerID = ? AND tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID";
 

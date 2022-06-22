@@ -35,21 +35,17 @@ public class EventListByOrgController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-
+        request.setCharacterEncoding("UTF-8");      
         HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
-        ManagerDTO manager = new ManagerDTO();
+        ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
         UserDAO userDao = new UserDAO();
         List<EventPost> listEvent;
         String url = "error.jsp";
         String checkSearch = (String) request.getAttribute("checkSearch");
         try {
             EventDAO evtDao = new EventDAO();
-            manager = userDao.getManagerInfoByID(user.getId());
-
+            ManagerDTO manager = userDao.getManagerInfoByID(user.getId());
+            
             if (checkSearch == null) {
                 listEvent = evtDao.getAllOrgEvent(manager.getOrgID());
                 request.setAttribute("listEvent", listEvent);

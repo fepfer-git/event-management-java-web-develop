@@ -84,7 +84,7 @@ public class EventDAO {
             + "  Where eventID = ?";
 
     private static final String GET_ALL_EVENT_BY_ORG = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID,\n"
-            + "numberOfView, speaker, summary, status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "numberOfView, speaker, summary, tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
             + "FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
             + "WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID AND tblEventPost.location = tblLocation.locationID\n"
             + "AND tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.orgID = ? ";
@@ -128,7 +128,7 @@ public class EventDAO {
         java.sql.Date nowDate = new java.sql.Date(millis);
         try {
             conn = DBUtils.getConnection();
-            if (eventType.equals(onGoing) ) {
+            if (!eventType.equals(onGoing) ) {
                 if ("MOD".equals(roleID)) {
                     ps = conn.prepareStatement(GET_ALL_EVENT_BY_TYPE);
                     ps.setString(1, eventType);
@@ -171,7 +171,7 @@ public class EventDAO {
                 String statusTypeName = rs.getString("statusTypeName");
                 String approvalDes = rs.getString("approvalDes");
 
-                if (eventType.equals(onGoing) ) {
+                if (!eventType.equals(onGoing) ) {
                     EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
                     listEvent.add(event);
                 } else {
