@@ -14,6 +14,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>F.E.M - FPT Event Admin</title>
         <!-- Favicon icon -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="icon" type="image/png" sizes="16x16" href="./css_Admin/images/Biểu-tượng-không-chữ.png">
         <link rel="stylesheet" href="./css_Admin/vendor/chartist/css/chartist.min.css">
         <link href="./css_Admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
@@ -23,10 +24,18 @@
         <link
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap"
             rel="stylesheet">
+
+        <link rel="stylesheet" href="./css_StatusLocation/styleOfStatus.css">
+
         <style>
             .status {
                 vertical-align: middle;
                 font-size: 35px;
+            }
+            .btn-edit {
+                padding: 10px 40px;
+                border: 1px solid;
+                border-radius: 10px;
             }
         </style>
     </head>
@@ -252,7 +261,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Add Location</h5>
+                                    <h5 class="modal-title">Add New Location</h5>
                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                     </button>
                                 </div>
@@ -260,18 +269,26 @@
                                     <form action="MainController">
                                         <div class="form-group">
                                             <label class="text-black font-w500">Location Name</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" required="" name="locationName" class="form-control">
                                         </div>
-<!--===========================-->
-                                        <div class="form-group">
-                                            <input id="status" type="radio" checked="" name="status" value="true"/>
-                                            <label for="status-true">Active</label>
-                                            <input id="status" type="radio" name="status"  value="false"/>
-                                            <label for="status-false">Inactive</label>
+                                        <!--===========================-->
+                                        <div class="body-status">
+                                            <div class="container-status">
+                                                <div class="toggle">
+                                                    <input type="radio" id="choice1" name="choice" value="true">
+                                                    <label style="margin: 0;" for="choice1">Active</label>
+
+                                                    <input type="radio" id="choice2" name="choice" value="false">
+                                                    <label style="margin: 0;" for="choice2">Inactive</label>
+
+                                                    <div id="flap"><span class="content">productive</span></div>
+                                                </div>
+                                            </div>
                                         </div>
-<!--========================-->
+                                        </br>
+                                        <!--========================-->
                                         <div class="form-group">
-                                            <button type="submit" name="CreateLocation" class="btn btn-primary">Create</button>
+                                            <button style="padding: 12px 190px" type="submit" value="CreateLocation" name="action" class="btn btn-primary">Create</button>
                                         </div>
                                     </form>
                                 </div>
@@ -321,6 +338,7 @@
                                             </thead>
                                             <tbody>
                                                 <%
+                                                    int count = 0;
                                                     for (int i = 0; i < listLocation.size(); i++) {
                                                 %>
 
@@ -355,8 +373,73 @@
 
                                                     <td>
                                                         <div class="d-flex justify-content-center">
-                                                            <a href="MainController?action=UpdateLocation&id=<%= listLocation.get(i).getLocationID()%>"
-                                                               class="btn btn-info btn-sm light px-4">Update</a>
+
+
+                                                            <a href="javascript:void(0)" class="btn btn-info btn-sm light px-4" data-toggle="modal" 
+                                                               data-target="#id<%= listLocation.get(i).getLocationID()%>" >Update</a>
+
+                                                            <!--====================================================-->
+
+                                                            <div class="modal fade" id="id<%= listLocation.get(i).getLocationID()%>">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Update Location</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form action="MainController">
+                                                                                <div class="form-group">
+                                                                                    <label class="text-black font-w500">Location ID</label>
+                                                                                    <input type="text" name="locationID" readonly="" value="<%= listLocation.get(i).getLocationID()%>" class="form-control">
+                                                                                </div>
+
+                                                                                <div class="form-group">
+                                                                                    <label class="text-black font-w500">Location Name</label>
+                                                                                    <input type="text" name="locationName" required="" value="<%= listLocation.get(i).getLocationName()%>" class="form-control">
+                                                                                </div>
+                                                                                <!--===========================-->
+
+                                                                                <div class="text-center mt-3 mb-3">
+                                                                                    <div class="btn-group">
+                                                                                        <%
+                                                                                            if (listLocation.get(i).isStatus() == true) {
+                                                                                        %>
+                                                                                        <input type="radio" class="btn-check" name="status" value="true" id="option<%= count%>" checked />
+                                                                                        <label style="margin-right: 10px;" class="btn-edit btn-outline-success" for="option<%= count%>">Active</label>
+                                                                                        <% count++;%>
+                                                                                        <input type="radio" class="btn-check" name="status" value="false" id="option<%= count%>" />
+                                                                                        <label class="btn-edit btn-outline-danger" for="option<%= count%>">Inactive</label>
+                                                                                        <% count++; %>
+                                                                                        <% } else if (listLocation.get(i).isStatus() == false) {%>
+                                                                                        <input type="radio" class="btn-check" name="status" value="true" id="option<%= count%>" />
+                                                                                        <label style="margin-right: 10px;" class="btn-edit btn-outline-success" for="option<%= count%>">Active</label>
+                                                                                        <% count++;%>
+                                                                                        <input type="radio" class="btn-check" name="status" value="false" id="option<%= count%>" checked="" />
+                                                                                        <label class="btn-edit btn-outline-danger" for="option<%= count%>">Inactive</label>
+                                                                                        <% count++; %>
+                                                                                        <% }%>
+
+                                                                                    </div>
+                                                                                </div>
+
+
+
+                                                                                <!--========================-->
+                                                                                <div class="form-group">
+                                                                                    <button style="padding: 12px 190px" type="submit" value="UpdateLocation" name="action" class="btn btn-primary">Update</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--======================================-->
+
+
+
+
                                                             <a href="MainController?action=DeleteLocation&id=<%= listLocation.get(i).getLocationID()%>"
                                                                class="btn btn-danger  btn-sm light ml-2 px-4">Delete</a>
                                                         </div>
@@ -365,7 +448,7 @@
                                                 <%                    }
                                                 %>
                                             </tbody>
-                                        </table>
+                                        </table>                                                                                   
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +497,7 @@
         <script src="./css_Admin/vendor/chart.js/Chart.bundle.min.js"></script>
         <script src="./css_Admin/js/custom.min.js"></script>
         <script src="./css_Admin/js/deznav-init.js"></script>
-
+        <script src="./css_StatusLocation/script.js"></script>
         <!-- Datatable -->
         <script src="./css_Admin/vendor/datatables/js/jquery.dataTables.min.js"></script>
         <script>

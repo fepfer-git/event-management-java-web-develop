@@ -22,6 +22,67 @@ public class LocationDAO {
     private static final String GET_ALL_LOCATION = "SELECT locationID, locationName, status FROM tblLocation";
     private static final String DELETE_LOCATION = "UPDATE tblLocation SET status = '0' WHERE locationID = ?";
     private static final String SEARCH_LOCATION = "SELECT locationID, locationName, status FROM tblLocation WHERE dbo.ufn_removeMark(locationName) like ? OR locationName like ?";
+    private static final String CREATE_LOCATION = "INSERT INTO tblLocation(locationName, status) VALUES (?, ?)";
+    private static final String UPDATE_LOCATION = "UPDATE tblLocation SET locationName = ?, status = ? WHERE locationID = ?";
+
+        public boolean updateLocation(Location location) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        boolean check = false;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_LOCATION );
+                ptm.setString(1, location.getLocationName());
+                ptm.setBoolean(2, location.isStatus());
+                ptm.setInt(3, location.getLocationID());
+                
+                if(ptm.executeUpdate() > 0) {
+                    check = true;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    
+    public boolean createLocation(Location location) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        boolean check = false;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CREATE_LOCATION );
+                ptm.setString(1, location.getLocationName());
+                ptm.setBoolean(2, location.isStatus());
+                if(ptm.executeUpdate() > 0) {
+                    check = true;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
 
     public List<Location> searchLocationName(String search) throws SQLException {
         Connection conn = null;

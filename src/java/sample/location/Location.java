@@ -10,6 +10,7 @@ package sample.location;
  * @author light
  */
 public class Location {
+
     private int locationID;
     private String locationName;
     private boolean status;
@@ -19,6 +20,12 @@ public class Location {
         this.locationName = locationName;
         this.status = status;
     }
+
+    public Location(String locationName, boolean status) {
+        this.status = status;
+        this.locationName = locationName;
+    }
+    
 
     public Location() {
         this.locationID = 0;
@@ -49,6 +56,5 @@ public class Location {
     public void setStatus(boolean status) {
         this.status = status;
     }
-       
-    
+
 }
