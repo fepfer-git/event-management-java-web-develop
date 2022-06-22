@@ -1,9 +1,9 @@
+<%@page import="sample.eventtype.EventType"%>
 <%@page import="sample.users.ManagerDTO"%>
 <%@page import="sample.posts.EventPostError"%>
 <%@page import="sample.posts.EventLocation"%>
 <%@page import="java.util.LinkedList"%>
 <%@page import="java.util.List"%>
-<%@page import="sample.posts.EventType"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>

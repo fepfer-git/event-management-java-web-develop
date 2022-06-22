@@ -6,55 +6,44 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.eventtype.EventType;
-import sample.posts.EventDAO;
-import sample.posts.EventLocation;
-import sample.posts.EventPost;
+import sample.eventtype.EventTypeDAO;
+
 
 /**
  *
- * @author tvfep
+ * @author light
  */
-@WebServlet(name = "EventTypeAndLocationController", urlPatterns = {"/EventTypeAndLocationController"})
-public class EventTypeAndLocationController extends HttpServlet {
+@WebServlet(name = "UpdateEventTypeController", urlPatterns = {"/UpdateEventTypeController"})
+public class UpdateEventTypeController extends HttpServlet {
 
-    private static final String CREATE = "Create_Event.jsp";
-    private static final String UPDATE = "Update_Event.jsp";
+    private static final String ERROR = "DisplayNotificationController";
+    private static final String SUCCESS = "DisplayNotificationController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-
-        String url = "error.jsp";
-        List<EventType> listTypes;
-        List<EventLocation> listLocations;
-        EventPost event;
-        EventDAO evtDao = new EventDAO();
-        String eventID;
+        String url = ERROR;
+        EventType evtType = null;
+        EventTypeDAO dao = new EventTypeDAO();
+        
         try {
-            listTypes = evtDao.getAllEventType();
-            listLocations = evtDao.getAllEventLocation();
-            request.setAttribute("listEventTypes", listTypes);
-            request.setAttribute("listEventLocations", listLocations);
-
-            eventID = request.getParameter("eventID");
-            if (eventID != null) {
-                event = evtDao.getAnEventByID(eventID);
-                request.setAttribute("event", event);
-                url = UPDATE;
-            } else {
-                url = CREATE;
+            int locationID = Integer.parseInt(request.getParameter("eventTypeID"));
+            String locationName = request.getParameter("eventTypeName");
+            boolean status = Boolean.parseBoolean(request.getParameter("status"));
+            evtType = new EventType(locationID, locationName, status);
+            if(dao.updateEventType(evtType)) {
+                url = SUCCESS;
+                request.setAttribute("LIST_EVENT_TYPE", dao.getListEventType());   
             }
-
+            
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

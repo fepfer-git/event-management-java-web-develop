@@ -1,3 +1,4 @@
+<%@page import="sample.eventtype.EventType"%>
 <%@page import="sample.location.Location"%>
 <%@page import="sample.users.UserNotification"%>
 <%@page import="sample.users.ManagerDTO"%>
@@ -42,7 +43,7 @@
     </head>
 
     <body>
-        <% List<Location> listLocation = (List) request.getAttribute("LIST_LOCATION");
+        <% List<EventType> listEvtType = (List) request.getAttribute("LIST_EVENT_TYPE");
 
             ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
             if (user == null || !user.getRoleID().equals("MOD")) {
@@ -108,7 +109,7 @@
                                     <form action="MainController" class="input-group search-area d-xl-inline-flex d-none">
                                         <input type="text" name="search" class="form-control" placeholder="Search here...">
                                         <div class="input-group-append">
-                                            <button type="submit" name="action" value="SearchLocation" class="input-group-text"><i
+                                            <button type="submit" name="action" value="SearchEventType" class="input-group-text"><i
                                                     class="flaticon-381-search-2"></i></button>
                                         </div>
                                     </form>
@@ -200,7 +201,7 @@
             <div class="deznav">
                 <div class="deznav-scroll">
                     <!--<a href="MainController?action=CreateLocation" class="add-menu-sidebar">New Location</a>-->
-                    <a href="javascript:void(0)" class="add-menu-sidebar" data-toggle="modal" data-target="#addOrderModalside" >+ New Location</a>
+                    <a href="javascript:void(0)" class="add-menu-sidebar" data-toggle="modal" data-target="#addOrderModalside" >+ New Event Type</a>
                     <ul class="metismenu" id="menu">
                         <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                                 <i class="flaticon-381-networking"></i>
@@ -262,15 +263,15 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Add New Location</h5>
+                                    <h5 class="modal-title">Add New Event Type</h5>
                                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <form action="MainController">
                                         <div class="form-group">
-                                            <label class="text-black font-w500">Location Name</label>
-                                            <input type="text" required="" name="locationName" class="form-control">
+                                            <label class="text-black font-w500">Event Type Name</label>
+                                            <input type="text" required="" name="eventTypeName" class="form-control">
                                         </div>
                                         <!--===========================-->
                                         <div class="body-status">
@@ -289,7 +290,7 @@
                                         </br>
                                         <!--========================-->
                                         <div class="form-group">
-                                            <button style="padding: 12px 190px" type="submit" value="CreateLocation" name="action" class="btn btn-primary">Create</button>
+                                            <button style="padding: 12px 190px" type="submit" value="CreateEventType" name="action" class="btn btn-primary">Create</button>
                                         </div>
                                     </form>
                                 </div>
@@ -305,7 +306,7 @@
                         <div class="event-tabs mb-3 mr-3">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">                                                              
-                                    <a class="nav-link active" href="MainController?action=ListLocation" >
+                                    <a class="nav-link active" href="MainController?action=ListEventType" >
                                         All
                                     </a>
                                 </li>
@@ -318,8 +319,8 @@
 
                         </div>
                         <div class="mb-3 mr-3">
-                            <h6 class="fs-16 text-black font-w600 mb-0"><%=listLocation.size()%> Location Has Located</h6>
-                            <span class="fs-14">All Location</span>
+                            <h6 class="fs-16 text-black font-w600 mb-0"><%= listEvtType.size()%> Event Type Has Added</h6>
+                            <span class="fs-14">All Event Type</span>
                         </div>
                     </div>
                     <div class="row">
@@ -330,8 +331,8 @@
                                         <table id="example2" class="table card-table display dataTablesCard">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center">Location ID</th>
-                                                    <th class="text-center">Location Name</th>    
+                                                    <th class="text-center">Event Type ID</th>
+                                                    <th class="text-center">Event Type Name</th>    
                                                     <th class="text-center">Status</th>                                                   
                                                     <th class="text-center">Action</th>
 
@@ -340,16 +341,16 @@
                                             <tbody>
                                                 <%
                                                     int count = 0;
-                                                    for (int i = 0; i < listLocation.size(); i++) {
+                                                    for (int i = 0; i < listEvtType.size(); i++) {
                                                 %>
 
                                                 <tr>
-                                                    <td class="text-center">#<%= listLocation.get(i).getLocationID()%></td>
-                                                    <td class="text-center"><%= listLocation.get(i).getLocationName()%></td>
+                                                    <td class="text-center">#<%= listEvtType.get(i).getEventTypeID() %></td>
+                                                    <td class="text-center"><%= listEvtType.get(i).getEventTypeName()%></td>
 
                                                     <td class="text-center">                                                       
                                                         <%
-                                                            if (listLocation.get(i).isStatus() == true) {
+                                                            if (listEvtType.get(i).isStatus() == true) {
                                                         %>
                                                         <span class="status text-success">&bull;</span>
                                                         <%
@@ -359,7 +360,7 @@
                                                         <% }%>
 
 
-                                                        <%if (listLocation.get(i).isStatus()) {
+                                                        <%if (listEvtType.get(i).isStatus()) {
                                                         %>
                                                         <span style="color: green">Active</span>
                                                         <%
@@ -377,35 +378,35 @@
 
 
                                                             <a href="javascript:void(0)" class="btn btn-info btn-sm light px-4" data-toggle="modal" 
-                                                               data-target="#id<%= listLocation.get(i).getLocationID()%>" >Update</a>
+                                                               data-target="#id<%= listEvtType.get(i).getEventTypeID()%>" >Update</a>
 
                                                             <!--====================================================-->
 
-                                                            <div class="modal fade" id="id<%= listLocation.get(i).getLocationID()%>">
+                                                            <div class="modal fade" id="id<%= listEvtType.get(i).getEventTypeID()%>">
                                                                 <div class="modal-dialog" role="document">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h5 class="modal-title">Update Location</h5>
+                                                                            <h5 class="modal-title">Update Event Type</h5>
                                                                             <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                                             </button>
                                                                         </div>
                                                                         <div class="modal-body">
                                                                             <form action="MainController">
                                                                                 <div class="form-group">
-                                                                                    <label class="text-black font-w500">Location ID</label>
-                                                                                    <input type="text" name="locationID" readonly="" value="<%= listLocation.get(i).getLocationID()%>" class="form-control">
+                                                                                    <label class="text-black font-w500">Event Type ID</label>
+                                                                                    <input type="text" name="eventTypeID" readonly="" value="<%= listEvtType.get(i).getEventTypeID()%>" class="form-control">
                                                                                 </div>
 
                                                                                 <div class="form-group">
-                                                                                    <label class="text-black font-w500">Location Name</label>
-                                                                                    <input type="text" name="locationName" required="" value="<%= listLocation.get(i).getLocationName()%>" class="form-control">
+                                                                                    <label class="text-black font-w500">Event Type Name</label>
+                                                                                    <input type="text" name="eventTypeName" required="" value="<%= listEvtType.get(i).getEventTypeName()%>" class="form-control">
                                                                                 </div>
                                                                                 <!--===========================-->
 
                                                                                 <div class="text-center mt-3 mb-3">
                                                                                     <div class="btn-group">
                                                                                         <%
-                                                                                            if (listLocation.get(i).isStatus() == true) {
+                                                                                            if (listEvtType.get(i).isStatus() == true) {
                                                                                         %>
                                                                                         <input type="radio" class="btn-check" name="status" value="true" id="option<%= count%>" checked />
                                                                                         <label style="margin-right: 10px;" class="btn-edit btn-outline-success" for="option<%= count%>">Active</label>
@@ -413,7 +414,7 @@
                                                                                         <input type="radio" class="btn-check" name="status" value="false" id="option<%= count%>" />
                                                                                         <label class="btn-edit btn-outline-danger" for="option<%= count%>">Inactive</label>
                                                                                         <% count++; %>
-                                                                                        <% } else if (listLocation.get(i).isStatus() == false) {%>
+                                                                                        <% } else if (listEvtType.get(i).isStatus() == false) {%>
                                                                                         <input type="radio" class="btn-check" name="status" value="true" id="option<%= count%>" />
                                                                                         <label style="margin-right: 10px;" class="btn-edit btn-outline-success" for="option<%= count%>">Active</label>
                                                                                         <% count++;%>
@@ -429,7 +430,7 @@
 
                                                                                 <!--========================-->
                                                                                 <div class="form-group">
-                                                                                    <button style="padding: 12px 190px" type="submit" value="UpdateLocation" name="action" class="btn btn-primary">Update</button>
+                                                                                    <button style="padding: 12px 190px" type="submit" value="UpdateEventType" name="action" class="btn btn-primary">Update</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -441,7 +442,7 @@
 
 
 
-                                                            <a href="MainController?action=DeleteLocation&id=<%= listLocation.get(i).getLocationID()%>"
+                                                            <a href="MainController?action=DeleteEventType&id=<%= listEvtType.get(i).getEventTypeID()%>"
                                                                class="btn btn-danger  btn-sm light ml-2 px-4">Delete</a>
                                                         </div>
                                                     </td>

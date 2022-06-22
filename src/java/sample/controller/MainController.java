@@ -170,6 +170,21 @@ public class MainController extends HttpServlet {
     private static final String SEARCH_LOCATION = "SearchLocation";
     private static final String SEARCH_LOCATION_CONTROLLER = "SearchLocationController";
 
+    private static final String LIST_EVENT_TYPE = "ListEventType";
+    private static final String LIST_EVENT_TYPE_CONTROLLER = "ListEventTypeController";
+
+    private static final String DELETE_EVENT_TYPE = "DeleteEventType";
+    private static final String DELETE_EVENT_TYPE_CONTROLLER = "DeleteEventTypeController";
+
+    private static final String UPDATE_EVENT_TYPE = "UpdateEventType";
+    private static final String UPDATE_EVENT_TYPE_CONTROLLER = "UpdateEventTypeController";
+
+    private static final String CREATE_EVENT_TYPE = "CreateEventType";
+    private static final String CREATE_EVENT_TYPE_CONTROLLER = "CreateEventTypeController";
+
+    private static final String SEARCH_EVENT_TYPE = "SearchEventType";
+    private static final String SEARCH_EVENT_TYPE_CONTROLLER = "SearchEventTypeController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -323,6 +338,21 @@ public class MainController extends HttpServlet {
 
             } else if (SEARCH_LOCATION.equals(action)) {
                 url = SEARCH_LOCATION_CONTROLLER;
+
+            } else if (LIST_EVENT_TYPE.equals(action)) {
+                url = LIST_EVENT_TYPE_CONTROLLER;
+
+            } else if (DELETE_EVENT_TYPE.equals(action)) {
+                url = DELETE_EVENT_TYPE_CONTROLLER;
+
+            } else if (UPDATE_EVENT_TYPE.equals(action)) {
+                url = UPDATE_EVENT_TYPE_CONTROLLER;
+
+            } else if (CREATE_EVENT_TYPE.equals(action)) {
+                url = CREATE_EVENT_TYPE_CONTROLLER;
+
+            } else if (SEARCH_EVENT_TYPE.equals(action)) {
+                url = SEARCH_EVENT_TYPE_CONTROLLER;
 
             }
 

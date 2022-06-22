@@ -13,48 +13,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.eventtype.EventType;
-import sample.posts.EventDAO;
-import sample.posts.EventLocation;
-import sample.posts.EventPost;
+import sample.eventtype.EventTypeDAO;
+
 
 /**
  *
- * @author tvfep
+ * @author light
  */
-@WebServlet(name = "EventTypeAndLocationController", urlPatterns = {"/EventTypeAndLocationController"})
-public class EventTypeAndLocationController extends HttpServlet {
+@WebServlet(name = "SearchEventTypeController", urlPatterns = {"/SearchEventTypeController"})
+public class SearchEventTypeController extends HttpServlet {
 
-    private static final String CREATE = "Create_Event.jsp";
-    private static final String UPDATE = "Update_Event.jsp";
+    private static final String ERROR = "DisplayNotificationController";
+    private static final String SUCCESS = "DisplayNotificationController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-
-        String url = "error.jsp";
-        List<EventType> listTypes;
-        List<EventLocation> listLocations;
-        EventPost event;
-        EventDAO evtDao = new EventDAO();
-        String eventID;
+        String url = ERROR;
+        EventTypeDAO dao = new EventTypeDAO();
         try {
-            listTypes = evtDao.getAllEventType();
-            listLocations = evtDao.getAllEventLocation();
-            request.setAttribute("listEventTypes", listTypes);
-            request.setAttribute("listEventLocations", listLocations);
-
-            eventID = request.getParameter("eventID");
-            if (eventID != null) {
-                event = evtDao.getAnEventByID(eventID);
-                request.setAttribute("event", event);
-                url = UPDATE;
-            } else {
-                url = CREATE;
+            String search = request.getParameter("search");
+            List<EventType> searchEventType = dao.searchEventTypeName(search);
+            if(searchEventType != null) {
+                request.setAttribute("LIST_EVENT_TYPE", searchEventType);
+                url = SUCCESS;
             }
-
         } catch (Exception e) {
+            log("Error at Search EventType Controller" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

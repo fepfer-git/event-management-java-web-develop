@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sample.posts.EventLocation;
-import sample.posts.EventPost;
-import sample.posts.EventType;
+import sample.eventtype.EventType;
 import sample.users.UserDTO;
 import sample.util.DBUtils;
 
@@ -588,7 +586,7 @@ public class EventDAO {
             ps = conn.prepareStatement(GET_ALL_EVENT_TYPE);
             rs = ps.executeQuery();
             while (rs.next()) {
-                String eventTypeID = rs.getString("eventTypeID");
+                int eventTypeID = rs.getInt("eventTypeID");
                 String eventTypeName = rs.getString("eventTypeName");
 
                 EventType evtType = new EventType(eventTypeID, eventTypeName);

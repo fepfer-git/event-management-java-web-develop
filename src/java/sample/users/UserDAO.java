@@ -32,7 +32,6 @@ public class UserDAO {
     private static final String GET_ALL_INFO_MANAGER = "SELECT userID, fullName, password, email, tblUsers.status, tblUsers.roleID, tblRoles.roleName, gender, phone, avatarURL, tblManagers.orgID, tblOrgPage.orgName,tblUserTypes.typeID, tblUserTypes.typeName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes, tblRoles, tblOrgPage\n"
             + "WHERE tblOrgPage.orgID = tblManagers.orgID AND tblUsers.userID = tblManagers.managerID AND tblManagers.managerID = ? AND tblUsers.typeID = tblUserTypes.typeID AND tblRoles.roleID = tblUsers.roleID";
-    private static final String LOGIN = "SELECT FROM WHERE";
 
     private static final String GET_ALL_USERS = "SELECT userID, fullName, password, email, status, roleID, gender, phone, avatarUrl, tblUserTypes.typeID, tblUserTypes.typeName "
             + "FROM tblUsers, tblUserTypes "
