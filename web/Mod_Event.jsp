@@ -126,9 +126,9 @@
                                                             <img alt="image" width="50" src="<%=listNoti.get(i).getNotiImg()%>">
                                                         </div>
                                                         <div class="media-body">
-                                                            <a href="MainController?action=EventDetail&eventID=<%=listNoti.get(i).getEventID() %>">
-                                                                <h6 class="mb-1"><%=listNoti.get(i).getContent() %></h6>
-                                                                <small class="d-block"><%=listNoti.get(i).getNotiDate() %></small>
+                                                            <a href="MainController?action=EventDetail&eventID=<%=listNoti.get(i).getEventID()%>">
+                                                                <h6 class="mb-1"><%=listNoti.get(i).getContent()%></h6>
+                                                                <small class="d-block"><%=listNoti.get(i).getNotiDate()%></small>
                                                             </a>
                                                         </div>
                                                     </div>
@@ -149,423 +149,423 @@
                                         <img src="<%= user.getPicture()%>" width="20" alt="" />
                                         <div class="header-info">
                                             <span class="text-black"><strong><%= user.getName()%></strong></span>
-                                            <p class="fs-12 mb-0"><%= user.getRoleID() %></p>
-                                                </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="MainController?action=AdminProfile" class="dropdown-item ai-icon">
-                                                    <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
-                                                         width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                                    <circle cx="12" cy="7" r="4"></circle>
-                                                    </svg>
-                                                    <span class="ml-2">Profile </span>
-                                                </a>
+                                            <p class="fs-12 mb-0"><%= user.getRoleID()%></p>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="MainController?action=AdminProfile" class="dropdown-item ai-icon">
+                                            <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary"
+                                                 width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                            </svg>
+                                            <span class="ml-2">Profile </span>
+                                        </a>
 
-                                                <a href="MainController?action=Logout" class="dropdown-item ai-icon">
-                                                    <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
-                                                         width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                                    </svg>
-                                                    <span class="ml-2">Logout </span>
-                                                </a>
-                                            </div>
-                                            </li>
-                                            </ul>
-                                        </div>
-                                        </nav>
-                                        </div>
-                                        </div>
-                                        <!--**********************************
-                                    Header end ti-comment-alt
-                                ***********************************-->
+                                        <a href="MainController?action=Logout" class="dropdown-item ai-icon">
+                                            <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
+                                                 width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                            <polyline points="16 17 21 12 16 7"></polyline>
+                                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                                            </svg>
+                                            <span class="ml-2">Logout </span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <!--**********************************
+        Header end ti-comment-alt
+    ***********************************-->
 
-                                        <!--**********************************
-                                    Sidebar start
-                                ***********************************-->
-                                        <div class="deznav">
-                                            <div class="deznav-scroll">
-                                                <a href="MainController?action=EventTypeAndLocation" class="add-menu-sidebar">New Event</a>
-                                                <ul class="metismenu" id="menu">
-                                                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                                                            <i class="flaticon-381-networking"></i>
-                                                            <span class="nav-text">Dashboard</span>
-                                                        </a>
-                                                        <ul aria-expanded="false">
-                                                            <li><a href="index.html">Dashboard</a></li>
-                                                            
-                                                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Event</a>
-                                                                <ul aria-expanded="false">
-                                                                    <li><a href="MainController?action=ListEvent">List Event</a></li>
-                                                                    <li><a href="MainController?action=ListLocation">Location</a></li>
-                                                                    <li><a href="MainController?action=ListEventType">Event Type</a></li>
-                                                                    </br>
-                                                                </ul>
-                                                            </li>
-                                                            
-                                                            <li><a href="MainController?action=ListBlog">Blog</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                                                            <i class="flaticon-381-television"></i>
-                                                            <span class="nav-text">Apps</span>
-                                                        </a>
-                                                        <ul aria-expanded="false">
+            <!--**********************************
+        Sidebar start
+    ***********************************-->
+            <div class="deznav">
+                <div class="deznav-scroll">
+                    <a href="MainController?action=EventTypeAndLocation" class="add-menu-sidebar">New Event</a>
+                    <ul class="metismenu" id="menu">
+                        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                                <i class="flaticon-381-networking"></i>
+                                <span class="nav-text">Dashboard</span>
+                            </a>
+                            <ul aria-expanded="false">
+                                <li><a href="index.html">Dashboard</a></li>
 
-                                                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
-                                                                <ul aria-expanded="false">
-                                                                    <li><a href="./email-compose.html">Compose</a></li>
-                                                                    <li><a href="./email-inbox.html">Inbox</a></li>
-                                                                    <li><a href="./email-read.html">Read</a></li>
-                                                                </ul>
-                                                            </li>
-                                                            <li><a href="./app-calender.html">Calendar</a></li>
+                                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Event</a>
+                                    <ul aria-expanded="false">
+                                        <li><a href="MainController?action=ListEvent">List Event</a></li>
+                                        <li><a href="MainController?action=ListLocation">Location</a></li>
+                                        <li><a href="MainController?action=ListEventType">Event Type</a></li>
+                                        </br>
+                                    </ul>
+                                </li>
 
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                                <div class="copyright">
-                                                    <p><strong>FPT Event Management</strong> © 2022 F.E.M</p>
+                                <li><a href="MainController?action=ListBlog">Blog</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                                <i class="flaticon-381-television"></i>
+                                <span class="nav-text">Apps</span>
+                            </a>
+                            <ul aria-expanded="false">
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--**********************************
-                                    Sidebar end
-                                ***********************************-->
+                                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
+                                    <ul aria-expanded="false">
+                                        <li><a href="./email-compose.html">Compose</a></li>
+                                        <li><a href="./email-inbox.html">Inbox</a></li>
+                                        <li><a href="./email-read.html">Read</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="./app-calender.html">Calendar</a></li>
 
-                                        <!--**********************************
-                                    Content body start
-                                ***********************************-->
-                                        <div class="content-body">
-                                            <!-- row -->
-                                            <div class="container-fluid">
-                                                <!-- Add Order -->
-                                                
-                                                <div class="d-flex flex-wrap mb-2 align-items-center justify-content-between">
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="copyright">
+                        <p><strong>FPT Event Management</strong> © 2022 F.E.M</p>
 
-                                                    <div class="event-tabs mb-3 mr-3">
-                                                        <ul class="nav nav-tabs" role="tablist">
-                                                            <%
-                                                                String type = request.getParameter("type");
-                                                            %>
+                    </div>
+                </div>
+            </div>
+            <!--**********************************
+        Sidebar end
+    ***********************************-->
 
-                                                            <li class="nav-item">
-                                                                <%
-                                                                    if (type == null) {
-                                                                %>
-                                                                <a class="nav-link active"  href="MainController?action=ListEvent" >
-                                                                    All
-                                                                </a>
-                                                                <%
-                                                                } else {
-                                                                %>
-                                                                <a class="nav-link" href="MainController?action=ListEvent" >
-                                                                    All
-                                                                </a>
-                                                                <%
-                                                                    }
-                                                                %>
-                                                            </li>
+            <!--**********************************
+        Content body start
+    ***********************************-->
+            <div class="content-body">
+                <!-- row -->
+                <div class="container-fluid">
+                    <!-- Add Order -->
 
+                    <div class="d-flex flex-wrap mb-2 align-items-center justify-content-between">
 
-                                                            <li class="nav-item">
-                                                                <%
-                                                                    if ("Pending".equals(type)) {
-                                                                %>
-                                                                <a class="nav-link active"  href="MainController?action=FilterEvent&type=Pending" >
-                                                                    Pending
-                                                                </a>
-                                                                <%
-                                                                } else {
-                                                                %>
-                                                                <a class="nav-link" href="MainController?action=FilterEvent&type=Pending" >
-                                                                    Pending
-                                                                </a>
-                                                                <%
-                                                                    }
-                                                                %>
-                                                            </li>
+                        <div class="event-tabs mb-3 mr-3">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <%
+                                    String type = request.getParameter("type");
+                                %>
+
+                                <li class="nav-item">
+                                    <%
+                                        if (type == null) {
+                                    %>
+                                    <a class="nav-link active"  href="MainController?action=ListEvent" >
+                                        All
+                                    </a>
+                                    <%
+                                    } else {
+                                    %>
+                                    <a class="nav-link" href="MainController?action=ListEvent" >
+                                        All
+                                    </a>
+                                    <%
+                                        }
+                                    %>
+                                </li>
 
 
-                                                            <li class="nav-item">
-                                                                <%
-                                                                    if ("Approved".equals(type)) {
-                                                                %>
-                                                                <a class="nav-link active"  href="MainController?action=FilterEvent&type=Approved" >
-                                                                    Approved
-                                                                </a>
-                                                                <%
-                                                                } else {
-                                                                %>
-                                                                <a class="nav-link" href="MainController?action=FilterEvent&type=Approved" >
-                                                                    Approved
-                                                                </a>
-                                                                <%
-                                                                    }
-                                                                %>
-                                                            </li>
+                                <li class="nav-item">
+                                    <%
+                                        if ("Pending".equals(type)) {
+                                    %>
+                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=Pending" >
+                                        Pending
+                                    </a>
+                                    <%
+                                    } else {
+                                    %>
+                                    <a class="nav-link" href="MainController?action=FilterEvent&type=Pending" >
+                                        Pending
+                                    </a>
+                                    <%
+                                        }
+                                    %>
+                                </li>
 
 
-                                                            <li class="nav-item">
-                                                                <%
-                                                                    if ("Declined".equals(type)) {
-                                                                %>
-                                                                <a class="nav-link active"  href="MainController?action=FilterEvent&type=Declined" >
-                                                                    Declined
-                                                                </a>
-                                                                <%
-                                                                } else {
-                                                                %>
-                                                                <a class="nav-link" href="MainController?action=FilterEvent&type=Declined" >
-                                                                    Declined
-                                                                </a>
-                                                                <%
-                                                                    }
-                                                                %>
-                                                            </li>
+                                <li class="nav-item">
+                                    <%
+                                        if ("Approved".equals(type)) {
+                                    %>
+                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=Approved" >
+                                        Approved
+                                    </a>
+                                    <%
+                                    } else {
+                                    %>
+                                    <a class="nav-link" href="MainController?action=FilterEvent&type=Approved" >
+                                        Approved
+                                    </a>
+                                    <%
+                                        }
+                                    %>
+                                </li>
 
 
-                                                            <li class="nav-item">
-                                                                <%
-                                                                    if ("OnGoing".equals(type)) {
-                                                                %>
-                                                                <a class="nav-link active"  href="MainController?action=FilterEvent&type=OnGoing" >
-                                                                    On-Going
-                                                                </a>
-                                                                <%
-                                                                } else {
-                                                                %>
-                                                                <a class="nav-link" href="MainController?action=FilterEvent&type=OnGoing" >
-                                                                    On-Going
-                                                                </a>
-                                                                <%
-                                                                    }
-                                                                %>
-                                                            </li>
-
-                                                            <li class="nav-item">
-                                                                <%
-                                                                    if ("FPTU".equals(type)) {
-                                                                %>
-                                                                <a class="nav-link active"  href="MainController?action=ListOrgEvent&type=FPTU" >
-                                                                    FPTU
-                                                                </a>
-                                                                <%
-                                                                } else {
-                                                                %>
-                                                                <a class="nav-link" href="MainController?action=ListOrgEvent&type=FPTU" >
-                                                                    FPTU
-                                                                </a>
-                                                                <%
-                                                                    }
-                                                                %>
-                                                            </li>
-
-                                                        </ul>
-                                                    </div>
-
-                                                    <div class="d-flex mb-3">
+                                <li class="nav-item">
+                                    <%
+                                        if ("Declined".equals(type)) {
+                                    %>
+                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=Declined" >
+                                        Declined
+                                    </a>
+                                    <%
+                                    } else {
+                                    %>
+                                    <a class="nav-link" href="MainController?action=FilterEvent&type=Declined" >
+                                        Declined
+                                    </a>
+                                    <%
+                                        }
+                                    %>
+                                </li>
 
 
-                                                    </div>
-                                                    <div class="mb-3 mr-3">
-                                                        <h6 class="fs-16 text-black font-w600 mb-0"><%=listEvent.size()%> Event Has Posted</h6>
-                                                        <span class="fs-14">Based your activate</span>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xl-12">
-                                                        <div class="tab-content">
-                                                            <div id="All" class="tab-pane active fade show">
-                                                                <div class="table-responsive">
-                                                                    <table id="example2" class="table card-table display dataTablesCard">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th class="text-center">EventID</th>
-                                                                                <th class="text-center">Take Place Date</th>
-                                                                                <th class="text-center">Org</th>
-                                                                                <th style="width: 250px" class="text-center">Event Title</th>
-                                                                                <th class="text-center">Event Type</th>
-                                                                                <th class="text-center">Status</th>                                                    
-                                                                                <th class="text-center">Type</th>
-                                                                                <th class="text-center">View Detail</th>
-                                                                                <th class="text-center">Action</th>
+                                <li class="nav-item">
+                                    <%
+                                        if ("OnGoing".equals(type)) {
+                                    %>
+                                    <a class="nav-link active"  href="MainController?action=FilterEvent&type=OnGoing" >
+                                        On-Going
+                                    </a>
+                                    <%
+                                    } else {
+                                    %>
+                                    <a class="nav-link" href="MainController?action=FilterEvent&type=OnGoing" >
+                                        On-Going
+                                    </a>
+                                    <%
+                                        }
+                                    %>
+                                </li>
 
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <%
-                                                                                for (int i = 0; i < listEvent.size(); i++) {
-                                                                            %>
+                                <li class="nav-item">
+                                    <%
+                                        if ("FPTU".equals(type)) {
+                                    %>
+                                    <a class="nav-link active"  href="MainController?action=ListOrgEvent&type=FPTU" >
+                                        FPTU
+                                    </a>
+                                    <%
+                                    } else {
+                                    %>
+                                    <a class="nav-link" href="MainController?action=ListOrgEvent&type=FPTU" >
+                                        FPTU
+                                    </a>
+                                    <%
+                                        }
+                                    %>
+                                </li>
 
-                                                                            <tr>
-                                                                                <td class="text-center">#<%=listEvent.get(i).getId()%></td>
-                                                                                <td class="text-center"><%=listEvent.get(i).getTakePlaceDate()%></td>
-                                                                                <td class="text-center"><%=listEvent.get(i).getOrgID()%></td>
+                            </ul>
+                        </div>
 
-                                                                                <td class="text-left"><span class="text-wrap"><%=listEvent.get(i).getTitle()%></span>
-                                                                                </td>
-
-                                                                                <td class="text-center"><%=listEvent.get(i).getEventTypeName()%></td>
-                                                                                <td class="text-center">                                                       
-                                                                                    <%
-                                                                                        if (listEvent.get(i).isStatus() == true) {
-                                                                                    %>
-                                                                                    <span class="status text-success">&bull;</span>
-                                                                                    <%
-                                                                                    } else {
-                                                                                    %>
-                                                                                    <span  class="status text-danger">&bull;</span>
-                                                                                    <% }%>
+                        <div class="d-flex mb-3">
 
 
-                                                                                    <%if (listEvent.get(i).isStatus()) {
-                                                                                    %>
-                                                                                    <span style="color: green">Active</span>
-                                                                                    <%
-                                                                                    } else {
+                        </div>
+                        <div class="mb-3 mr-3">
+                            <h6 class="fs-16 text-black font-w600 mb-0"><%=listEvent.size()%> Event Has Posted</h6>
+                            <span class="fs-14">Based your activate</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="tab-content">
+                                <div id="All" class="tab-pane active fade show">
+                                    <div class="table-responsive">
+                                        <table id="example2" class="table card-table display dataTablesCard">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">EventID</th>
+                                                    <th class="text-center">Take Place Date</th>
+                                                    <th class="text-center">Org</th>
+                                                    <th style="width: 250px" class="text-center">Event Title</th>
+                                                    <th class="text-center">Event Type</th>
+                                                    <th class="text-center">Status</th>                                                    
+                                                    <th class="text-center">Type</th>
+                                                    <th class="text-center">View Detail</th>
+                                                    <th class="text-center">Action</th>
 
-                                                                                    %>
-                                                                                    <span style="color: red">Inactive</span>
-                                                                                    <%                                                                                        }
-                                                                                    %>                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%
+                                                    for (int i = 0; i < listEvent.size(); i++) {
+                                                %>
 
-                                                                                </td>
+                                                <tr>
+                                                    <td class="text-center">#<%=listEvent.get(i).getId()%></td>
+                                                    <td class="text-center"><%=listEvent.get(i).getTakePlaceDate()%></td>
+                                                    <td class="text-center"><%=listEvent.get(i).getOrgID()%></td>
 
+                                                    <td class="text-left"><span class="text-wrap"><%=listEvent.get(i).getTitle()%></span>
+                                                    </td>
 
-
-                                                                                <%
-                                                                                    if (listEvent.get(i).getStatusTypeName().equals("Approved")) {
-                                                                                %>
-                                                                                <td style="color: green; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
-                                                                                <%
-                                                                                } else if (listEvent.get(i).getStatusTypeName().equals("Declined")) {
-                                                                                %>
-                                                                                <td style="color: red; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
-                                                                                <%
-                                                                                } else {
-                                                                                %>
-                                                                                <td style="color: #ffcc33; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
-
-                                                                                <% }%>
-
-
-                                                                                <td class="text-center"><a href="MainController?action=EventDetail&eventID=<%=listEvent.get(i).getId()%>"
-                                                                                                           class="btn btn-primary btn-sm light">View</a></td>
-
-                                                                                <td>
-                                                                                    <div class="text-center">
-
-                                                                                        <% if ("FPTU".equals(type)) {%>
-                                                                                        <a href="MainController?action=EventTypeAndLocation&eventID=<%=listEvent.get(i).getId()%>" class="mr-4">
-                                                                                            <i class=" las la-pencil-alt scale-2"></i>
-                                                                                        </a>
-                                                                                        <% }%>
-                                                                                        <a href="MainController?action=DeleteEvent&eventID=<%=listEvent.get(i).getId()%>">
-                                                                                            <i class="las la-trash-alt scale-2 text-danger"></i>
-                                                                                        </a>
-                                                                                    </div>   
-                                                                                </td>
-                                                                            </tr>
-                                                                            <%                    }
-                                                                            %>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!--**********************************
-                                    Content body end
-                                ***********************************-->
-
-                                        <!--**********************************
-                                    Footer start
-                                ***********************************-->
-                                        <div class="footer">
-                                            <div class="copyright">
-                                                <p>© Best For Event Management Schedule
-                                                    &amp; Developed by <a href="http://dexignzone.com/" target="_blank">F.E.M</a> 2022</p>
-                                            </div>
-                                        </div>
-                                        <!--**********************************
-                                    Footer end
-                                ***********************************-->
-
-                                        <!--**********************************
-                                   Support ticket button start
-                                ***********************************-->
-
-                                        <!--**********************************
-                                   Support ticket button end
-                                ***********************************-->
+                                                    <td class="text-center"><%=listEvent.get(i).getEventTypeName()%></td>
+                                                    <td class="text-center">                                                       
+                                                        <%
+                                                            if (listEvent.get(i).isStatus() == true) {
+                                                        %>
+                                                        <span class="status text-success">&bull;</span>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <span  class="status text-danger">&bull;</span>
+                                                        <% }%>
 
 
-                                        </div>
-                                        <!--**********************************
-                                        Main wrapper end
-                                    ***********************************-->
+                                                        <%if (listEvent.get(i).isStatus()) {
+                                                        %>
+                                                        <span style="color: green">Active</span>
+                                                        <%
+                                                        } else {
 
-                                        <!--**********************************
-                                        Scripts
-                                    ***********************************-->
-                                        <!-- Required vendors -->
-                                        <script src="./css_Admin/vendor/global/global.min.js"></script>
-                                        <script src="./css_Admin/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-                                        <script src="./css_Admin/vendor/chart.js/Chart.bundle.min.js"></script>
-                                        <script src="./css_Admin/js/custom.min.js"></script>
-                                        <script src="./css_Admin/js/deznav-init.js"></script>
+                                                        %>
+                                                        <span style="color: red">Inactive</span>
+                                                        <%                                                                                        }
+                                                        %>                                                    
 
-                                        <!-- Datatable -->
-                                        <script src="./css_Admin/vendor/datatables/js/jquery.dataTables.min.js"></script>
-                                        <script>
-                                            (function ($) {
-                                                var table = $('#example2').DataTable({
-                                                    searching: false,
-                                                    paging: true,
-                                                    select: false,
-                                                    //info: false,         
-                                                    lengthChange: false
+                                                    </td>
 
-                                                });
-                                                var table = $('#example3').DataTable({
-                                                    searching: false,
-                                                    paging: true,
-                                                    select: false,
-                                                    //info: false,         
-                                                    lengthChange: false
 
-                                                });
-                                                var table = $('#example4').DataTable({
-                                                    searching: false,
-                                                    paging: true,
-                                                    select: false,
-                                                    //info: false,         
-                                                    lengthChange: false
 
-                                                });
-                                                var table = $('#example5').DataTable({
-                                                    searching: false,
-                                                    paging: true,
-                                                    select: false,
-                                                    //info: false,         
-                                                    lengthChange: false
+                                                    <%
+                                                        if (listEvent.get(i).getStatusTypeName().equals("Approved")) {
+                                                    %>
+                                                    <td style="color: green; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
+                                                    <%
+                                                    } else if (listEvent.get(i).getStatusTypeName().equals("Declined")) {
+                                                    %>
+                                                    <td style="color: red; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
+                                                    <%
+                                                    } else {
+                                                    %>
+                                                    <td style="color: #ffcc33; font-weight: bold" class="text-center"><%=listEvent.get(i).getStatusTypeName()%></td>
 
-                                                });
-                                                $('#example tbody').on('click', 'tr', function () {
-                                                    var data = table.row(this).data();
+                                                    <% }%>
 
-                                                });
-                                            })(jQuery);
-                                        </script>
-                                        </body>
 
-                                        </html>
+                                                    <td class="text-center"><a href="MainController?action=EventDetail&eventID=<%=listEvent.get(i).getId()%>"
+                                                                               class="btn btn-primary btn-sm light">View</a></td>
+
+                                                    <td>
+                                                        <div class="text-center">
+
+
+                                                            <a href="MainController?action=EventTypeAndLocation&eventID=<%= listEvent.get(i).getId()%>" class="mr-4">
+                                                               <i class=" las la-pencil-alt scale-2"></i>
+                                                            </a>
+
+                                                            <a href="MainController?action=DeleteEvent&eventID=<%=listEvent.get(i).getId()%>">
+                                                                <i class="las la-trash-alt scale-2 text-danger"></i>
+                                                            </a>
+                                                        </div>   
+                                                    </td>
+                                                </tr>
+                                                <%                    }
+                                                %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--**********************************
+        Content body end
+    ***********************************-->
+
+            <!--**********************************
+        Footer start
+    ***********************************-->
+            <div class="footer">
+                <div class="copyright">
+                    <p>© Best For Event Management Schedule
+                        &amp; Developed by <a href="http://dexignzone.com/" target="_blank">F.E.M</a> 2022</p>
+                </div>
+            </div>
+            <!--**********************************
+        Footer end
+    ***********************************-->
+
+            <!--**********************************
+       Support ticket button start
+    ***********************************-->
+
+            <!--**********************************
+       Support ticket button end
+    ***********************************-->
+
+
+        </div>
+        <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+        <!--**********************************
+        Scripts
+    ***********************************-->
+        <!-- Required vendors -->
+        <script src="./css_Admin/vendor/global/global.min.js"></script>
+        <script src="./css_Admin/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+        <script src="./css_Admin/vendor/chart.js/Chart.bundle.min.js"></script>
+        <script src="./css_Admin/js/custom.min.js"></script>
+        <script src="./css_Admin/js/deznav-init.js"></script>
+
+        <!-- Datatable -->
+        <script src="./css_Admin/vendor/datatables/js/jquery.dataTables.min.js"></script>
+        <script>
+            (function ($) {
+                var table = $('#example2').DataTable({
+                    searching: false,
+                    paging: true,
+                    select: false,
+                    //info: false,         
+                    lengthChange: false
+
+                });
+                var table = $('#example3').DataTable({
+                    searching: false,
+                    paging: true,
+                    select: false,
+                    //info: false,         
+                    lengthChange: false
+
+                });
+                var table = $('#example4').DataTable({
+                    searching: false,
+                    paging: true,
+                    select: false,
+                    //info: false,         
+                    lengthChange: false
+
+                });
+                var table = $('#example5').DataTable({
+                    searching: false,
+                    paging: true,
+                    select: false,
+                    //info: false,         
+                    lengthChange: false
+
+                });
+                $('#example tbody').on('click', 'tr', function () {
+                    var data = table.row(this).data();
+
+                });
+            })(jQuery);
+        </script>
+    </body>
+
+</html>

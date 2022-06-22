@@ -90,7 +90,7 @@ public class EventDAO {
             + "AND tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.orgID = ? ";
 
     private static final String GET_ALL_EVENT_BY_TYPE_AND_ORG = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID,\n"
-            + "numberOfView, speaker, summary, status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "numberOfView, speaker, summary, tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
             + "FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
             + "WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID AND tblEventPost.location = tblLocation.locationID\n"
             + "AND tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.orgID = ? AND tblEventPost.statusTypeID = ?";
