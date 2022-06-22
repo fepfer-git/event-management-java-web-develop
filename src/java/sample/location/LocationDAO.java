@@ -21,13 +21,13 @@ public class LocationDAO {
 
     private static final String GET_ALL_LOCATION = "SELECT locationID, locationName, status FROM tblLocation";
     private static final String DELETE_LOCATION = "UPDATE tblLocation SET status = '0' WHERE locationID = ?";
-    private static final String SEARCH_LOCATION = "SELECT locationID, locationName, status FROM tblLocation WHERE dbo.ufn_removeMark(locationName) LIKE ? OR locationName like ?";
+    private static final String SEARCH_LOCATION = "SELECT locationID, locationName, status FROM tblLocation WHERE dbo.ufn_removeMark(locationName) like ? OR locationName like ?";
 
     public List<Location> searchLocationName(String search) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
-        List<Location> list = null;
+        List<Location> list = new ArrayList<>();
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {

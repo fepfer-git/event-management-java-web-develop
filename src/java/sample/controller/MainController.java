@@ -321,6 +321,9 @@ public class MainController extends HttpServlet {
             } else if (CREATE_LOCATION.equals(action)) {
                 url = CREATE_LOCATION_CONTROLLER;
 
+            } else if (SEARCH_LOCATION.equals(action)) {
+                url = SEARCH_LOCATION_CONTROLLER;
+
             }
 
         } catch (Exception e) {

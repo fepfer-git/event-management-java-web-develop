@@ -251,7 +251,7 @@
                         <div class="event-tabs mb-3 mr-3">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">                                                              
-                                    <a class="nav-link active" href="MainController?action=ListEvent" >
+                                    <a class="nav-link active" href="MainController?action=ListLocation" >
                                         All
                                     </a>
                                 </li>

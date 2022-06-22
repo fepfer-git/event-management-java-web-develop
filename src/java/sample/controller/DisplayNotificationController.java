@@ -33,7 +33,7 @@ public class DisplayNotificationController extends HttpServlet {
     private static final String EVENT_DETAIL_PAGE = "Club_Event_Detail.jsp";
     private static final String BLOG_DETAIL_PAGE = "Club_Blog_Detail.jsp";
     private static final String ADM_PROFILE = "Admin_Profile.jsp";
-    private static final String ADM_LOCATION = "Admin_Location.jsp";
+    private static final String ADM_LOCATION = "Mod_Location.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
