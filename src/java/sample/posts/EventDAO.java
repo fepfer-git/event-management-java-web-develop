@@ -74,10 +74,12 @@ public class EventDAO {
             + " WHERE eventID = ?";
 
     private static final String GET_ALL_EVENT_TYPE = "SELECT eventTypeID, eventTypeName\n"
-            + "FROM tblEventType";
+            + "FROM tblEventType\n"
+            + "WHERE status = '1'";
 
     private static final String GET_ALL_EVENT_LOCATION = "SELECT locationID, locationName\n"
-            + "FROM tblLocation";
+            + "FROM tblLocation\n"
+            + "WHERE status = '1'";
 
     private static final String GET_NUMBER_OF_PARTICIPANTS = "SELECT COUNT(userID) as total\n"
             + "  FROM tblParticipants\n"

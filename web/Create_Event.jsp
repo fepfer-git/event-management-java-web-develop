@@ -1,3 +1,4 @@
+<%@page import="sample.users.ManagerDTO"%>
 <%@page import="sample.posts.EventPostError"%>
 <%@page import="sample.posts.EventLocation"%>
 <%@page import="java.util.LinkedList"%>
@@ -20,6 +21,7 @@
 
     <%  List<EventType> listEvtType = (List<EventType>) request.getAttribute("listEventTypes");
         List<EventLocation> listEvtLocation = (List<EventLocation>) request.getAttribute("listEventLocations");
+        ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
 
         EventPostError evtError = (EventPostError) request.getAttribute("ERROR");
         if (evtError == null) {
@@ -98,7 +100,16 @@
                     Create Event
                 </button>
                 <div class=" btn btn-danger" style="text-align: center">
+                    <%
+                        if ("CLB".equals(user.getRoleID())) {
+                    %>
                     <a href="MainController?action=ListOrgEvent">Cancel</a>
+                    <%
+                    } else {
+                    %>
+                    <a href="MainController?action=ListEvent">Cancel</a>
+                    <% }%>
+
                 </div>
 
 

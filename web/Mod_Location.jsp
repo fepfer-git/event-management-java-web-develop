@@ -189,7 +189,8 @@
     ***********************************-->
             <div class="deznav">
                 <div class="deznav-scroll">
-                    <a href="MainController?action=CreateLocation" class="add-menu-sidebar">New Location</a>
+                    <!--<a href="MainController?action=CreateLocation" class="add-menu-sidebar">New Location</a>-->
+                    <a href="javascript:void(0)" class="add-menu-sidebar" data-toggle="modal" data-target="#addOrderModalside" >+ New Location</a>
                     <ul class="metismenu" id="menu">
                         <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                                 <i class="flaticon-381-networking"></i>
@@ -244,7 +245,42 @@
             <div class="content-body">
                 <!-- row -->
                 <div class="container-fluid">
+
+                    <!--===================== LOCATION POP-UP =======================-->
                     <!-- Add Order -->
+                    <div class="modal fade" id="addOrderModalside">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Location</h5>
+                                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="MainController">
+                                        <div class="form-group">
+                                            <label class="text-black font-w500">Location Name</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+<!--===========================-->
+                                        <div class="form-group">
+                                            <input id="status" type="radio" checked="" name="status" value="true"/>
+                                            <label for="status-true">Active</label>
+                                            <input id="status" type="radio" name="status"  value="false"/>
+                                            <label for="status-false">Inactive</label>
+                                        </div>
+<!--========================-->
+                                        <div class="form-group">
+                                            <button type="submit" name="CreateLocation" class="btn btn-primary">Create</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--==============================================-->
 
                     <div class="d-flex flex-wrap mb-2 align-items-center justify-content-between">
 
