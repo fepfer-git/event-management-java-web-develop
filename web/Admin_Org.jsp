@@ -36,6 +36,8 @@
                 response.sendRedirect("Admin_Login.jsp");
                 return;
             }
+            List<OrganizationDTO> listOrg = (List) request.getAttribute("LIST_ORG");
+
         %>
         <!--*******************
         Preloader start
@@ -101,13 +103,13 @@
                                         </div>
                                     </form>
                                 </li>
-                              
+
                                 <li class="nav-item dropdown header-profile">
                                     <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
                                         <img src="<%= user.getPicture()%>" width="20" alt="" />
                                         <div class="header-info">
                                             <span class="text-black"><strong><%= user.getName()%></strong></span>
-                                            <p class="fs-12 mb-0"><%= user.getRoleID() %></p>
+                                            <p class="fs-12 mb-0"><%= user.getRoleID()%></p>
                                         </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
@@ -196,7 +198,7 @@
 
                                     <div class="d-flex flex-wrap mb-2 align-items-center justify-content-between">
                                         <div class="mb-3">
-                                            <h6 class="fs-16 text-black font-w600 mb-0">3 Total Club's</h6>
+                                            <h6 class="fs-16 text-black font-w600 mb-0"><%= listOrg.size() %> Total Clubs</h6>
                                             <span class="fs-14">Based your preferences</span>
                                         </div>
                                         <div class="event-tabs mb-3">
@@ -207,8 +209,14 @@
                                                         All
                                                     </a>
                                                 </li>
-
-
+                                                
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" data-toggle="tab" href="#All" role="tab"
+                                                       aria-selected="true">
+                                                        All
+                                                    </a>
+                                                </li>
+                                                
                                             </ul>
                                         </div>
                                         <div class="mb-3 d-flex">
@@ -237,7 +245,6 @@
                                                             <tbody>
 
                                                                 <%
-                                                                    List<OrganizationDTO> listOrg = (List) request.getAttribute("LIST_ORG");
                                                                     if (listOrg != null) {
                                                                         for (OrganizationDTO list : listOrg) {
                                                                 %> 

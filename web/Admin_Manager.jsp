@@ -34,6 +34,7 @@
                 response.sendRedirect("Admin_Login.jsp");
                 return;
             }
+            List<ManagerDTO> listManagers = (List) request.getAttribute("LIST_MANAGERS");
         %>
         <!--*******************
             Preloader start
@@ -90,7 +91,7 @@
                                 </div>
                             </div>
                             <ul class="navbar-nav header-right">
-                                
+
                                 <li class="nav-item">
                                     <form action="MainController">
                                         <div class="input-group search-area d-xl-inline-flex d-none">
@@ -102,13 +103,13 @@
                                     </form>
 
                                 </li>
-                               
+
                                 <li class="nav-item dropdown header-profile">
                                     <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
                                         <img src="<%= user.getPicture()%>" width="20" alt=""/>
                                         <div class="header-info">
                                             <span class="text-black"><strong><%= user.getName()%></strong></span>
-                                            <p class="fs-12 mb-0"><%= user.getRoleID() %></p>
+                                            <p class="fs-12 mb-0"><%= user.getRoleID()%></p>
                                         </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
@@ -187,12 +188,32 @@
                 <div class="container-fluid">
                     <!-- Add Order -->
 
+                    <div class="d-flex flex-wrap mb-2 align-items-center justify-content-between">
+                        <div class="mb-3">
+                            <h6 class="fs-16 text-black font-w600 mb-0"><%= listManagers.size() %> Total Club's Member</h6>
+                            <span class="fs-14">Based your preferences</span>
+                        </div>
+                        <div class="event-tabs mb-3">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#All" role="tab"
+                                       aria-selected="true">
+                                        All
+                                    </a>
+                                </li>
 
-                    <!--=================== CREATE CLUB'S MEMBER ====================-->
-                    <div class="mb-3 d-flex flex-row-reverse">
+
+                            </ul>
+                        </div>
+                         <div class="mb-3 d-flex flex-row-reverse">
                         <a href="MainController?action=dataType&page=Admin_ManagerForm.jsp" class="btn btn-primary text-nowrap"><i
                                 class="fa fa-file-text scale5 mr-3" aria-hidden="true"></i>Create Club's Member</a>
                     </div>
+                    </div>
+
+
+                    <!--=================== CREATE CLUB'S MEMBER ====================-->
+                   
 
                     <!--===================================================================-->
 
@@ -219,7 +240,6 @@
 
 
                                         <%
-                                            List<ManagerDTO> listManagers = (List) request.getAttribute("LIST_MANAGERS");
                                             if (listManagers != null) {
                                                 for (ManagerDTO list : listManagers) {
                                         %>
@@ -246,8 +266,8 @@
                                                 %>
                                                 <span class="status text-danger">&bull;</span>
                                                 <% }%>
-                                                
-                                                
+
+
                                                 <%if (list.isStatus()) {
                                                 %>
                                                 <span style="color: green">Active</span>

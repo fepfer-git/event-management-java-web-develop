@@ -161,6 +161,7 @@ public class EventDAO {
                 String title = rs.getString("title");
                 String location = rs.getString("location");
                 String imgUrl = rs.getString("imgUrl");
+                                String orgIDOfEvent = rs.getString("orgID");
                 int numberOfView = rs.getInt("numberOfView");
                 String speaker = rs.getString("speaker");
                 String summary = rs.getString("summary");
@@ -172,11 +173,11 @@ public class EventDAO {
                 String approvalDes = rs.getString("approvalDes");
 
                 if (!eventType.equals(onGoing) ) {
-                    EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                    EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgIDOfEvent, title, content, createDate, imgUrl, numberOfView, summary, status);
                     listEvent.add(event);
                 } else {
                     if (nowDate.before(takePlaceDate) && status == true) {
-                        EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                        EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgIDOfEvent, title, content, createDate, imgUrl, numberOfView, summary, status);
                         listEvent.add(event);
                     }
                 }

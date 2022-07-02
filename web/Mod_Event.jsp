@@ -387,7 +387,7 @@
                                                 <tr>
                                                     <th class="text-center">EventID</th>
                                                     <th class="text-center">Take Place Date</th>
-                                                    <th class="text-center">Org</th>
+                                                    <th class="text-center">Club</th>
                                                     <th style="width: 250px" class="text-center">Event Title</th>
                                                     <th class="text-center">Event Type</th>
                                                     <th class="text-center">Status</th>                                                    
