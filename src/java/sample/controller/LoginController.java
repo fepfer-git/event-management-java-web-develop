@@ -32,7 +32,7 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private static final String ERROR = "login.jsp";
+    private static final String ERROR = "Admin_Login.jsp";
     private static final String US_PAGE = "homepage.jsp";
     private static final String ADM_PAGE = "AdminManagerPageController";
     private static final String MAN_PAGE = "MainController?action=ListOrgEvent";
@@ -82,7 +82,7 @@ public class LoginController extends HttpServlet {
                     url = MOD_PAGE;
                     break;
                 default:
-                    request.setAttribute("errMsg", validateUser);
+                    request.setAttribute("ERROR", "Incorrect User Name or Password");
                     break;
             }
         } catch (Exception e) {
