@@ -26,6 +26,19 @@
                 vertical-align: middle;
                 font-size: 35px;
             }
+
+            .approved {
+                font-weight: bold;
+                color: green;
+            }
+            .pending {
+                font-weight: bold;
+                color: orange;
+            }
+            .declined {
+                font-weight: bold;
+                color: red;
+            }
         </style>
     </head>
 
@@ -198,7 +211,7 @@
 
                                     <div class="d-flex flex-wrap mb-2 align-items-center justify-content-between">
                                         <div class="mb-3">
-                                            <h6 class="fs-16 text-black font-w600 mb-0"><%= listOrg.size() %> Total Clubs</h6>
+                                            <h6 class="fs-16 text-black font-w600 mb-0"><%= listOrg.size()%> Total Clubs</h6>
                                             <span class="fs-14">Based your preferences</span>
                                         </div>
                                         <div class="event-tabs mb-3">
@@ -209,14 +222,14 @@
                                                         All
                                                     </a>
                                                 </li>
-                                                
+
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-toggle="tab" href="#All" role="tab"
                                                        aria-selected="true">
-                                                        All
+                                                        Pending
                                                     </a>
                                                 </li>
-                                                
+
                                             </ul>
                                         </div>
                                         <div class="mb-3 d-flex">
@@ -235,9 +248,10 @@
                                                             <thead>
                                                                 <tr>
 
-                                                                    <th style="width:450px;">Img Club</th>
+                                                                    <th style="width:450px;">Club</th>
                                                                     <th style="width: 100px">ID Club</th>
                                                                     <th>Information Cub</th>
+                                                                    <th>Type</th>
                                                                     <th>Status</th>
                                                                     <th class="text-center">Action</th>
                                                                 </tr>
@@ -268,6 +282,23 @@
                                                                     <td>                   
                                                                         <p class="mb-0 d-none d-xl-inline-block"><%= list.getDescription()%></p>
                                                                     </td>
+
+                                                                    <td>
+                                                                        <%
+                                                                            if ("PE".equals(list.getStatusTypeID())) {
+                                                                        %>
+                                                                        <p class="pending"><%= list.getStatusTypeName()%></p>
+                                                                        <%
+                                                                           } else if ("AP".equals(list.getStatusTypeID())) {
+                                                                        %>
+                                                                        <p class="approved"><%= list.getStatusTypeName()%></p>
+                                                                        <%
+                                                                          } else if ("DE".equals(list.getStatusTypeID())) {
+                                                                        %>
+                                                                        <p class="declined"><%= list.getStatusTypeName()%></p>
+                                                                        <% } %>
+                                                                    </td>
+
                                                                     <td>
 
                                                                         <%

@@ -20,8 +20,9 @@ import sample.util.DBUtils;
  */
 public class OrganizationDAO {
 
-    private static final String GET_ALL_ORGANIZATION = "SELECT orgID, orgName, createDate, description, imgUrl, status\n"
-            + "FROM tblOrgPage";
+    private static final String GET_ALL_ORGANIZATION = "SELECT orgID, orgName, createDate, description, imgUrl, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
+            + "FROM tblOrgPage, tblStatusType\n"
+            + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID";
 
     private static final String SEARCH_ORGANIZATION = "SELECT  orgID, orgName, createDate, description, imgUrl, status\n"
             + "             FROM tblOrgPage \n"
@@ -119,9 +120,11 @@ public class OrganizationDAO {
                 String createDate = rs.getString("createDate");
                 String description = rs.getString("description");
                 String imgUrl = rs.getString("imgUrl");
+                String statusTypeID = rs.getString("statusTypeID");
+                String statusTypeName = rs.getString("statusTypeName");
                 boolean status = rs.getBoolean("status");
 
-                list.add(new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, status));
+                list.add(new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, statusTypeID, statusTypeName, status));
             }
         } catch (Exception e) {
             e.printStackTrace();
