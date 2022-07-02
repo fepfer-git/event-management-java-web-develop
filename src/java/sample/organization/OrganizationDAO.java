@@ -20,18 +20,18 @@ import sample.util.DBUtils;
  */
 public class OrganizationDAO {
 
-    private static final String GET_ALL_ORGANIZATION = "SELECT orgID, orgName, createDate, description, imgUrl, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
+    private static final String GET_ALL_ORGANIZATION = "SELECT orgID, orgName, createDate, description, imgUrl, email, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
             + "FROM tblOrgPage, tblStatusType\n"
             + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID";
 
-    private static final String SEARCH_ORGANIZATION = "SELECT  orgID, orgName, createDate, description, imgUrl, status\n"
-            + "             FROM tblOrgPage \n"
-            + "             WHERE dbo.ufn_removeMark(orgName) like ? or orgName like ? or orgID like ?";
+    private static final String SEARCH_ORGANIZATION = "SELECT  orgID, orgName, createDate, description, imgUrl, email, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
+            + "             FROM tblOrgPage, tblStatusType\n"
+            + "             WHERE (dbo.ufn_removeMark(orgName) like ? or orgName like ? or orgID like ?) AND tblStatusType.statusTypeID = tblOrgPage.statusTypeID";
 
     private static final String CREATE_ORGANIZATION = "INSERT INTO tblOrgPage (orgID, status, orgName, createDate, description, imgUrl)\n"
             + "VALUES(?, ?, ?, ?, ?, ?)";
 
-    private static final String GET_ID_ORGANIZATION = "SELECT orgID, orgName, createDate, description, imgUrl, status\n"
+    private static final String GET_ID_ORGANIZATION = "SELECT orgID, orgName, createDate, email, description, imgUrl, status\n"
             + "FROM tblOrgPage\n"
             + "WHERE orgID = ?";
 
@@ -45,25 +45,26 @@ public class OrganizationDAO {
             + "FROM tblOrgPage org, tblEventPost eve "
             + "WHERE eve.eventID = ? AND eve.orgID = org.orgID";
 
-     private static final String UPLOAD_IMAGE = "UPDATE tblOrgPage SET imgUrl = ? WHERE orgID = ?";
-    
+    private static final String UPLOAD_IMAGE = "UPDATE tblOrgPage SET imgUrl = ? WHERE orgID = ?";
+
     public boolean updateImage(String path, String orgID) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         boolean check = false;
         try {
             conn = DBUtils.getConnection();
-            if(conn != null) {
+            if (conn != null) {
                 ptm = conn.prepareStatement(UPLOAD_IMAGE);
                 ptm.setString(1, path);
                 ptm.setString(2, orgID);
-                
-                if(ptm.executeUpdate() > 0)
-                    check = true;                
+
+                if (ptm.executeUpdate() > 0) {
+                    check = true;
+                }
             }
-                
+
         } catch (Exception e) {
-        } finally {           
+        } finally {
             if (ptm != null) {
                 ptm.close();
             }
@@ -73,7 +74,7 @@ public class OrganizationDAO {
         }
         return check;
     }
-    
+
     public String getOrgNameByEventID(String eventID) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -122,9 +123,10 @@ public class OrganizationDAO {
                 String imgUrl = rs.getString("imgUrl");
                 String statusTypeID = rs.getString("statusTypeID");
                 String statusTypeName = rs.getString("statusTypeName");
+                String email = rs.getString("email");
                 boolean status = rs.getBoolean("status");
 
-                list.add(new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, statusTypeID, statusTypeName, status));
+                list.add(new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, email, statusTypeID, statusTypeName, status));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,10 +161,13 @@ public class OrganizationDAO {
                 String orgName = rs.getString("orgName");
                 String createDate = rs.getString("createDate");
                 String description = rs.getString("description");
+                String statusTypeID = rs.getString("statusTypeID");
+                String statusTypeName = rs.getString("statusTypeName");
+                String email = rs.getString("email");
                 String imgUrl = rs.getString("imgUrl");
                 boolean status = rs.getBoolean("status");
 
-                list.add(new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, status));
+                list.add(new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, email, statusTypeID, statusTypeName, status));
             }
         } catch (Exception e) {
             e.printStackTrace();

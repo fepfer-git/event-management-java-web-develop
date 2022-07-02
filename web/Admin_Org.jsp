@@ -249,11 +249,14 @@
                                                                 <tr>
 
                                                                     <th style="width:450px;">Club</th>
-                                                                    <th style="width: 100px">ID Club</th>
+                                                                    <th style="width: 100px">ID</th>
                                                                     <th>Information Cub</th>
+                                                                    <th>Email</th>
                                                                     <th>Type</th>
                                                                     <th>Status</th>
                                                                     <th class="text-center">Action</th>
+                                                                    <th class="text-center"></th>
+                                                                    
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -283,19 +286,23 @@
                                                                         <p class="mb-0 d-none d-xl-inline-block"><%= list.getDescription()%></p>
                                                                     </td>
 
+                                                                    <td>                   
+                                                                        <p class="mb-0 d-none d-xl-inline-block"><%= list.getEmail()%></p>
+                                                                    </td>
+
                                                                     <td>
                                                                         <%
                                                                             if ("PE".equals(list.getStatusTypeID())) {
                                                                         %>
-                                                                        <p class="pending"><%= list.getStatusTypeName()%></p>
+                                                                        <p class="pending mb-0 d-none d-xl-inline-block"><%= list.getStatusTypeName()%></p>
                                                                         <%
-                                                                           } else if ("AP".equals(list.getStatusTypeID())) {
+                                                                        } else if ("AP".equals(list.getStatusTypeID())) {
                                                                         %>
-                                                                        <p class="approved"><%= list.getStatusTypeName()%></p>
+                                                                        <p class="approved mb-0 d-none d-xl-inline-block"><%= list.getStatusTypeName()%></p>
                                                                         <%
-                                                                          } else if ("DE".equals(list.getStatusTypeID())) {
+                                                                        } else if ("DE".equals(list.getStatusTypeID())) {
                                                                         %>
-                                                                        <p class="declined"><%= list.getStatusTypeName()%></p>
+                                                                        <p class="declined mb-0 d-none d-xl-inline-block"><%= list.getStatusTypeName()%></p>
                                                                         <% } %>
                                                                     </td>
 
@@ -330,6 +337,52 @@
                                                                                class="btn btn-danger  btn-sm light ml-2 px-4">Delete</a>
                                                                         </div>
                                                                     </td>
+
+                                                                    <td>
+                                                                        <div class="d-flex">
+                                                                            <% if ("PE".equals(list.getStatusTypeID())) {%>
+                                                                            <a href="MainController?action=ApproveOrg&id=<%= list.getOrgID()%>&type=AP"
+                                                                               class="btn btn-outline-success btn-sm light px-4">Approve</a>
+                                                                            <a href="MainController?action=ApproveOrg&id=<%= list.getOrgID()%>&type=DE"
+                                                                               class="btn btn-outline-danger btn-sm light ml-2 px-4">Decline</a>
+
+                                                                            <% } else if ("AP".equals(list.getStatusTypeID())) {%>
+                                                                            <a href="javascript:void(0)" class="btn btn-primary btn-sm light px-4" data-toggle="modal" 
+                                                                               data-target="#<%= list.getOrgID() %>" >View Account</a>
+
+                                                                            <!--====================================================-->
+
+                                                                            <div class="modal fade" id="<%= list.getOrgID() %>">
+                                                                                <div class="modal-dialog" role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title">List Account</h5>
+                                                                                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <div class="form-group">
+                                                                                                <p style="font-weight: bold"><%= list.getOrgName() %> (<%= list.getOrgID() %>)</p>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                    <label style="margin-bottom: -6px" class="text-black font-w500">Account</label>
+                                                                                                    <p style="font-size: 13px; opacity: 0.5;">(All the new account have Password: 1)</p>
+                                                                                                    <input type="text" name="eventTypeID" readonly="" value="" class="form-control">
+                                                                                                </div>
+                                                                                                
+                                                                                                <!--===========================-->
+
+                                                                                                <!--========================-->
+                                                                                                
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                                                
+                                                                            <% } %>
+                                                                        </div>          
+                                                                    </td>
+
                                                                 </tr>
 
                                                                 <%

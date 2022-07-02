@@ -16,6 +16,7 @@ public class OrganizationDTO {
     private String createDate;
     private String description;
     private String imgUrl;
+    private String email;
     private String statusTypeID;
     private String statusTypeName;
     private boolean status;
@@ -25,7 +26,10 @@ public class OrganizationDTO {
         this.orgName = "";
         this.createDate = "";
         this.description = "";
+        this.email = "";
         this.imgUrl = "";
+        this.statusTypeID = "";
+        this.statusTypeName = "";
         this.status = false;
     }
 
@@ -53,17 +57,26 @@ public class OrganizationDTO {
         this.status = status;
     }
 
-    public OrganizationDTO(String orgID, String orgName, String createDate, String description, String imgUrl, String statusTypeID, String statusTypeName, boolean status) {
+    public OrganizationDTO(String orgID, String orgName, String createDate, String description, String imgUrl, String email, String statusTypeID, String statusTypeName, boolean status) {
         this.orgID = orgID;
         this.orgName = orgName;
         this.createDate = createDate;
         this.description = description;
         this.imgUrl = imgUrl;
+        this.email = email;
         this.statusTypeID = statusTypeID;
         this.statusTypeName = statusTypeName;
         this.status = status;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public String getStatusTypeID() {
         return statusTypeID;
     }
@@ -80,9 +93,6 @@ public class OrganizationDTO {
         this.statusTypeName = statusTypeName;
     }
 
-    
-    
-    
     public boolean isStatus() {
         return status;
     }

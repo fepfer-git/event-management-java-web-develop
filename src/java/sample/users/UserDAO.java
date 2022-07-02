@@ -29,7 +29,7 @@ public class UserDAO {
     private static final String GET_ALL_TYPE = "SELECT typeID, typeName FROM tblUserTypes";
     private static final String GET_ALL_ORG = "SELECT orgID, orgName FROM tblOrgPage WHERE status = '1'";
     private static final String UPDATE_USER_PROFILE = "UPDATE tblUsers SET fullName = ?, email=?, typeID =?, gender=?, phone=?, avatarUrl=? WHERE userID=?";
-    private static final String GET_ALL_INFO_MANAGER = "SELECT userID, fullName, password, email, tblUsers.status, tblUsers.roleID, tblRoles.roleName, gender, phone, avatarURL, tblManagers.orgID, tblOrgPage.orgName,tblUserTypes.typeID, tblUserTypes.typeName\n"
+    private static final String GET_ALL_INFO_MANAGER = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, tblUsers.roleID, tblRoles.roleName, gender, phone, avatarURL, tblManagers.orgID, tblOrgPage.orgName,tblUserTypes.typeID, tblUserTypes.typeName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes, tblRoles, tblOrgPage\n"
             + "WHERE tblOrgPage.orgID = tblManagers.orgID AND tblUsers.userID = tblManagers.managerID AND tblManagers.managerID = ? AND tblUsers.typeID = tblUserTypes.typeID AND tblRoles.roleID = tblUsers.roleID";
 
@@ -37,7 +37,7 @@ public class UserDAO {
             + "FROM tblUsers, tblUserTypes "
             + "WHERE tblUsers.typeID = tblUserTypes.typeID AND roleID = 'US'";
 
-    private static final String GET_ALL_MANAGERS = "SELECT userID, fullName, password, email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
+    private static final String GET_ALL_MANAGERS = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
             + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID";
 
@@ -45,7 +45,7 @@ public class UserDAO {
             + "FROM tblUsers, tblUserTypes\n"
             + "WHERE (dbo.ufn_removeMark(fullName) like ? or fullName like ? or userID like ? or tblUsers.typeID like ? or tblUserTypes.typeName like ?) AND tblUsers.typeID = tblUserTypes.typeID AND roleID = 'US'";
 
-    private static final String SEARCH_MANAGER = "SELECT userID, fullName, password, email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
+    private static final String SEARCH_MANAGER = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
             + "from tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
             + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID AND (dbo.ufn_removeMark(fullName) like ? or fullName like ? or tblUsers.userID like ? or dbo.ufn_removeMark(tblOrgPage.orgName) like ? or tblOrgPage.orgID like ?)";
 
@@ -72,7 +72,7 @@ public class UserDAO {
 
     private static final String UPLOAD_IMAGE = "UPDATE tblUsers SET avatarUrl = ? WHERE userID = ?";
 
-        private static final String GET_ALL_MANAGERS_BY_ROLE = "SELECT userID, fullName, password, email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
+        private static final String GET_ALL_MANAGERS_BY_ROLE = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
             + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID AND tblUsers.roleID = ?";
     
