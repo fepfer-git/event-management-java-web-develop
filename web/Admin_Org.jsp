@@ -253,19 +253,104 @@
                                             </div>
                                             <div class="event-tabs mb-3">
                                                 <ul class="nav nav-tabs" role="tablist">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link active" data-toggle="tab" href="#All" role="tab"
-                                                           aria-selected="true">
-                                                            All
-                                                        </a>
-                                                    </li>
+                                                    <%
+                                                        String type = request.getParameter("type");
+                                                    %>
 
                                                     <li class="nav-item">
-                                                        <a class="nav-link active" data-toggle="tab" href="#All" role="tab"
-                                                           aria-selected="true">
+                                                        <%
+                                                            if (type == null) {
+                                                        %>
+                                                        <a class="nav-link active"  href="MainController?action=AdminOrgPage" >
+                                                            All
+                                                        </a>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <a class="nav-link" href="MainController?action=AdminOrgPage" >
+                                                            All
+                                                        </a>
+                                                        <%
+                                                            }
+                                                        %>
+                                                    </li>
+
+
+                                                    <li class="nav-item">
+                                                        <%
+                                                            if ("Pending".equals(type)) {
+                                                        %>
+                                                        <a class="nav-link active"  href="MainController?action=FilterOrg&type=Pending" >
                                                             Pending
                                                         </a>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <a class="nav-link" href="MainController?action=FilterOrg&type=Pending" >
+                                                            Pending
+                                                        </a>
+                                                        <%
+                                                            }
+                                                        %>
                                                     </li>
+
+
+                                                    <li class="nav-item">
+                                                        <%
+                                                            if ("Approved".equals(type)) {
+                                                        %>
+                                                        <a class="nav-link active"  href="MainController?action=FilterOrg&type=Approved" >
+                                                            Approved
+                                                        </a>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <a class="nav-link" href="MainController?action=FilterOrg&type=Approved" >
+                                                            Approved
+                                                        </a>
+                                                        <%
+                                                            }
+                                                        %>
+                                                    </li>
+
+
+                                                    <li class="nav-item">
+                                                        <%
+                                                            if ("Declined".equals(type)) {
+                                                        %>
+                                                        <a class="nav-link active"  href="MainController?action=FilterOrg&type=Declined" >
+                                                            Declined
+                                                        </a>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <a class="nav-link" href="MainController?action=FilterOrg&type=Declined" >
+                                                            Declined
+                                                        </a>
+                                                        <%
+                                                            }
+                                                        %>
+                                                    </li>
+
+
+                                                    <li class="nav-item">
+                                                        <%
+                                                            if ("OnGoing".equals(type)) {
+                                                        %>
+                                                        <a class="nav-link active" href="MainController?action=FilterOrg&type=OnGoing" >
+                                                            On-Going
+                                                        </a>
+                                                        <%
+                                                        } else {
+                                                        %>
+                                                        <a class="nav-link" href="MainController?action=FilterOrg&type=OnGoing" >
+                                                            On-Going
+                                                        </a>
+                                                        <%
+                                                            }
+                                                        %>
+                                                    </li>
+
 
                                                 </ul>
                                             </div>
@@ -285,7 +370,7 @@
                                                                 <thead>
                                                                     <tr>
 
-                                                                        <th style="width:450px;">Club</th>
+                                                                        <th style="width:350px;">Club</th>
                                                                         <th style="width: 100px">ID</th>
                                                                             <th>Information Cub</th>
                                                                             <th>Email</th>
@@ -411,13 +496,13 @@
                                                                                                             <% } %>                                                                                                    
                                                                                                         </textarea>     
                                                                                                     </div>
-                                                                                                        
-<!--                                                                                                    <div class="tooltip">
-                                                                                                        <button onclick="myFunction()" onmouseout="outFunc()">
-                                                                                                            <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
-                                                                                                            Copy
-                                                                                                        </button>
-                                                                                                    </div>-->
+
+                                                                                                    <!--                                                                                                    <div class="tooltip">
+                                                                                                                                                                                                        <button onclick="myFunction()" onmouseout="outFunc()">
+                                                                                                                                                                                                        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+                                                                                                                                                                                                        Copy
+                                                                                                                                                                                                        </button>
+                                                                                                                                                                                                        </div>-->
                                                                                                     <!--===========================-->
 
                                                                                                     <!--========================-->
@@ -508,44 +593,44 @@
 //                                                                                                                tooltip.innerHTML = "Copy to clipboard";
 //                                                                                                            }
 
-                                                                                                            (function ($) {
-                                                                                                                var table = $('#example5').DataTable({
-                                                                                                                    searching: false,
-                                                                                                                    paging: true,
-                                                                                                                    select: false,
-                                                                                                                    //info: false,         
-                                                                                                                    lengthChange: false
+                                        (function ($) {
+                                            var table = $('#example5').DataTable({
+                                                searching: false,
+                                                paging: true,
+                                                select: false,
+                                                //info: false,         
+                                                lengthChange: false
 
-                                                                                                                });
-                                                                                                                var table = $('#example3').DataTable({
-                                                                                                                    searching: false,
-                                                                                                                    paging: true,
-                                                                                                                    select: false,
-                                                                                                                    //info: false,         
-                                                                                                                    lengthChange: false
+                                            });
+                                            var table = $('#example3').DataTable({
+                                                searching: false,
+                                                paging: true,
+                                                select: false,
+                                                //info: false,         
+                                                lengthChange: false
 
-                                                                                                                });
-                                                                                                                var table = $('#example2').DataTable({
-                                                                                                                    searching: false,
-                                                                                                                    paging: true,
-                                                                                                                    select: false,
-                                                                                                                    //info: false,         
-                                                                                                                    lengthChange: false
+                                            });
+                                            var table = $('#example2').DataTable({
+                                                searching: false,
+                                                paging: true,
+                                                select: false,
+                                                //info: false,         
+                                                lengthChange: false
 
-                                                                                                                });
-                                                                                                                var table = $('#example4').DataTable({
-                                                                                                                    searching: false,
-                                                                                                                    paging: true,
-                                                                                                                    select: false,
-                                                                                                                    //info: false,         
-                                                                                                                    lengthChange: false
+                                            });
+                                            var table = $('#example4').DataTable({
+                                                searching: false,
+                                                paging: true,
+                                                select: false,
+                                                //info: false,         
+                                                lengthChange: false
 
-                                                                                                                });
-                                                                                                                $('#example tbody').on('click', 'tr', function () {
-                                                                                                                    var data = table.row(this).data();
+                                            });
+                                            $('#example tbody').on('click', 'tr', function () {
+                                                var data = table.row(this).data();
 
-                                                                                                                });
-                                                                                                            })(jQuery);
+                                            });
+                                        })(jQuery);
                                     </script>
                                     </body>
 

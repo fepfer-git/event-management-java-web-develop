@@ -28,6 +28,9 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final String FILTER_ORG = "FilterOrg";
+    private static final String FILTER_ORG_CONTROLLER = "FilterOrgController";
+
     private static final String LIST_EVENT = "ListEvent";
     private static final String LIST_EVENT_CONTROLLER = "EventListController";
 
@@ -187,7 +190,7 @@ public class MainController extends HttpServlet {
 
     private static final String APPROVE_ORG = "ApproveOrg";
     private static final String APPROVE_ORG_CONTROLLER = "ApproveOrgController";
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -359,6 +362,9 @@ public class MainController extends HttpServlet {
 
             } else if (APPROVE_ORG.equals(action)) {
                 url = APPROVE_ORG_CONTROLLER;
+
+            } else if (FILTER_ORG.equals(action)) {
+                url = FILTER_ORG_CONTROLLER;
 
             }
 
