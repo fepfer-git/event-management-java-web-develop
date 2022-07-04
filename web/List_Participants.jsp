@@ -17,7 +17,7 @@
                 border-collapse: collapse;
                 width: 60%;
                 text-align: center;
-                
+
             }
 
             th, td {
@@ -32,7 +32,7 @@
                 color: white;
             }
             a:hover{
-                
+
                 opacity: 0.8;
             }
         </style>
@@ -48,8 +48,9 @@
         <div style="text-align: center" >
             <h2 class="mb-3 mt-2" >Participants Table</h2>
 
-            <table class="m-md-auto" style="border-radius: 10px;">
+            <table id="tblListParicipants" class="m-md-auto" style="border-radius: 10px;">
                 <tr>
+                    <th>Event</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
@@ -60,6 +61,7 @@
                 %>
 
                 <tr>
+                    <td><%=eventID%></td>
                     <td><%=listParticipants.get(i).getName()%> </td>
                     <td><%=listParticipants.get(i).getEmail()%></td>
                     <td><%=listParticipants.get(i).getPhoneNumber()%></td>
@@ -75,13 +77,60 @@
                     Back!
                 </a>
 
-                    <a class="btn"  href="#!" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
+                    <button class="btn"  onclick="exportData()" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
                     Export To Excel!
-                </a> 
+                </button> 
             </div>
         </div>
         <br>
 
+        <script>
+            function exportData() {
+                /* Get the HTML data using Element by Id */
+                var table = document.getElementById("tblListParicipants");
+
+                /* Declaring array variable */
+                var rows = [];
+
+                //iterate through rows of table
+                for (var i = 0, row; row = table.rows[i]; i++) {
+                    //rows would be accessed using the "row" variable assigned in the for loop
+                    //Get each cell value/column from the row
+                    column1 = row.cells[0].innerText;
+                    column2 = row.cells[1].innerText;
+                    column3 = row.cells[2].innerText;
+                    column4 = row.cells[3].innerText;
+                    column5 = row.cells[4].innerText;
+
+                    /* add a new records in the array */
+                    rows.push(
+                            [
+                                column1,
+                                column2,
+                                column3,
+                                column4,
+                                column5
+                            ]
+                            );
+
+                }
+                csvContent = "data:text/csv;charset=utf-8,\ufeff";
+                /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
+                rows.forEach(function (rowArray) {
+                    row = rowArray.join(",");
+                    csvContent += row + "\r\n";
+                });
+
+                /* create a hidden <a> DOM node and set its download attribute */
+                var encodedUri = encodeURI(csvContent);
+                var link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "List_Paricipant.csv");
+                document.body.appendChild(link);
+                /* download the data file named "Stock_Price_Report.csv" */
+                link.click();
+            }
+        </script>
 
 
     </body>
