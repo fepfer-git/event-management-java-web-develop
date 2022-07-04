@@ -7,12 +7,15 @@ package sample.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.organization.OrganizationDAO;
+import sample.users.ManagerDTO;
+import sample.users.UserDAO;
 
 /**
  *
@@ -29,9 +32,14 @@ public class DeleteOrgController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         OrganizationDAO orgDAO = new OrganizationDAO();
+        UserDAO userDAO = new UserDAO();
         try {
             String orgID = request.getParameter("id");
             if(orgDAO.deleteOrg(orgID)) {
+                List<ManagerDTO> listMan = userDAO.getManagerByOrg(orgID);
+                for (ManagerDTO man : listMan) {
+                    userDAO.deleteUser(man.getId());
+                }
                 url = SUCCESS;
             }
         } catch (Exception e) {

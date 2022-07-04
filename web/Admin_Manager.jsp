@@ -253,6 +253,10 @@
                                                 <span class="text-nowrap"><%= list.getTypeName()%></span>
                                             </td>
                                             <td><%= list.getGender()%></td>
+                                            <% if (list.getEmail() == null || list.getEmail() == "" || list.getEmail().isEmpty()) {
+                                                        list.setEmail("");
+                                                    }
+                                                %>
                                             <td><%= list.getEmail()%></td>
                                             <td><%= list.getPhoneNumber()%></td>
 
