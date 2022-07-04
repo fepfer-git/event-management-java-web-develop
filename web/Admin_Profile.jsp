@@ -45,9 +45,10 @@
                 error = new UserError();
             }
 
-            String success = (String)request.getAttribute("SUCCESS");
-            if(success == null)
+            String success = (String) request.getAttribute("SUCCESS");
+            if (success == null) {
                 success = "";
+            }
         %>
         <!--*******************
         Preloader start
@@ -336,7 +337,7 @@
                             <form class="col-md-7" action="MainController" method="POST">        
                                 <div >
                                     <div class="p-3 py-5">
-                                        <p class="text-danger"><%= success %></p>
+                                        <p class="text-danger"><%= success%></p>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h4 class="text-right">Profile Settings</h4>
                                         </div>
@@ -356,9 +357,13 @@
 
                                             <div class="col-md-12"><label class="labels">Full Name</label><input type="text" name="fullName" required=""
                                                                                                                  class="form-control" value="<%= user.getName()%>"></div>
+                                                <% if (user.getEmail() == null || user.getEmail() == "" || user.getEmail().isEmpty()) {
+                                                        user.setEmail("");
+                                                    }
+                                                %>
                                             <div class="col-md-12"><label class="labels">Email</label><input type="email" name="email" required=""
                                                                                                              class="form-control" value="<%= user.getEmail()%>"></div>
-                                                                                                             <p class="text-danger"><%= error.getEmailError()%></p>
+                                            <p class="text-danger"><%= error.getEmailError()%></p>
                                             <div class="col-md-12"><label class="labels">Role</label><input type="text" readonly=""
                                                                                                             class="form-control" value="<%= user.getRoleID()%>"></div>
                                             <div class="col-md-12"><label class="labels">Organization</label><input type="text" readonly="" name="orgName"
