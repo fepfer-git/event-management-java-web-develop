@@ -185,6 +185,9 @@ public class MainController extends HttpServlet {
     private static final String SEARCH_EVENT_TYPE = "SearchEventType";
     private static final String SEARCH_EVENT_TYPE_CONTROLLER = "SearchEventTypeController";
 
+    private static final String APPROVE_ORG = "ApproveOrg";
+    private static final String APPROVE_ORG_CONTROLLER = "ApproveOrgController";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -353,6 +356,9 @@ public class MainController extends HttpServlet {
 
             } else if (SEARCH_EVENT_TYPE.equals(action)) {
                 url = SEARCH_EVENT_TYPE_CONTROLLER;
+
+            } else if (APPROVE_ORG.equals(action)) {
+                url = APPROVE_ORG_CONTROLLER;
 
             }
 

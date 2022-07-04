@@ -1,3 +1,5 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="sample.users.ManagerDTO"%>
 <%@page import="sample.users.UserDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="sample.organization.OrganizationDTO"%>
@@ -50,7 +52,6 @@
                 return;
             }
             List<OrganizationDTO> listOrg = (List) request.getAttribute("LIST_ORG");
-
         %>
         <!--*******************
         Preloader start
@@ -256,7 +257,7 @@
                                                                     <th>Status</th>
                                                                     <th class="text-center">Action</th>
                                                                     <th class="text-center"></th>
-                                                                    
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -341,18 +342,18 @@
                                                                     <td>
                                                                         <div class="d-flex">
                                                                             <% if ("PE".equals(list.getStatusTypeID())) {%>
-                                                                            <a href="MainController?action=ApproveOrg&id=<%= list.getOrgID()%>&type=AP"
+                                                                            <a href="MainController?action=ApproveOrg&id=<%= list.getOrgID()%>&type=AP&orgName=<%= list.getOrgName()%>"
                                                                                class="btn btn-outline-success btn-sm light px-4">Approve</a>
-                                                                            <a href="MainController?action=ApproveOrg&id=<%= list.getOrgID()%>&type=DE"
+                                                                            <a href="MainController?action=ApproveOrg&id=<%= list.getOrgID()%>&type=DE&orgName=<%= list.getOrgName()%>"
                                                                                class="btn btn-outline-danger btn-sm light ml-2 px-4">Decline</a>
 
                                                                             <% } else if ("AP".equals(list.getStatusTypeID())) {%>
                                                                             <a href="javascript:void(0)" class="btn btn-primary btn-sm light px-4" data-toggle="modal" 
-                                                                               data-target="#<%= list.getOrgID() %>" >View Account</a>
+                                                                               data-target="#<%= list.getOrgID()%>" >View</a>
 
                                                                             <!--====================================================-->
 
-                                                                            <div class="modal fade" id="<%= list.getOrgID() %>">
+                                                                            <div class="modal fade" id="<%= list.getOrgID()%>">
                                                                                 <div class="modal-dialog" role="document">
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header">
@@ -362,23 +363,28 @@
                                                                                         </div>
                                                                                         <div class="modal-body">
                                                                                             <div class="form-group">
-                                                                                                <p style="font-weight: bold"><%= list.getOrgName() %> (<%= list.getOrgID() %>)</p>
-                                                                                                </div>
-                                                                                                <div class="form-group">
-                                                                                                    <label style="margin-bottom: -6px" class="text-black font-w500">Account</label>
-                                                                                                    <p style="font-size: 13px; opacity: 0.5;">(All the new account have Password: 1)</p>
-                                                                                                    <input type="text" name="eventTypeID" readonly="" value="" class="form-control">
-                                                                                                </div>
-                                                                                                
-                                                                                                <!--===========================-->
+                                                                                                <p style="font-weight: bold"><%= list.getOrgName()%> (<%= list.getOrgID()%>)</p>
+                                                                                            </div>
+                                                                                            <div class="form-group">
+                                                                                                <label style="margin-bottom: -6px" class="text-black font-w500">Account</label>
+                                                                                                <p style="font-size: 13px; opacity: 0.5;">(All the new account have Password: 1)</p>
+                                                                                                <% List<ManagerDTO> listMan = (List) request.getAttribute("LIST_MANAGER_" + list.getOrgID()); %>
+                                                                                               
+                                                                                                <textarea readonly="" style="color: black" class="form-control" id="w3review" rows="10" cols="50">                                                                                  
+                                                                                                    <%  if (listMan != null) { %> <%   for (ManagerDTO man : listMan) {%>  <%= man.getId()%>  
+                                                                                                    <% } } %>                                                                                                    
+                                                                                                </textarea>
+                                                                                            </div>
 
-                                                                                                <!--========================-->
-                                                                                                
+                                                                                            <!--===========================-->
+
+                                                                                            <!--========================-->
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                                                
+
                                                                             <% } %>
                                                                         </div>          
                                                                     </td>

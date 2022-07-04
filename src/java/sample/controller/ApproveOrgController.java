@@ -6,6 +6,8 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.organization.OrganizationDAO;
-import sample.organization.OrganizationDTO;
 import sample.users.ManagerDTO;
 import sample.users.UserDAO;
 
@@ -21,32 +22,42 @@ import sample.users.UserDAO;
  *
  * @author light
  */
-@WebServlet(name = "AdminOrgPageController", urlPatterns = {"/AdminOrgPageController"})
-public class AdminOrgPageController extends HttpServlet {
+@WebServlet(name = "ApproveOrgController", urlPatterns = {"/ApproveOrgController"})
+public class ApproveOrgController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
-    private static final String SUCCESS = "Admin_Org.jsp";
+    private static final String ERROR = "AdminOrgPageController";
+    private static final String SUCCESS = "AdminOrgPageController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
-        List<OrganizationDTO> listOrg = null;
         OrganizationDAO orgDAO = new OrganizationDAO();
+        UserDAO userDAO = new UserDAO();
+        ManagerDTO manager = new ManagerDTO();
+        List<ManagerDTO> list = new ArrayList<>();
         try {
-            listOrg = new OrganizationDAO().getAllOrganization();
-            request.setAttribute("LIST_ORG", listOrg);
-
-            List<OrganizationDTO> listOnGoingOrg = orgDAO.getOnGoingOrganization();
-            if (listOnGoingOrg != null) {
-                for (OrganizationDTO org : listOnGoingOrg) {
-                    List<ManagerDTO> listMan = new UserDAO().getManagerByOrg(org.getOrgID());
-                    request.setAttribute("LIST_MANAGER_" + org.getOrgID(), listMan);
+            String orgID = request.getParameter("id");
+            String type = request.getParameter("type");
+            String name = request.getParameter("orgName");
+            if (orgDAO.approveOrg(type, orgID)) {
+                manager.setName(name);
+                manager.setPassword("1");
+                manager.setStatus(true);
+                manager.setTypeID("STU");
+                manager.setRoleID("CLB");
+                manager.setOrgID(orgID);
+                for (int i = 0; i < 3; i++) {
+                    manager.setId(orgID + "_0" + (i + 1));
+                    userDAO.createClubMemberWhenApprovedOrg(manager);
+                    userDAO.signUpByManager(manager);
                 }
+                
                 url = SUCCESS;
             }
+
         } catch (Exception e) {
-            log("Error at Admin Org Page Controller" + e.toString());
+            log("Error at Approve Org Controller " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

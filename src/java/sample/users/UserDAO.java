@@ -72,10 +72,96 @@ public class UserDAO {
 
     private static final String UPLOAD_IMAGE = "UPDATE tblUsers SET avatarUrl = ? WHERE userID = ?";
 
-        private static final String GET_ALL_MANAGERS_BY_ROLE = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
+    private static final String GET_ALL_MANAGERS_BY_ROLE = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
             + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID AND tblUsers.roleID = ?";
+
+    private static final String CREATE_CLUB_MEMBER_WHEN_APPROVED_ORG = "INSERT INTO tblUsers (userID, fullName, password, status, typeID, roleID, gender, phone, avatarUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    private static final String GET_CLUB_MEMBER_BY_ORG = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
+            + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
+            + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID AND tblManagers.orgID = ?";
     
+    public List<ManagerDTO> getManagerByOrg(String orgID) throws SQLException {
+         Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        List<ManagerDTO> list = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ptm = conn.prepareStatement(GET_CLUB_MEMBER_BY_ORG);
+            ptm.setString(1, orgID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                String userID = rs.getString("userID");
+                String fullName = rs.getString("fullName");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String typeID = rs.getString("typeID");
+                String typeName = rs.getString("typeName");
+
+                String gender = rs.getString("gender");
+                String phoneNumber = rs.getString("phone");
+                String avatarUrl = rs.getString("avatarUrl");
+                String roleID = rs.getString("roleID");
+                String orgName = rs.getString("orgName");
+                boolean status = rs.getBoolean("status");
+
+                list.add(new ManagerDTO(orgID, orgName, userID, fullName, password, email, status, typeID, typeName, roleID, gender, phoneNumber, avatarUrl));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    
+    
+    public boolean createClubMemberWhenApprovedOrg(ManagerDTO manager) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        boolean check = false;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CREATE_CLUB_MEMBER_WHEN_APPROVED_ORG);
+                ptm.setString(1, manager.getId());
+                ptm.setString(2, manager.getName());
+                ptm.setString(3, manager.getPassword());
+                ptm.setBoolean(4, manager.isStatus());
+                ptm.setString(5, manager.getTypeID());
+                ptm.setString(6, manager.getRoleID());
+                ptm.setString(7, manager.getGender());
+                ptm.setString(8, manager.getPhoneNumber());
+                ptm.setString(9, manager.getPicture());
+
+                if (ptm.executeUpdate() > 0) {
+                    check = true;
+                }
+
+            }
+
+        } catch (Exception e) {
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
     public boolean updateImage(String path, String userID) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -882,7 +968,7 @@ public class UserDAO {
                 String email = rs.getString("email");
                 String typeID = rs.getString("typeID");
                 String typeName = rs.getString("typeName");
-                
+
                 String gender = rs.getString("gender");
                 String phoneNumber = rs.getString("phone");
                 String avatarUrl = rs.getString("avatarUrl");
@@ -907,5 +993,5 @@ public class UserDAO {
         }
         return list;
     }
-    
+
 }
