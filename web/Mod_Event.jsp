@@ -195,8 +195,6 @@
                                 <span class="nav-text">Dashboard</span>
                             </a>
                             <ul aria-expanded="false">
-                                <li><a href="index.html">Dashboard</a></li>
-
                                 <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Event</a>
                                     <ul aria-expanded="false">
                                         <li><a href="MainController?action=ListEvent">List Event</a></li>
@@ -207,6 +205,7 @@
                                 </li>
 
                                 <li><a href="MainController?action=ListBlog">Blog</a></li>
+                                <li><a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID() %>">Statistic</a></li>
                             </ul>
                         </li>
                         <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">

@@ -248,7 +248,7 @@
                                         </div>
                                         <div class="card-footer text-center border-0">
                                             <a class="btn btn-primary btn-sm"
-                                               href="" >View More</a>
+                                               href="MainController?action=ClubFollower&orgID=<%=user.getOrgID() %>" >View More</a>
                                         </div>
                                     </div>
                                 </div>
