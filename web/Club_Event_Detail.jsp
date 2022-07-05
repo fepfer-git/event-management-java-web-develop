@@ -201,16 +201,18 @@
                                         </br>
                                     </ul>
                                 </li>
-                                
+
                                 <li><a href="MainController?action=ListBlog">Blog</a></li>	
                                     <%
                                     } else {
                                     %>
                                 <li><a href="MainController?action=ListOrgEvent">Event</a></li>
-                                <li><a href="MainController?action=ListBlog">Blog</a></li>	
-                                    <%
-                                        }
-                                    %>
+                                <li><a href="MainController?action=ListBlog">Blog</a></li>
+                                <li><a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID()%>">Statistic</a></li>
+
+                                <%
+                                    }
+                                %>
                             </ul>
                         </li>
                         <li>
@@ -366,6 +368,8 @@
                                                             <a class="dropdown-item" href="MainController?action=EventTypeAndLocation&eventID=<%=evt.getId()%>">Edit</a>
                                                             <a class="dropdown-item" href="MainController?action=DeleteEvent&eventID=<%=evt.getId()%>">Delete</a>
                                                             <a class="dropdown-item" href="MainController?action=ListParticipants&eventID=<%=evt.getId()%>">List Participants</a>
+                                                            <a class="dropdown-item" href="MainController?action=ListFeedbacks&eventID=<%=evt.getId()%>">List Feedback</a>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -382,14 +386,23 @@
                                                 <div class="col-lg-4 col-md-4 col-xxl-4 mb-3">
                                                     <div class="media bg-light p-3 rounded align-items-center">	
                                                         <div class="media-body">
-                                                            
-                                                                <span class="fs-12 d-block mb-1"> <i class="fa-solid fa-users"></i> Participants</span>
-                                                                <span class="fs-16 text-black"><%=participants%> People</span>
-                                                            
+
+                                                            <span class="fs-12 d-block mb-1"> <i class="fa-solid fa-users"></i> Participants</span>
+                                                            <span class="fs-16 text-black"><%=participants%> People</span>
+
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-4 col-md-4 col-xxl-4 mb-3">
+                                                    <div class="media bg-light p-3 rounded align-items-center">	
+                                                        <div class="media-body">
 
+                                                            <span class="fs-12 d-block mb-1"> <i class="fa-solid fa-users"></i>Club</span>
+                                                            <span class="fs-16 text-black"><%=evt.getOrgName()%></span>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-5 col-md-12 col-xxl-12 mb-3">
                                                     <div class="media bg-light p-3 rounded align-items-center">	
 

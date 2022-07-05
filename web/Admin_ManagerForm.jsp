@@ -46,7 +46,7 @@
                     success = "";
                 }
                 ManagerDTO user = (ManagerDTO) request.getAttribute("MANAGER");
-
+               
             %>
             <h3 style="font-weight: 900" class="text-danger"><%= success%></h3>
 

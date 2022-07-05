@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import sample.users.UserDTO;
 import sample.util.DBUtils;
 
 /**
@@ -63,6 +64,14 @@ public class OrganizationDAO {
             + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID AND tblOrgPage.statusTypeID = ? AND status = '1'";
 
     public List<OrganizationDTO> filterOrg(String type) throws SQLException {
+    private static final String GET_ON_GOING_ORGANIZARTION = "SELECT orgID, orgName, createDate, description, imgUrl, email, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
+            + "FROM tblOrgPage, tblStatusType\n"
+            + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID AND status='1'";
+
+    private static final String GET_ALL_ORG_FOLLOWER = "select tblUsers.userID, fullName, gender, email, phone, avatarUrl, tblUserTypes.typeName from tblOrg_Follower, tblUsers, tblUserTypes\n"
+            + "where tblOrg_Follower.userID = tblUsers.userID and tblUsers.typeID = tblUserTypes.typeID and tblOrg_Follower.orgID = ?";
+
+    public List<OrganizationDTO> getOnGoingOrganization() throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -437,6 +446,42 @@ public class OrganizationDAO {
             }
         }
         return check;
+    }
+
+    public List<UserDTO> getAllOrgFollowers(String OrgID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        List<UserDTO> listFollower = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ptm = conn.prepareStatement(GET_ALL_ORG_FOLLOWER);
+            ptm.setString(1, OrgID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("userID");
+                String name = rs.getString("fullName");
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phone");
+                String picture = rs.getString("avatarUrl");
+                String typeName = rs.getString("typeName");
+                String gender = rs.getString("gender");
+                listFollower.add(new UserDTO(id, name, "", email, true, "", typeName, "", gender, phoneNumber, picture));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listFollower;
     }
 
 }

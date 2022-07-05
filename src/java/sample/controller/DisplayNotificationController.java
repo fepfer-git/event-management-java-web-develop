@@ -35,7 +35,8 @@ public class DisplayNotificationController extends HttpServlet {
     private static final String ADM_PROFILE = "Admin_Profile.jsp";
     private static final String ADM_LOCATION = "Mod_Location.jsp";
     private static final String MOD_EVENT_TYPE = "Mod_EventType.jsp";
-    
+    private static final String EVENT_STATISTIC = "Club_Statistic.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -74,11 +75,13 @@ public class DisplayNotificationController extends HttpServlet {
                         || "SearchLocation".equals(action) || "CreateLocation".equals(action)
                         || "UpdateLocation".equals(action)) {
                     url = ADM_LOCATION;
-                    
+
                 } else if ("ListEventType".equals(action) || "DeleteEventType".equals(action)
                         || "SearchEventType".equals(action) || "CreateEventType".equals(action)
                         || "UpdateEventType".equals(action)) {
                     url = MOD_EVENT_TYPE;
+                } else if ("ClubStatistic".equals(action)) {
+                    url = EVENT_STATISTIC;
                 }
 
             } else if ("CLB".equals(user.getRoleID())) {
@@ -99,10 +102,11 @@ public class DisplayNotificationController extends HttpServlet {
                     url = CLB_BLOG_PAGE;
                 } else if ("BlogDetail".equals(action)) {
                     url = BLOG_DETAIL_PAGE;
-                    
+
                 } else if ("AdminProfile".equals(action) || "UpdateAdminProfile".equals(action)) {
                     url = ADM_PROFILE;
-                    
+                } else if ("ClubStatistic".equals(action)) {
+                    url = EVENT_STATISTIC;
                 }
 
             } else if ("ADM".equals(user.getRoleID())) {

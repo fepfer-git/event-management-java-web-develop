@@ -24,10 +24,10 @@ import sample.util.DBUtils;
  */
 public class EventDAO {
 
-    private static final String GET_ALL_EVENT_POST = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n" +
-"                        FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n" +
-"                        WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID";
-    
+    private static final String GET_ALL_EVENT_POST = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "                        FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+            + "                        WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID";
+
     private static final String GET_ALL_EVENT_BY_TITLE = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
             + "            tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
             + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
@@ -35,11 +35,11 @@ public class EventDAO {
             + "            and tblEventPost.eventTypeID = tblEventType.eventTypeID and \n"
             + "            tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID";
 
-    private static final String GET_AN_EVENT_BY_ID = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
-            + "            tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
-            + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
+    private static final String GET_AN_EVENT_BY_ID = "SELECT eventID, tblOrgPage.orgID, tblEventPost.createDate, takePlaceDate, content, title, location, tblEventPost.imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary,\n"
+            + "            tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes, tblOrgPage.orgName\n"
+            + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType, tblOrgPage\n"
             + "            WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID \n"
-            + "            and tblEventPost.statusTypeID = tblStatusType.statusTypeID and tblEventPost.eventID LIKE ?\n";
+            + "            and tblEventPost.statusTypeID = tblStatusType.statusTypeID and tblOrgPage.orgID = tblEventPost.orgID and tblEventPost.eventID LIKE ?\n";
 
     private static final String ADD_AN_EVENT = "INSERT INTO [dbo].[tblEventPost]\n"
             + "           ([eventID], [orgID], [status], [statusTypeID] ,[createDate] ,[takePlaceDate], [content],\n"
@@ -115,7 +115,7 @@ public class EventDAO {
             + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
             + "            WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.statusTypeID = ?\n";
 
-        private static final String GET_ALL_PARTICIPANTS_BY_EVENT_ID = "select fullName, email, phone, gender from tblParticipants, tblUsers where tblParticipants.userID = tblUsers.userID AND eventID = ?";
+    private static final String GET_ALL_PARTICIPANTS_BY_EVENT_ID = "select fullName, email, phone, gender from tblParticipants, tblUsers where tblParticipants.userID = tblUsers.userID AND eventID = ?";
 
     public List<EventPost> getAllEventByType(String eventType, String roleID, String orgID) throws SQLException {
         Connection conn = null;
@@ -128,7 +128,7 @@ public class EventDAO {
         java.sql.Date nowDate = new java.sql.Date(millis);
         try {
             conn = DBUtils.getConnection();
-            if (!eventType.equals(onGoing) ) {
+            if (!eventType.equals(onGoing)) {
                 if ("MOD".equals(roleID)) {
                     ps = conn.prepareStatement(GET_ALL_EVENT_BY_TYPE);
                     ps.setString(1, eventType);
@@ -161,7 +161,7 @@ public class EventDAO {
                 String title = rs.getString("title");
                 String location = rs.getString("location");
                 String imgUrl = rs.getString("imgUrl");
-                                String orgIDOfEvent = rs.getString("orgID");
+                String orgIDOfEvent = rs.getString("orgID");
                 int numberOfView = rs.getInt("numberOfView");
                 String speaker = rs.getString("speaker");
                 String summary = rs.getString("summary");
@@ -172,7 +172,7 @@ public class EventDAO {
                 String statusTypeName = rs.getString("statusTypeName");
                 String approvalDes = rs.getString("approvalDes");
 
-                if (!eventType.equals(onGoing) ) {
+                if (!eventType.equals(onGoing)) {
                     EventPost event = new EventPost(takePlaceDate.toString(), location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgIDOfEvent, title, content, createDate, imgUrl, numberOfView, summary, status);
                     listEvent.add(event);
                 } else {
@@ -393,8 +393,9 @@ public class EventDAO {
                     String statusTypeID = rs.getString("statusTypeID");
                     String statusTypeName = rs.getString("statusTypeName");
                     String approvalDes = rs.getString("approvalDes");
+                    String orgName = rs.getString("orgName");
 
-                    event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                    event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, orgName, title, content, createDate, imgUrl, numberOfView, summary, status);
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -734,8 +735,9 @@ public class EventDAO {
                 String statusTypeID = rs.getString("statusTypeID");
                 String statusTypeName = rs.getString("statusTypeName");
                 String approvalDes = rs.getString("approvalDes");
-
-                EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                
+                int numberOfParticipants = getNumberOfParticipants(id);
+                EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, "", title, content, createDate, imgUrl, numberOfView, summary, status, numberOfParticipants);
                 listEvent.add(event);
             }
         } catch (ClassNotFoundException ex) {
