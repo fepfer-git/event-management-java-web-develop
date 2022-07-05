@@ -28,6 +28,9 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final String UPLOAD_IMAGE = "UploadImage";
+    private static final String UPLOAD_IMAGE_CONTROLLER = "UploadImageController";
+
     private static final String FILTER_ORG = "FilterOrg";
     private static final String FILTER_ORG_CONTROLLER = "FilterOrgController";
 
@@ -384,7 +387,7 @@ public class MainController extends HttpServlet {
                 case (CLUB_STATISTIC):
                     url = CLUB_STATISTIC_CONTROLLER;
                     break;
-                    
+
                 case (FILTER_ORG):
                     url = FILTER_ORG_CONTROLLER;
                     break;
