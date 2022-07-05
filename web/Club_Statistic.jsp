@@ -373,7 +373,7 @@
                                                         <li><i class="las la-calendar"></i><%=listEvent.get(i).getTakePlaceDate()%></li>
 
                                                         <li><i class="fa fa-eye"></i><%=listEvent.get(i).getNumberOfView()%> View</li>
-                                                        <li><i class="fa fa-user-o"></i> Participants</li>
+                                                        <li><i class="fa fa-user-o"></i><%=listEvent.get(i).getNumberOfParticipants()%> Participants</li>
 
                                                     </ul>
                                                 </div>                                                        

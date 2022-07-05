@@ -15,6 +15,7 @@ public class EventPost extends Post {
     private String statusTypeID;
     private String statusTypeName;
     private String approvalDes;
+    private int numberOfParticipants;
 
     public EventPost() {
     }
@@ -65,8 +66,8 @@ public class EventPost extends Post {
         this.statusTypeID = statusTypeID;
         this.statusTypeName = statusTypeName;
         this.approvalDes = approvalDes;
-    }   
-    
+    }
+
     public EventPost(String takePlaceDate, String location, String eventType, String speaker, String statusTypeID, String approvalDes, String id, String orgID, String title, String content, String createDate, String imgUrl, int numberOfView, String summary, boolean status) {
         super(id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
         this.takePlaceDate = takePlaceDate;
@@ -104,8 +105,22 @@ public class EventPost extends Post {
         this.statusTypeID = statusTypeID;
         this.statusTypeName = statusTypeName;
         this.approvalDes = approvalDes;
-    } 
-    
+    }
+
+    public EventPost(String takePlaceDate, String location, String eventType, String speaker, String eventTypeName, String locationName, String statusTypeID, String statusTypeName, String approvalDes, String id, String orgID, String orgName, String title, String content, String createDate, String imgUrl, int numberOfView, String summary, boolean status, int numberOfParticipants) {
+        super(id, orgID, orgName, title, content, createDate, imgUrl, numberOfView, summary, status);
+        this.takePlaceDate = takePlaceDate;
+        this.location = location;
+        this.eventType = eventType;
+        this.speaker = speaker;
+        this.eventTypeName = eventTypeName;
+        this.locationName = locationName;
+        this.statusTypeID = statusTypeID;
+        this.statusTypeName = statusTypeName;
+        this.approvalDes = approvalDes;
+        this.numberOfParticipants = numberOfParticipants;
+    }
+
     public String getTakePlaceDate() {
         return takePlaceDate;
     }
@@ -168,7 +183,7 @@ public class EventPost extends Post {
 
     public void setStatusTypeName(String statusTypeName) {
         this.statusTypeName = statusTypeName;
-    }   
+    }
 
     public String getApprovalDes() {
         return approvalDes;
@@ -176,6 +191,14 @@ public class EventPost extends Post {
 
     public void setApprovalDes(String approvalDes) {
         this.approvalDes = approvalDes;
+    }
+
+    public int getNumberOfParticipants() {
+        return numberOfParticipants;
+    }
+
+    public void setNumberOfParticipants(int numberOfParticipants) {
+        this.numberOfParticipants = numberOfParticipants;
     }
     
 }
