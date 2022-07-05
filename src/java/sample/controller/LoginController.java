@@ -61,11 +61,6 @@ public class LoginController extends HttpServlet {
         try {
             String validateUser = dao.authenticateUser(userName, password);
             switch (validateUser) {
-                case "US":
-                    dto = dao.checkUserExist(userName);
-                    session.setAttribute("LOGIN_USER", dto);
-                    url = US_PAGE;
-                    break;
                 case "ADM":
                     manager = dao.checkManagerExist(userName);
                     session.setAttribute("LOGIN_USER", manager);

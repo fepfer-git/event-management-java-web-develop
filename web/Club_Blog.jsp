@@ -83,7 +83,7 @@
                         <div class="collapse navbar-collapse justify-content-between">
                             <div class="header-left">
                                 <div class="dashboard_bar">
-                                    Event
+                                    Blog
                                 </div>
                             </div>
                             <ul class="navbar-nav header-right">
@@ -215,6 +215,7 @@
                                     <% } %>
 
                                 <li><a href="MainController?action=ListBlog">Blog</a></li>
+                                <li><a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID() %>">Statistic</a></li>
 
                             </ul>
                         </li>

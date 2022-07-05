@@ -187,194 +187,201 @@ public class MainController extends HttpServlet {
 
     private static final String APPROVE_ORG = "ApproveOrg";
     private static final String APPROVE_ORG_CONTROLLER = "ApproveOrgController";
-    
+
     private static final String LIST_FEEDBACK = "ListFeedbacks";
     private static final String LIST_FEEDBACK_CONTROLLER = "EventFeedbackController";
-    
+
+    private static final String CLUB_STATISTIC = "ClubStatistic";
+    private static final String CLUB_STATISTIC_CONTROLLER = "ClubStatisticController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
             String action = request.getParameter("action");
-            if (SEARCH_ORG.equals(action)) {
-                url = SEARCH_ORG_CONTROLLER;
-
-            } else if (SEARCH_USER.equals(action)) {
-                url = SEARCH_USER_CONTROLLER;
-
-            } else if (SEARCH_MANAGER.equals(action)) {
-                url = SEARCH_MANAGER_CONTROLLER;
-
-            } else if (CREATE_ORGANIZATION.equals(action)) {
-                url = CREATE_ORGANIZATION_CONTROLLER;
-
-            } else if (DELETE_USER.equals(action)) {
-                url = DELETE_USER_CONTROLLER;
-
-            } else if (DELETE_ORG.equals(action)) {
-                url = DELETE_ORG_CONTROLLER;
-
-            } else if (DELETE_MANAGER.equals(action)) {
-                url = DELETE_MANAGER_CONTROLLER;
-
-            } else if (ADMIN_MANAGER_PAGE.equals(action)) {
-                url = ADMIN_MANAGER_PAGE_CONTROLLER;
-
-            } else if (ADMIN_ORG_PAGE.equals(action)) {
-                url = ADMIN_ORG_PAGE_CONTROLLER;
-
-            } else if (ADMIN_USER_PAGE.equals(action)) {
-                url = ADMIN_USER_PAGE_CONTROLLER;
-
-            } else if (UPDATE_ORG.equals(action)) {
-                url = UPDATE_ORG_CONTROLLER;
-
-            } else if (UPDATE_USER.equals(action)) {
-                url = UPDATE_USER_CONTROLLER;
-
-            } else if (LOGIN.equals(action)) {
-                url = LOGIN_CONTROLLER;
-
-            } else if (REGISTER.equals(action)) {
-                url = REGISTER_CONTROLLER;
-
-            } else if (LOGIN_PAGE.equals(action)) {
-                url = LOGIN_PAGE_CONTROLLER;
-
-            } else if (DATA_TYPE.equals(action)) {
-                url = DATA_TYPE_CONTROLLER;
-
-            } else if (PROFILE_PAGE.equals(action)) {
-                url = PROFILE_PAGE_CONTROLLER;
-
-            } else if (LOGOUT.equals(action)) {
-                url = LOGOUT_CONTROLLER;
-
-            } else if (HOME_PAGE.equals(action)) {
-                url = HOME_PAGE_CONTROLLER;
-
-            } else if (USER_UPDATE_PROFILE.equals(action)) {
-                url = USER_UPDATE_PROFILE_CONTROLLER;
-
-            } else if (CREATE_USER.equals(action)) {
-                url = CREATE_USER_CONTROLLER;
-
-            } else if (CREATE_MANAGER.equals(action)) {
-                url = CREATE_MANAGER_CONTROLLER;
-
-            } else if (UPDATE_MANAGER.equals(action)) {
-                url = UPDATE_MANAGER_CONTROLLER;
-
-            } else if (SEARCH_EVENT.equals(action)) {
-                url = SEARCH_CONTROLLER;
-                
-            } else if (EVENT_DETAIL.equals(action)) {
-                url = DETAIL_CONTROLLER;
-                
-            } else if (CREATE_EVENT.equals(action)) {
-                url = CREATE_EVENT_CONTROLLER;
-                
-            } else if (EVT_TYPE_AND_LOCALTION.equals(action)) {
-                url = EVT_TYPE_AND_LOCALTION_CONTROLLER;
-                
-            } else if (LIST_EVENT.equals(action)) {
-                url = LIST_EVENT_CONTROLLER;
-                
-            } else if (LIST_BLOG.equals(action)) {
-                url = LIST_BLOG_CONTROLLER;
-                
-            } else if (BLOG_DETAIL.equals(action)) {
-                url = BLOG_DETAIL_CONTROLLER;
-                
-            } else if (SEARCH_BLOG.equals(action)) {
-                url = SEARCH_BLOG_CONTROLLER;
-
-            } else if (APPROVE_EVENT.equals(action)) {
-                url = APPROVE_EVENT_CONTROLLER;
-
-            } else if (DECLINE_EVENT.equals(action)) {
-                url = DECLINE_EVENT_CONTROLLER;
-
-            } else if (FILTER_EVENT.equals(action)) {
-                url = FILTER_EVENT_CONTROLLER;
-
-            } else if (UPDATE_EVENT.equals(action)) {
-                url = UPDATE_EVENT_CONTROLLER;
-
-            } else if (DELETE_AN_EVENT.equals(action)) {
-                url = DELETE_AN_EVENT_CONTROLLER;
-
-            } else if (CREATE_BLOG.equals(action)) {
-                url = CREATE_BLOG_CONTROLLER;
-
-            } else if (UPDATE_BLOG.equals(action)) {
-                url = UPDATE_BLOG_CONTROLLER;
-
-            } else if (DELETE_A_BLOG.equals(action)) {
-                url = DELETE_BLOG_CONTROLLER;
-
-            } else if (SEARCH_EVENT_BY_ORG.equals(action)) {
-                url = SEARCH_EVENT_BY_ORG_CONTROLLER;
-
-            } else if (LIST_ORG_EVENT.equals(action)) {
-                url = LIST_ORG_EVENT_CONTROLLER;
-
-            } else if (COMMENT.equals(action)) {
-                url = COMMENT_CONTROLLER;
-                
-            } else if (REPLY_COMMENT.equals(action)) {
-                url = REPLY_COMMENT_CONTROLLER;
-
-            } else if (DELETE_COMMENT.equals(action)) {
-                url = DELETE_COMMENT_CONTROLLER;
-
-            } else if (UPDATE_ADMIN_PROFILE.equals(action)) {
-                url = UPDATE_ADMIN_PROFILE_CONTROLLER;
-
-            } else if (ADMIN_PROFILE.equals(action)) {
-                url = ADMIN_PROFILE_CONTROLLER;
-
-            } else if (LIST_PARTICIPANTS.equals(action)) {
-                url = LIST_PARTICIPANTS_CONTROLLER;
-
-            } else if (LIST_LOCATION.equals(action)) {
-                url = LIST_LOCATION_CONTROLLER;
-
-            } else if (DELETE_LOCATION.equals(action)) {
-                url = DELETE_LOCATION_CONTROLLER;
-
-            } else if (UPDATE_LOCATION.equals(action)) {
-                url = UPDATE_LOCATION_CONTROLLER;
-
-            } else if (CREATE_LOCATION.equals(action)) {
-                url = CREATE_LOCATION_CONTROLLER;
-
-            } else if (SEARCH_LOCATION.equals(action)) {
-                url = SEARCH_LOCATION_CONTROLLER;
-
-            } else if (LIST_EVENT_TYPE.equals(action)) {
-                url = LIST_EVENT_TYPE_CONTROLLER;
-
-            } else if (DELETE_EVENT_TYPE.equals(action)) {
-                url = DELETE_EVENT_TYPE_CONTROLLER;
-
-            } else if (UPDATE_EVENT_TYPE.equals(action)) {
-                url = UPDATE_EVENT_TYPE_CONTROLLER;
-
-            } else if (CREATE_EVENT_TYPE.equals(action)) {
-                url = CREATE_EVENT_TYPE_CONTROLLER;
-
-            } else if (SEARCH_EVENT_TYPE.equals(action)) {
-                url = SEARCH_EVENT_TYPE_CONTROLLER;
-
-            } else if (APPROVE_ORG.equals(action)) {
-                url = APPROVE_ORG_CONTROLLER;
-                
-            } else if (LIST_FEEDBACK.equals(action)) {
-                url = LIST_FEEDBACK_CONTROLLER;
+            switch (action) {
+                case (SEARCH_ORG):
+                    url = SEARCH_ORG_CONTROLLER;
+                    break;
+                case (SEARCH_USER):
+                    url = SEARCH_USER_CONTROLLER;
+                    break;
+                case (SEARCH_MANAGER):
+                    url = SEARCH_MANAGER_CONTROLLER;
+                    break;
+                case (CREATE_ORGANIZATION):
+                    url = CREATE_ORGANIZATION_CONTROLLER;
+                    break;
+                case (DELETE_USER):
+                    url = DELETE_USER_CONTROLLER;
+                    break;
+                case (DELETE_ORG):
+                    url = DELETE_ORG_CONTROLLER;
+                    break;
+                case (DELETE_MANAGER):
+                    url = DELETE_MANAGER_CONTROLLER;
+                    break;
+                case (ADMIN_MANAGER_PAGE):
+                    url = ADMIN_MANAGER_PAGE_CONTROLLER;
+                    break;
+                case (ADMIN_ORG_PAGE):
+                    url = ADMIN_ORG_PAGE_CONTROLLER;
+                    break;
+                case (ADMIN_USER_PAGE):
+                    url = ADMIN_USER_PAGE_CONTROLLER;
+                    break;
+                case (UPDATE_ORG):
+                    url = UPDATE_ORG_CONTROLLER;
+                    break;
+                case (UPDATE_USER):
+                    url = UPDATE_USER_CONTROLLER;
+                    break;
+                case (LOGIN):
+                    url = LOGIN_CONTROLLER;
+                    break;
+                case (REGISTER):
+                    url = REGISTER_CONTROLLER;
+                    break;
+                case (LOGIN_PAGE):
+                    url = LOGIN_PAGE_CONTROLLER;
+                    break;
+                case (DATA_TYPE):
+                    url = DATA_TYPE_CONTROLLER;
+                    break;
+                case (PROFILE_PAGE):
+                    url = PROFILE_PAGE_CONTROLLER;
+                    break;
+                case (LOGOUT):
+                    url = LOGOUT_CONTROLLER;
+                    break;
+                case (HOME_PAGE):
+                    url = HOME_PAGE_CONTROLLER;
+                    break;
+                case (USER_UPDATE_PROFILE):
+                    url = USER_UPDATE_PROFILE_CONTROLLER;
+                    break;
+                case (CREATE_USER):
+                    url = CREATE_USER_CONTROLLER;
+                    break;
+                case (CREATE_MANAGER):
+                    url = CREATE_MANAGER_CONTROLLER;
+                    break;
+                case (UPDATE_MANAGER):
+                    url = UPDATE_MANAGER_CONTROLLER;
+                    break;
+                case (SEARCH_EVENT):
+                    url = SEARCH_CONTROLLER;
+                    break;
+                case (EVENT_DETAIL):
+                    url = DETAIL_CONTROLLER;
+                    break;
+                case (CREATE_EVENT):
+                    url = CREATE_EVENT_CONTROLLER;
+                    break;
+                case (EVT_TYPE_AND_LOCALTION):
+                    url = EVT_TYPE_AND_LOCALTION_CONTROLLER;
+                    break;
+                case (LIST_EVENT):
+                    url = LIST_EVENT_CONTROLLER;
+                    break;
+                case (LIST_BLOG):
+                    url = LIST_BLOG_CONTROLLER;
+                    break;
+                case (BLOG_DETAIL):
+                    url = BLOG_DETAIL_CONTROLLER;
+                    break;
+                case (SEARCH_BLOG):
+                    url = SEARCH_BLOG_CONTROLLER;
+                    break;
+                case (APPROVE_EVENT):
+                    url = APPROVE_EVENT_CONTROLLER;
+                    break;
+                case (DECLINE_EVENT):
+                    url = DECLINE_EVENT_CONTROLLER;
+                    break;
+                case (FILTER_EVENT):
+                    url = FILTER_EVENT_CONTROLLER;
+                    break;
+                case (UPDATE_EVENT):
+                    url = UPDATE_EVENT_CONTROLLER;
+                    break;
+                case (DELETE_AN_EVENT):
+                    url = DELETE_AN_EVENT_CONTROLLER;
+                    break;
+                case (CREATE_BLOG):
+                    url = CREATE_BLOG_CONTROLLER;
+                    break;
+                case (UPDATE_BLOG):
+                    url = UPDATE_BLOG_CONTROLLER;
+                    break;
+                case (DELETE_A_BLOG):
+                    url = DELETE_BLOG_CONTROLLER;
+                    break;
+                case (SEARCH_EVENT_BY_ORG):
+                    url = SEARCH_EVENT_BY_ORG_CONTROLLER;
+                    break;
+                case (LIST_ORG_EVENT):
+                    url = LIST_ORG_EVENT_CONTROLLER;
+                    break;
+                case (COMMENT):
+                    url = COMMENT_CONTROLLER;
+                    break;
+                case (REPLY_COMMENT):
+                    url = REPLY_COMMENT_CONTROLLER;
+                    break;
+                case (DELETE_COMMENT):
+                    url = DELETE_COMMENT_CONTROLLER;
+                    break;
+                case (UPDATE_ADMIN_PROFILE):
+                    url = UPDATE_ADMIN_PROFILE_CONTROLLER;
+                    break;
+                case (ADMIN_PROFILE):
+                    url = ADMIN_PROFILE_CONTROLLER;
+                    break;
+                case (LIST_PARTICIPANTS):
+                    url = LIST_PARTICIPANTS_CONTROLLER;
+                    break;
+                case (LIST_LOCATION):
+                    url = LIST_LOCATION_CONTROLLER;
+                    break;
+                case (DELETE_LOCATION):
+                    url = DELETE_LOCATION_CONTROLLER;
+                    break;
+                case (UPDATE_LOCATION):
+                    url = UPDATE_LOCATION_CONTROLLER;
+                    break;
+                case (CREATE_LOCATION):
+                    url = CREATE_LOCATION_CONTROLLER;
+                    break;
+                case (SEARCH_LOCATION):
+                    url = SEARCH_LOCATION_CONTROLLER;
+                    break;
+                case (LIST_EVENT_TYPE):
+                    url = LIST_EVENT_TYPE_CONTROLLER;
+                    break;
+                case (DELETE_EVENT_TYPE):
+                    url = DELETE_EVENT_TYPE_CONTROLLER;
+                    break;
+                case (UPDATE_EVENT_TYPE):
+                    url = UPDATE_EVENT_TYPE_CONTROLLER;
+                    break;
+                case (CREATE_EVENT_TYPE):
+                    url = CREATE_EVENT_TYPE_CONTROLLER;
+                    break;
+                case (SEARCH_EVENT_TYPE):
+                    url = SEARCH_EVENT_TYPE_CONTROLLER;
+                    break;
+                case (APPROVE_ORG):
+                    url = APPROVE_ORG_CONTROLLER;
+                    break;
+                case (LIST_FEEDBACK):
+                    url = LIST_FEEDBACK_CONTROLLER;
+                    break;
+                case (CLUB_STATISTIC):
+                    url = CLUB_STATISTIC_CONTROLLER;
+                    break;
             }
-
         } catch (Exception e) {
             log("Error at MainController" + e.toString());
         } finally {
@@ -382,7 +389,7 @@ public class MainController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
