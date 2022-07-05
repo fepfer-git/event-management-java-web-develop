@@ -93,11 +93,18 @@ public class EventPost extends Post {
         this.speaker = speaker;
     }
 
-   
-
-           
-    
-    
+    public EventPost(String takePlaceDate, String location, String eventType, String speaker, String eventTypeName, String locationName, String statusTypeID, String statusTypeName, String approvalDes, String id, String orgID, String orgName, String title, String content, String createDate, String imgUrl, int numberOfView, String summary, boolean status) {
+        super(id, orgID, orgName, title, content, createDate, imgUrl, numberOfView, summary, status);
+        this.takePlaceDate = takePlaceDate;
+        this.location = location;
+        this.eventType = eventType;
+        this.speaker = speaker;
+        this.eventTypeName = eventTypeName;
+        this.locationName = locationName;
+        this.statusTypeID = statusTypeID;
+        this.statusTypeName = statusTypeName;
+        this.approvalDes = approvalDes;
+    } 
     
     public String getTakePlaceDate() {
         return takePlaceDate;
@@ -170,5 +177,5 @@ public class EventPost extends Post {
     public void setApprovalDes(String approvalDes) {
         this.approvalDes = approvalDes;
     }
-        
+    
 }

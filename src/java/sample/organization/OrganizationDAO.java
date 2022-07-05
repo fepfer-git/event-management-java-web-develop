@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import sample.users.UserDTO;
 import sample.util.DBUtils;
 
 /**
@@ -24,7 +25,6 @@ public class OrganizationDAO {
             + "FROM tblOrgPage, tblStatusType\n"
             + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID";
 
- 
     private static final String SEARCH_ORGANIZATION = "SELECT  orgID, orgName, createDate, description, imgUrl, email, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
             + "             FROM tblOrgPage, tblStatusType\n"
             + "             WHERE (dbo.ufn_removeMark(orgName) like ? or orgName like ? or orgID like ?) AND tblStatusType.statusTypeID = tblOrgPage.statusTypeID";
@@ -51,13 +51,15 @@ public class OrganizationDAO {
     private static final String APPROVE_ORG = "UPDATE tblOrgPage\n"
             + "SET statusTypeID = ?\n"
             + "WHERE orgID = ?";
-    
-       private static final String GET_ON_GOING_ORGANIZARTION = "SELECT orgID, orgName, createDate, description, imgUrl, email, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
+
+    private static final String GET_ON_GOING_ORGANIZARTION = "SELECT orgID, orgName, createDate, description, imgUrl, email, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
             + "FROM tblOrgPage, tblStatusType\n"
             + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID AND status='1'";
-    
-    
-        public List<OrganizationDTO> getOnGoingOrganization() throws SQLException {
+
+    private static final String GET_ALL_ORG_FOLLOWER = "select tblUsers.userID, fullName, gender, email, phone, avatarUrl, tblUserTypes.typeName from tblOrg_Follower, tblUsers, tblUserTypes\n"
+            + "where tblOrg_Follower.userID = tblUsers.userID and tblUsers.typeID = tblUserTypes.typeID and tblOrg_Follower.orgID = ?";
+
+    public List<OrganizationDTO> getOnGoingOrganization() throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -94,18 +96,18 @@ public class OrganizationDAO {
         }
         return list;
     }
-    
+
     public boolean approveOrg(String type, String orgID) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         boolean check = false;
         try {
             conn = DBUtils.getConnection();
-            if(conn != null) {
+            if (conn != null) {
                 ptm = conn.prepareStatement(APPROVE_ORG);
                 ptm.setString(1, type);
                 ptm.setString(2, orgID);
-                if(ptm.executeUpdate() > 0) {
+                if (ptm.executeUpdate() > 0) {
                     check = true;
                 }
             }
@@ -120,7 +122,7 @@ public class OrganizationDAO {
         }
         return check;
     }
-    
+
     public boolean updateImage(String path, String orgID) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -389,6 +391,42 @@ public class OrganizationDAO {
             }
         }
         return check;
+    }
+
+    public List<UserDTO> getAllOrgFollowers(String OrgID) throws SQLException {
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        List<UserDTO> listFollower = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            ptm = conn.prepareStatement(GET_ALL_ORG_FOLLOWER);
+            ptm.setString(1, OrgID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("userID");
+                String name = rs.getString("fullName");
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phone");
+                String picture = rs.getString("avatarUrl");
+                String typeName = rs.getString("typeName");
+                String gender = rs.getString("gender");
+                listFollower.add(new UserDTO(id, name, "", email, true, "", typeName, "", gender, phoneNumber, picture));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return listFollower;
     }
 
 }

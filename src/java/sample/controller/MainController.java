@@ -188,6 +188,9 @@ public class MainController extends HttpServlet {
     private static final String APPROVE_ORG = "ApproveOrg";
     private static final String APPROVE_ORG_CONTROLLER = "ApproveOrgController";
     
+    private static final String LIST_FEEDBACK = "ListFeedbacks";
+    private static final String LIST_FEEDBACK_CONTROLLER = "EventFeedbackController";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -265,18 +268,25 @@ public class MainController extends HttpServlet {
 
             } else if (SEARCH_EVENT.equals(action)) {
                 url = SEARCH_CONTROLLER;
+                
             } else if (EVENT_DETAIL.equals(action)) {
                 url = DETAIL_CONTROLLER;
+                
             } else if (CREATE_EVENT.equals(action)) {
                 url = CREATE_EVENT_CONTROLLER;
+                
             } else if (EVT_TYPE_AND_LOCALTION.equals(action)) {
                 url = EVT_TYPE_AND_LOCALTION_CONTROLLER;
+                
             } else if (LIST_EVENT.equals(action)) {
                 url = LIST_EVENT_CONTROLLER;
+                
             } else if (LIST_BLOG.equals(action)) {
                 url = LIST_BLOG_CONTROLLER;
+                
             } else if (BLOG_DETAIL.equals(action)) {
                 url = BLOG_DETAIL_CONTROLLER;
+                
             } else if (SEARCH_BLOG.equals(action)) {
                 url = SEARCH_BLOG_CONTROLLER;
 
@@ -312,6 +322,7 @@ public class MainController extends HttpServlet {
 
             } else if (COMMENT.equals(action)) {
                 url = COMMENT_CONTROLLER;
+                
             } else if (REPLY_COMMENT.equals(action)) {
                 url = REPLY_COMMENT_CONTROLLER;
 
@@ -359,7 +370,9 @@ public class MainController extends HttpServlet {
 
             } else if (APPROVE_ORG.equals(action)) {
                 url = APPROVE_ORG_CONTROLLER;
-
+                
+            } else if (LIST_FEEDBACK.equals(action)) {
+                url = LIST_FEEDBACK_CONTROLLER;
             }
 
         } catch (Exception e) {
