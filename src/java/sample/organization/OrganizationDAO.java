@@ -63,15 +63,10 @@ public class OrganizationDAO {
             + "FROM tblOrgPage, tblStatusType\n"
             + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID AND tblOrgPage.statusTypeID = ? AND status = '1'";
 
-    public List<OrganizationDTO> filterOrg(String type) throws SQLException {
-    private static final String GET_ON_GOING_ORGANIZARTION = "SELECT orgID, orgName, createDate, description, imgUrl, email, status, tblOrgPage.statusTypeID, tblStatusType.statusTypeName\n"
-            + "FROM tblOrgPage, tblStatusType\n"
-            + "WHERE tblStatusType.statusTypeID = tblOrgPage.statusTypeID AND status='1'";
-
     private static final String GET_ALL_ORG_FOLLOWER = "select tblUsers.userID, fullName, gender, email, phone, avatarUrl, tblUserTypes.typeName from tblOrg_Follower, tblUsers, tblUserTypes\n"
             + "where tblOrg_Follower.userID = tblUsers.userID and tblUsers.typeID = tblUserTypes.typeID and tblOrg_Follower.orgID = ?";
 
-    public List<OrganizationDTO> getOnGoingOrganization() throws SQLException {
+        public List<OrganizationDTO> filterOrg(String type) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -114,6 +109,8 @@ public class OrganizationDAO {
         }
         return list;
     }
+
+
 
 //    public List<OrganizationDTO> getOnGoingOrganization() throws SQLException {
 //        Connection conn = null;

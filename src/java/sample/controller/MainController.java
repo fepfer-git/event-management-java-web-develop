@@ -384,6 +384,10 @@ public class MainController extends HttpServlet {
                 case (CLUB_STATISTIC):
                     url = CLUB_STATISTIC_CONTROLLER;
                     break;
+                    
+                case (FILTER_ORG):
+                    url = FILTER_ORG_CONTROLLER;
+                    break;
             }
         } catch (Exception e) {
             log("Error at MainController" + e.toString());
