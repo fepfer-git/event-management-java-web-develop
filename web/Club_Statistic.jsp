@@ -61,16 +61,11 @@
         Nav header start
     ***********************************-->
             <div class="nav-header">
-                <%                    if (user.getRoleID().equals("CLB")) {
-                %>
-                <a href="MainController?action=ClubStatistic" class="brand-logo">
+             
+                <a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID() %>" class="brand-logo">
                     <img class="brand-title" src="./css_Admin/images/femLogo.png" alt="">
                 </a>
-                <% } else { %>
-                <a href="MainController?action=ClubStatistic" class="brand-logo">
-                    <img class="brand-title" src="./css_Admin/images/femLogo.png" alt="">
-                </a>
-                <% }%>
+                
 
                 <div class="nav-control">
                     <div class="hamburger">
@@ -237,6 +232,8 @@
                                                 <div class="">
                                                     <img src="<%=listFollower.get(i).getPicture()%>" alt="" width="42"
                                                          class="rounded-circle mr-2">
+                                                    
+                                                    
                                                     <%=listFollower.get(i).getName()%>
                                                 </div>
                                             </div>

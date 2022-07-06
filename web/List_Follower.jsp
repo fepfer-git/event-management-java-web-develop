@@ -4,6 +4,7 @@
     Author     : tvfep
 --%>
 
+<%@page import="sample.users.ManagerDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="sample.users.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -40,6 +41,8 @@
     </head>
 
     <%List<UserDTO> listFollower = (List) request.getAttribute("listFollower");
+            ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
+
     %>
 
     <body>
@@ -71,7 +74,7 @@
                 %>
             </table>
             <div class="mt-3">
-                <a class="btn" href="MainController?action=ClubStatistic" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
+                <a class="btn" href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID() %>" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
                     Back!
                 </a>
 
