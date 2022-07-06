@@ -99,8 +99,8 @@ public class EventDAO {
             + "   SET [status] = ?\n"
             + " WHERE eventID = ?";
 
-    private static final String GET_ALL_ORG_EVENT_BY_TITLE = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
-            + "            status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+    private static final String GET_ALL_ORG_EVENT_BY_TITLE = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary,\n"
+            + "            tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
             + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
             + "            WHERE (dbo.ufn_removeMark(tblEventPost.title) LIKE ? or title LIKE ?)\n"
             + "            and tblEventPost.eventTypeID = tblEventType.eventTypeID and \n"
@@ -111,7 +111,7 @@ public class EventDAO {
     private static final String DECLINE_DESCRIPTION = "UPDATE tblEventPost SET approvalDes = ? WHERE eventID = ?";
 
     private static final String GET_ALL_EVENT_BY_TYPE = "SELECT eventID, orgID, createDate, takePlaceDate, content, title, location, imgUrl, tblEventPost.eventTypeID, numberOfView, speaker, summary, \n"
-            + "			tblEventPost.status, tblEventPost.statusTypeID, statusTypeName, eventTypeName, locationName, approvalDes\n"
+            + "			tblEventPost.status, tblEventPost.statusTypeID, statusType  Name, eventTypeName, locationName, approvalDes\n"
             + "            FROM tblEventPost, tblEventType, tblLocation, tblStatusType\n"
             + "            WHERE tblEventPost.eventTypeID = tblEventType.eventTypeID and tblEventPost.location = tblLocation.locationID and tblEventPost.statusTypeID = tblStatusType.statusTypeID AND tblEventPost.statusTypeID = ?\n";
 
@@ -735,7 +735,7 @@ public class EventDAO {
                 String statusTypeID = rs.getString("statusTypeID");
                 String statusTypeName = rs.getString("statusTypeName");
                 String approvalDes = rs.getString("approvalDes");
-                
+
                 int numberOfParticipants = getNumberOfParticipants(id);
                 EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, eventTypeName, locationName, statusTypeID, statusTypeName, approvalDes, id, orgID, "", title, content, createDate, imgUrl, numberOfView, summary, status, numberOfParticipants);
                 listEvent.add(event);

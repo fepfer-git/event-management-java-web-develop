@@ -204,6 +204,9 @@ public class MainController extends HttpServlet {
     private static final String CLUB_STATISTIC = "ClubStatistic";
     private static final String CLUB_STATISTIC_CONTROLLER = "ClubStatisticController";
 
+    private static final String CLUB_FOLLOWER = "ClubFollower";
+    private static final String CLUB_FOLLOWER_CONTROLLER = "ClubFollowerController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -398,6 +401,9 @@ public class MainController extends HttpServlet {
                     break;                   
                 case (UPLOAD_IMAGE):
                     url = UPLOAD_IMAGE_CONTROLLER;
+                    break;
+                case (CLUB_FOLLOWER):
+                    url = CLUB_FOLLOWER_CONTROLLER;
                     break;
             }
         } catch (Exception e) {

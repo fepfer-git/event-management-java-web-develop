@@ -6,12 +6,17 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import sample.organization.OrganizationDAO;
 import sample.posts.EventDAO;
 import sample.users.UserDTO;
 
@@ -19,43 +24,40 @@ import sample.users.UserDTO;
  *
  * @author tvfep
  */
-@WebServlet(name = "DeleteAnEventController", urlPatterns = {"/DeleteAnEventController"})
-public class DeleteAnEventController extends HttpServlet {
+@WebServlet(name = "ClubFollowerController", urlPatterns = {"/ClubFollowerController"})
+public class ClubFollowerController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
-    private static final String CLB_PAGE = "EventListByOrgController";
-    private static final String MOD_PAGE = "EventListController";
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    
+    private static final String SUCCESS = "List_Follower.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        EventDAO evtDao = new EventDAO();
-        String url = ERROR;
-        HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
-        try {
-            String eventID = request.getParameter("eventID");
-            String page = request.getParameter("page");
-            if ("Club_Event.jsp".equals(page)) {
-                if (user.getRoleID().equals("CLB")) {
-                    if (evtDao.updateStatusEventByID(eventID, false)) {
-                        url = CLB_PAGE;
-                    }
-                } else if (user.getRoleID().equals("MOD")) {
-                    if (evtDao.updateStatusEventByID(eventID, false)) {
-                        url = MOD_PAGE;
-                    }
-                }
-            }else{
-                url = "MainController?action=EventDetail&eventID=" + eventID;
-            }
 
-        } catch (Exception e) {
-            log("Error at DeleteAnEventController " + e.toString());
+        String url = "error.jsp";
+        List<UserDTO> listFollower = null;
+        try {
+            OrganizationDAO orgDAO = new OrganizationDAO();
+            String orgID = request.getParameter("orgID");
+
+            listFollower = orgDAO.getAllOrgFollowers(orgID);
+            request.setAttribute("listFollower", listFollower);
+            url = SUCCESS;
+        } catch (SQLException ex) {
+            Logger.getLogger(EventListController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

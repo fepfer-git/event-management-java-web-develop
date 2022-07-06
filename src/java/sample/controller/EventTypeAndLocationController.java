@@ -42,8 +42,10 @@ public class EventTypeAndLocationController extends HttpServlet {
         try {
             listTypes = evtDao.getAllEventType();
             listLocations = evtDao.getAllEventLocation();
+            String page = request.getParameter("page");
             request.setAttribute("listEventTypes", listTypes);
             request.setAttribute("listEventLocations", listLocations);
+            request.setAttribute("page", page);
 
             eventID = request.getParameter("eventID");
             if (eventID != null) {

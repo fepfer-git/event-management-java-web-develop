@@ -35,6 +35,7 @@
             response.sendRedirect("Admin_Login.jsp");
             return;
         }
+        String pageType = (String)request.getAttribute("page");
     %>
 
 
