@@ -106,7 +106,7 @@
                             </div>
                             <ul class="navbar-nav header-right">
                                 <li class="nav-item">
-                                    <form action="MainController" class="input-group search-area d-xl-inline-flex d-none">
+                                    <form action="MainController" method="POST" class="input-group search-area d-xl-inline-flex d-none">
                                         <input type="text" name="search" class="form-control" placeholder="Search here...">
                                         <div class="input-group-append">
                                             <button type="submit" name="action" value="SearchEventType" class="input-group-text"><i
@@ -254,7 +254,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="MainController">
+                                    <form action="MainController" method="POST">
                                         <div class="form-group">
                                             <label class="text-black font-w500">Event Type Name</label>
                                             <input type="text" required="" name="eventTypeName" class="form-control">
@@ -377,7 +377,7 @@
                                                                             </button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <form action="MainController">
+                                                                            <form action="MainController" method="POST">
                                                                                 <div class="form-group">
                                                                                     <label class="text-black font-w500">Event Type ID</label>
                                                                                     <input type="text" name="eventTypeID" readonly="" value="<%= listEvtType.get(i).getEventTypeID()%>" class="form-control">

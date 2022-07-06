@@ -333,7 +333,7 @@
                                                                     </button>
                                                                 </div>
 
-                                                                <form action="MainController">
+                                                                <form action="MainController" method="POST">
                                                                     <div style="margin: 10px; color: black" class="form-group">
                                                                         <label for="message-text" class="col-form-label">Message:</label>
                                                                         <textarea style="color: black"  name="declineDescription" rows="4" class="form-control"></textarea>
@@ -457,7 +457,7 @@
                                                         <img src="<%= user.getPicture()%>" style="border-radius: 1.25rem;" width="40" height="40">
                                                     </span>
                                                     <span class="commenter-name">
-                                                        <form action="MainController">
+                                                        <form action="MainController" method="POST">
                                                             <input type="hidden" name="eventID" value="<%= evt.getId()%>" />
                                                             <input type="text" placeholder="Add a public comment" name="content">
                                                             <button type="submit" name="action" value="Comment" class="btn btn-primary">Comment</button>
@@ -497,7 +497,7 @@
                                                             aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <form action="MainController">                                                
+                                                        <form action="MainController" method="POST">                                                
                                                             <input type="hidden" name="eventID" value="<%= evt.getId()%>"/>
                                                             <input type="hidden" name="commentID" value="<%= cmt.getCommentID()%>"/>
                                                             <button name="action" value="DeleteComment" type="submit" class="dropdown-item" href="">Delete</button>
@@ -521,7 +521,7 @@
                                                     <!-- mỗi ID có một popup khác nhau -->
 
                                                     <div  class="collapse" id="<%= countString%>">
-                                                        <form method="MainController">
+                                                        <form action="MainController" method="POST" >
                                                             <input type="hidden" name="eventID" value="<%= evt.getId()%>" />
                                                             <input type="hidden" name="replyCommentID" value="<%= cmt.getCommentID()%>" />
 
@@ -555,7 +555,7 @@
                                                             aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <form action="MainController">                                                
+                                                        <form action="MainController" method="POST">                                                
                                                             <input type="hidden" name="eventID" value="<%= evt.getId()%>"/>
                                                             <input type="hidden" name="commentID" value="<%= cmtRep.getCommentID()%>"/>
                                                             <button name="action" value="DeleteComment" type="submit" class="dropdown-item" href="">Delete</button>

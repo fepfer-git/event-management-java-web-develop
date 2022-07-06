@@ -96,7 +96,7 @@
                             </div>
                             <ul class="navbar-nav header-right">
                                 <li class="nav-item">
-                                    <form action="MainController">
+                                    <form action="MainController" method="POST">
                                         <div class="input-group search-area d-xl-inline-flex d-none">
                                             <input type="text" class="form-control" name="search" placeholder="Search here...">
                                             <div class="input-group-append">
