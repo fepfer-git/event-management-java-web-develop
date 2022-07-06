@@ -103,7 +103,10 @@ public class UpdateManagerController extends HttpServlet {
                         part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
                     }
                     path = "Image\\" + fileName;
+                } else {
+                    path = oldUser.getPicture();
                 }
+                
                 if (check == false) {
                     request.setAttribute("ERROR", error);
                     request.setAttribute("MANAGER", oldUser);

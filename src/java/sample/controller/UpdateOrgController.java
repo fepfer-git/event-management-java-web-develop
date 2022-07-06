@@ -39,6 +39,8 @@ public class UpdateOrgController extends HttpServlet {
         String url = ERROR;
         boolean check = true;
         OrganizationDTO orgDTO = null;
+        OrganizationDTO oldOrg = null;
+
         OrganizationDAO orgDAO = new OrganizationDAO();
         OrganizationError orgError = new OrganizationError();
         try {
@@ -50,8 +52,10 @@ public class UpdateOrgController extends HttpServlet {
                 String description = request.getParameter("description");
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
 
+                oldOrg = orgDAO.getOrganization(orgID);
+                
                 if (!oldOrgID.equals(orgID)) { //cái cũ != cái mới 123vs234
-                    if (orgDAO.getOrganization(orgID) != null) { //tìm orgID
+                    if (oldOrg != null) { //tìm orgID
                         orgError.setOrgIDError("The ID has been exist");
                         check = false;
                     } else if (orgID.length() != 3) {
@@ -62,27 +66,30 @@ public class UpdateOrgController extends HttpServlet {
 
                 Part filePart = request.getPart("image");
                 String fileName = filePart.getSubmittedFileName();
+                String path = "";
                 if (!fileName.isEmpty()) {
                     for (Part part : request.getParts()) {
                         part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
                     }
-                    String path = "Image\\" + fileName;
-
-                    if (check) {
-                        orgDTO = new OrganizationDTO(orgID.toUpperCase(), orgName, description, status);
-                        if (orgDAO.updateOrg(orgDTO, oldOrgID)) {
-                            orgDAO.updateImage(path, orgID);
-                            request.setAttribute("SUCCESS", "Updated Successfully!!!");
-                            request.setAttribute("ORG", orgDAO.getOrganization(orgID.toUpperCase()));
-                            url = SUCCESS;
-                        }
-                    } else {
-                        request.setAttribute("ERROR", orgError);
-                        orgDTO = new OrganizationDAO().getOrganization(oldOrgID);
-                        request.setAttribute("ORG", orgDTO);
-                    }
-
+                    path = "Image\\" + fileName;
+                } else {
+                    path = oldOrg.getImgUrl();
                 }
+
+                if (check) {
+                    orgDTO = new OrganizationDTO(orgID.toUpperCase(), orgName, description, status);
+                    if (orgDAO.updateOrg(orgDTO, oldOrgID)) {
+                        orgDAO.updateImage(path, orgID);
+                        request.setAttribute("SUCCESS", "Updated Successfully!!!");
+                        request.setAttribute("ORG", orgDAO.getOrganization(orgID.toUpperCase()));
+                        url = SUCCESS;
+                    }
+                } else {
+                    request.setAttribute("ERROR", orgError);
+                    orgDTO = new OrganizationDAO().getOrganization(oldOrgID);
+                    request.setAttribute("ORG", orgDTO);
+                }
+
             } else {
                 orgDTO = new OrganizationDAO().getOrganization(id);
                 request.setAttribute("ORG", orgDTO);

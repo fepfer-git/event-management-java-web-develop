@@ -31,7 +31,7 @@
                 error = new OrganizationError();
             }
 
-            String success = request.getParameter("success");
+            String success = (String)request.getAttribute("SUCCESS");
             if (success == null) {
                 success = "";
             }
@@ -132,7 +132,6 @@
             } else {
             %>
              <button style="cursor: pointer" class="login-box" type="submit" name="action" value="UpdateOrg"> Submit </button>
-            <p class="text-danger"><%= success%></p>
             <input type="hidden" name="oldOrgID" value="<%= org.getOrgID()%>">
             <%
                 }
