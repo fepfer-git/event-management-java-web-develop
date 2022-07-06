@@ -59,7 +59,7 @@
                 %>
 
                 <tr>
-                    <td><%= i %> </td>
+                    <td><%= i+1 %> </td>
                     <td><%=listFollower.get(i).getName()%> </td>
                     <td><%=listFollower.get(i).getEmail()%></td>
                     <td><%=listFollower.get(i).getPhoneNumber()%></td>

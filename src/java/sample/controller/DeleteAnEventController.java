@@ -23,7 +23,7 @@ import sample.users.UserDTO;
 public class DeleteAnEventController extends HttpServlet {
 
     private static final String ERROR = "error.jsp";
-    private static final String CLB_PAGE = "";
+    private static final String CLB_PAGE = "EventListByOrgController";
     private static final String MOD_PAGE = "EventListController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -35,16 +35,21 @@ public class DeleteAnEventController extends HttpServlet {
         UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         try {
             String eventID = request.getParameter("eventID");
-
-            if (user.getRoleID().equals("CLB")) {
-                if (evtDao.updateStatusEventByID(eventID, false)) {
-                    url = "MainController?action=EventDetail&eventID=" + eventID;
+            String page = request.getParameter("page");
+            if ("Club_Event.jsp".equals(page)) {
+                if (user.getRoleID().equals("CLB")) {
+                    if (evtDao.updateStatusEventByID(eventID, false)) {
+                        url = CLB_PAGE;
+                    }
+                } else if (user.getRoleID().equals("MOD")) {
+                    if (evtDao.updateStatusEventByID(eventID, false)) {
+                        url = MOD_PAGE;
+                    }
                 }
-            } else if (user.getRoleID().equals("MOD")) {
-                if (evtDao.updateStatusEventByID(eventID, false)) {
-                    url = "MainController?action=EventDetail&eventID=" + eventID;
-                }
+            }else{
+                url = "MainController?action=EventDetail&eventID=" + eventID;
             }
+
         } catch (Exception e) {
             log("Error at DeleteAnEventController " + e.toString());
         } finally {

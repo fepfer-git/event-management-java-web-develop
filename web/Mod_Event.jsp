@@ -208,22 +208,7 @@
                                 <li><a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID() %>">Statistic</a></li>
                             </ul>
                         </li>
-                        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                                <i class="flaticon-381-television"></i>
-                                <span class="nav-text">Apps</span>
-                            </a>
-                            <ul aria-expanded="false">
-
-                                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
-                                    <ul aria-expanded="false">
-                                        <li><a href="./email-compose.html">Compose</a></li>
-                                        <li><a href="./email-inbox.html">Inbox</a></li>
-                                        <li><a href="./email-read.html">Read</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="./app-calender.html">Calendar</a></li>
-
-                            </ul>
+                        <li>
                         </li>
                     </ul>
                     <div class="copyright">
@@ -460,11 +445,11 @@
                                                         <div class="text-center">
 
 
-                                                            <a href="MainController?action=EventTypeAndLocation&eventID=<%= listEvent.get(i).getId()%>" class="mr-4">
+                                                            <a href="MainController?action=EventTypeAndLocation&eventID=<%= listEvent.get(i).getId()%>&page=Club_Event.jsp" class="mr-4">
                                                                <i class=" las la-pencil-alt scale-2"></i>
                                                             </a>
 
-                                                            <a href="MainController?action=DeleteEvent&eventID=<%=listEvent.get(i).getId()%>">
+                                                            <a href="MainController?action=DeleteEvent&eventID=<%=listEvent.get(i).getId()%>&page=Club_Event.jsp">
                                                                 <i class="las la-trash-alt scale-2 text-danger"></i>
                                                             </a>
                                                         </div>   

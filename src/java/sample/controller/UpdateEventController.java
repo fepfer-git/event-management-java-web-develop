@@ -54,7 +54,7 @@ public class UpdateEventController extends HttpServlet {
             user = (UserDTO) session.getAttribute("LOGIN_USER");
             String id = request.getParameter("eventID");
             String FPT = request.getParameter("FPT");
-
+            String page = request.getParameter("page");
             if ("CLB".equals(user.getRoleID())) {
 
                 takePlaceDate = request.getParameter("takePlaceDate");
@@ -65,12 +65,16 @@ public class UpdateEventController extends HttpServlet {
                 eventType = request.getParameter("eventType");
                 speaker = request.getParameter("speaker");
                 summary = request.getParameter("summary");
-                
 
                 EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, id, title, content, imgUrl, summary);
                 check = evtDao.updateAnEvent(event);
                 if (check == true) {
-                    url = "MainController?action=EventDetail&eventID=" + id;
+                    if ("Club_Event.jsp".equals(page)) {
+                        url = CLB_PAGE;
+                    } else {
+                        url = "MainController?action=EventDetail&eventID=" + id;
+                    }
+
                 }
 
             } else if ("MOD".equals(user.getRoleID())) {
@@ -94,7 +98,11 @@ public class UpdateEventController extends HttpServlet {
                 }
 
                 if (check == true) {
-                    url = "MainController?action=EventDetail&eventID=" + id;
+                    if ("Club_Event.jsp".equals(page)) {
+                        url = MOD_PAGE;
+                    } else {
+                        url = "MainController?action=EventDetail&eventID=" + id;
+                    }
                 }
 
             }

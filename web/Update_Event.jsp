@@ -35,6 +35,7 @@
             response.sendRedirect("Admin_Login.jsp");
             return;
         }
+        String pageType = (String)request.getAttribute("page");
     %>
 
 
@@ -43,8 +44,10 @@
         <!-- partial:index.partial.html -->
         <div  class="container">
             <form action="MainController" method="GET">
-
-                <<input type="hidden" name="eventID" value="<%=event.getId()%>">
+                
+                
+                <input type="hidden" name="page" value="<%=pageType %>">
+                <input type="hidden" name="eventID" value="<%=event.getId()%>">
                 <div style="text-align: center">
                     <h1 class="Information ">Update Event</h1>
                 </div>
