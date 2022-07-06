@@ -6,6 +6,8 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.ServletException;
@@ -73,16 +75,18 @@ public class AddAnBlogController extends HttpServlet {
                 status = true;
             }
 
-            Part filePart = request.getPart("image");
-            String fileName = filePart.getSubmittedFileName();
-            String path = "";
-            if (!fileName.isEmpty()) {
-                for (Part part : request.getParts()) {
-                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+             Part filePart = request.getPart("image");
+                String realPath = request.getServletContext().getRealPath("/Image");
+                String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                if (!Files.exists(Paths.get(realPath))) {
+                    Files.createDirectory(Paths.get(realPath));
                 }
-                path = "Image\\" + fileName;
-            }
-            
+                String path = "";
+                if (!"".equals(filename)) {
+                    filePart.write(realPath + "/" + filename);
+                    path = "Image\\" + filename;
+                } 
+
             Blog blog = new Blog(id, orgID, title, content, createDate.toString(), path, numberOfView, summary, status);
             boolean checkCreate = blogDao.createABlog(blog);
             if (checkCreate == true) {

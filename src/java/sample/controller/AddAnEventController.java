@@ -6,6 +6,8 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,17 +89,18 @@ public class AddAnEventController extends HttpServlet {
 
             Date takePlaceDateCheck = Date.valueOf(takePlaceDate);
 
-            
             Part filePart = request.getPart("image");
-            String fileName = filePart.getSubmittedFileName();
-            String path = "";
-            if (!fileName.isEmpty()) {
-                for (Part part : request.getParts()) {
-                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
-                }
-                path = "Image\\" + fileName;
+            String realPath = request.getServletContext().getRealPath("/Image");
+            String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
             }
-            
+            String path = "";
+            if (!"".equals(filename)) {
+                filePart.write(realPath + "/" + filename);
+                path = "Image\\" + filename;
+            }
+
             Boolean status;
             if ("MOD".equals(manager.getRoleID())) {
                 status = Boolean.parseBoolean(request.getParameter("status"));

@@ -6,6 +6,8 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,14 +63,18 @@ public class UpdateBlogController extends HttpServlet {
                 String summary = request.getParameter("summary");
 
                 Part filePart = request.getPart("image");
-                String fileName = filePart.getSubmittedFileName();
+                String realPath = request.getServletContext().getRealPath("/Image");
+                String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                if (!Files.exists(Paths.get(realPath))) {
+                    Files.createDirectory(Paths.get(realPath));
+                }
+                
                 String path;
-                if (!fileName.isEmpty()) {
-                    for (Part part : request.getParts()) {
-                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
-                    }
-                    path = "Image\\" + fileName;
-                } else {
+                if(!"".equals(filename)) {
+                Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                filePart.write(realPath + "/" + filename);
+                   path = "Image\\" + filename;
+                } else  {
                     path = blogDao.getAnBlogByID(id).getImgUrl();
                 }
 

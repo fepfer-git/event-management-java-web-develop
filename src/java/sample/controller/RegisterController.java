@@ -7,6 +7,8 @@ package sample.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -67,7 +69,7 @@ public class RegisterController extends HttpServlet {
 
             String email = request.getParameter("email");
             UserDTO checkEmailExist = dao.checkEmailExist(email);
-            
+
             if (checkEmailExist != null) {
                 error.setEmailError("Email is exist!");
                 check = false;
@@ -79,7 +81,7 @@ public class RegisterController extends HttpServlet {
                 check = false;
             }
 
-            String role = "US";          
+            String role = "US";
             String gender = request.getParameter("gender");
             String phone = request.getParameter("phone");
             if (dao.checkInputPhoneNumber(phone) == false) {
@@ -101,15 +103,17 @@ public class RegisterController extends HttpServlet {
                 status = true;
             }
 
-              Part filePart = request.getPart("image");
-                String fileName = filePart.getSubmittedFileName();
-                String path = "";
-                if (!fileName.isEmpty()) {
-                    for (Part part : request.getParts()) {
-                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
-                    }
-                    path = "Image\\" + fileName;
-                }
+            Part filePart = request.getPart("image");
+            String realPath = request.getServletContext().getRealPath("/Image");
+            String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
+            }
+            String path = "";
+            if (!"".equals(filename)) {
+                filePart.write(realPath + "/" + filename);
+                path = "Image\\" + filename;
+            }
             
             if (check == false) {
                 request.setAttribute("ERROR", error);

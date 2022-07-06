@@ -7,6 +7,8 @@ package sample.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -55,12 +57,17 @@ public class UploadImageController extends HttpServlet {
             String id = request.getParameter("id");
 
             Part filePart = request.getPart("image");
-            String fileName = filePart.getSubmittedFileName();
-            if (!fileName.isEmpty()) {
-                for (Part part : request.getParts()) {
-                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
-                }
-                String path = "Image\\" + fileName;
+            String realPath = request.getServletContext().getRealPath("/Image");
+            String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
+            }
+
+            String path;
+            if (!"".equals(filename)) {
+                Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                filePart.write(realPath + "/" + filename);
+                path = "Image\\" + filename;
 
                 if (UPDATE_PROFILE_MAN.equals(page)) {
                     dao.updateImage(path, id);

@@ -7,6 +7,8 @@ package sample.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +24,6 @@ import sample.users.UserError;
  *
  * @author light
  */
-
 @WebServlet(name = "UpdateUserController", urlPatterns = {"/UpdateUserController"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 50, // 50MB
@@ -53,7 +54,7 @@ public class UpdateUserController extends HttpServlet {
                 String fullName = request.getParameter("fullName");
                 String email = request.getParameter("email");
                 UserDTO checkEmailExist = dao.checkEmailExist(email);
-                
+
                 if (checkEmailExist != null) {
                     if (!checkEmailExist.getEmail().toUpperCase().equals(oldUser.getEmail().toUpperCase())) {
                         error.setEmailError("Email is exist!");
@@ -88,17 +89,21 @@ public class UpdateUserController extends HttpServlet {
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
 
                 Part filePart = request.getPart("image");
-                String fileName = filePart.getSubmittedFileName();
+                String realPath = request.getServletContext().getRealPath("/Image");
+                String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                if (!Files.exists(Paths.get(realPath))) {
+                    Files.createDirectory(Paths.get(realPath));
+                }
+
                 String path;
-                if (!fileName.isEmpty()) {
-                    for (Part part : request.getParts()) {
-                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
-                    }
-                    path = "Image\\" + fileName;
+                if (!"".equals(filename)) {
+                    Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                    filePart.write(realPath + "/" + filename);
+                    path = "Image\\" + filename;
                 } else {
                     path = oldUser.getPicture();
                 }
-                
+
                 if (check == true) {
                     user = new UserDTO(oldUser.getId(), fullName, password, email, status, type, role, gender, phone);
                     if (dao.updateUserProfileByAdmin(user)) {

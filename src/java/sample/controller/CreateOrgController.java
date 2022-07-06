@@ -7,6 +7,8 @@ package sample.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -43,7 +45,7 @@ public class CreateOrgController extends HttpServlet {
         OrganizationError orgError = new OrganizationError();
         ManagerDTO manager = new ManagerDTO();
         UserDAO userDAO = new UserDAO();
-        
+
         try {
             String orgID = request.getParameter("orgID");
             String orgName = request.getParameter("orgName");
@@ -63,13 +65,15 @@ public class CreateOrgController extends HttpServlet {
             }
 
             Part filePart = request.getPart("image");
-            String fileName = filePart.getSubmittedFileName();
+            String realPath = request.getServletContext().getRealPath("/Image");
+            String filename = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
+            }
             String path = "";
-            if (!fileName.isEmpty()) {
-                for (Part part : request.getParts()) {
-                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
-                }
-                path = "Image\\" + fileName;
+            if (!"".equals(filename)) {
+                filePart.write(realPath + "/" + filename);
+                path = "Image\\" + filename;
             }
 
             //==========================================
