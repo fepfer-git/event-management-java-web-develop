@@ -6,38 +6,55 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.organization.OrganizationDAO;
-import sample.organization.OrganizationDTO;
+import sample.posts.EventDAO;
+import sample.users.UserDTO;
 
 /**
  *
- * @author light
+ * @author tvfep
  */
-@WebServlet(name = "SearchOrgController", urlPatterns = {"/SearchOrgController"})
-public class SearchOrgController extends HttpServlet {
+@WebServlet(name = "ClubFollowerController", urlPatterns = {"/ClubFollowerController"})
+public class ClubFollowerController extends HttpServlet {
 
-    private static final String ERROR = "Admin_Org.jsp";
-    private static final String SUCCESS = "Admin_Org.jsp";
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    
+    private static final String SUCCESS = "List_Follower.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+
+        String url = "error.jsp";
+        List<UserDTO> listFollower = null;
         try {
-            String searchOrg = request.getParameter("search");
-            List<OrganizationDTO> listOrg = new OrganizationDAO().searchOrganization(searchOrg);
+            OrganizationDAO orgDAO = new OrganizationDAO();
+            String orgID = request.getParameter("orgID");
 
-            request.setAttribute("LIST_ORG", listOrg);
+            listFollower = orgDAO.getAllOrgFollowers(orgID);
+            request.setAttribute("listFollower", listFollower);
             url = SUCCESS;
-
-        } catch (Exception e) {
-            log("Error at SearchOrgController " + e.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(EventListController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -35,6 +35,7 @@
             response.sendRedirect("Admin_Login.jsp");
             return;
         }
+        String pageType = (String)request.getAttribute("page");
     %>
 
 
@@ -42,7 +43,7 @@
     <body>
         <!-- partial:index.partial.html -->
         <div  class="container">
-            <form action="MainController" method="GET">
+            <form action="MainController" method="POST" enctype="multipart/form-data">
 
                 <<input type="hidden" name="eventID" value="<%=event.getId()%>">
                 <div style="text-align: center">
@@ -64,11 +65,6 @@
                     <div class="input-group input-group-icon">
                         <input type="text" value="<%=event.getSpeaker()%>" name="speaker" placeholder=""/>
                         <div class="input-icon"><i class="fa fa-user"></i></div>
-                    </div>
-
-                    <div class="input-group input-group-icon">
-                        <input required="" type="url" value="<%=event.getImgUrl()%>" name="imgUrl" placeholder=""/>
-                        <div class="input-icon"><i class="fa-solid fa-link"></i></div>
                     </div>
 
 
@@ -124,7 +120,7 @@
 
 
                 <input type="hidden" name="FPT" value="FPT"/>
-                
+
                 <div class="input-group input-group-icon">
                     <input required="" type="text" value="<%=event.getTitle()%>" name="title" placeholder=""/>
                     <div class="input-icon"><i class="fa-solid fa-id-card"></i></div>
@@ -135,10 +131,6 @@
                     <div class="input-icon"><i class="fa fa-user"></i></div>
                 </div>
 
-                <div class="input-group input-group-icon">
-                    <input required="" type="url" value="<%=event.getImgUrl()%>" name="imgUrl" placeholder=""/>
-                    <div class="input-icon"><i class="fa-solid fa-link"></i></div>
-                </div>
 
 
                 <h4><i class="fa-solid fa-file-pen" style="width: 25px;"></i>Event's Type and Location</h4>
@@ -181,6 +173,14 @@
                       placeholder="Enter Event's Description Here*"><%=event.getContent()%></textarea>
         </div>
 
+
+        <div class="row">
+            <h4><i class="fa-solid fa-link" style="width: 25px"></i>Image</h4>
+            <div class="input-group input-group-icon">
+                <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                <div class="input-icon"><i class="fa-solid fa-link"></i></div>
+            </div>
+        </div>
 
         <div class="flex-row-reverse">
             <div class="">
@@ -246,10 +246,6 @@
         </div>
 
         <% }%>
-
-
-
-
 
 
         <button type="submit" style="cursor: pointer" class="login-box" name="action" value="UpdateEvent">

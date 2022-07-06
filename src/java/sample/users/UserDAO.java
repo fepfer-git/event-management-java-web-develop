@@ -39,7 +39,7 @@ public class UserDAO {
 
     private static final String GET_ALL_MANAGERS = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
-            + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID";
+            + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID AND tblUsers.RoleID != 'ADM'";
 
     private static final String SEARCH_USER = "SELECT userID, fullName, password, email, status, roleID, gender, phone, avatarUrl, tblUserTypes.typeID, tblUserTypes.typeName \n"
             + "FROM tblUsers, tblUserTypes\n"
@@ -740,7 +740,7 @@ public class UserDAO {
     }
 
     public boolean checkInputUserID(String userID) {
-        Pattern p = Pattern.compile("^[a-zA-Z0-9]{6,32}$");
+        Pattern p = Pattern.compile("^[a-zA-Z0-9]{3,32}$");
         if (p.matcher(userID).find()) {
             return true;
         } else {

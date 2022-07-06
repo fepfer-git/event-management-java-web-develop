@@ -592,7 +592,7 @@
                     <div class="col-xl-5">
                         <div class="row">
                             <div class="col-xl-12 col-sm-6">
-                                <img class="card-img img-fluid" src="<%=evt.getImgUrl()%>">
+                                <img class="card-img img-fluid" src="<%= evt.getImgUrl()%>">
                             </div>
                         </div>
                     </div>

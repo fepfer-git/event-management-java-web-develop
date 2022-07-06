@@ -6,20 +6,18 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import sample.posts.Blog;
 import sample.posts.BlogDAO;
-import sample.posts.EventDAO;
-import sample.posts.EventPost;
-import sample.posts.EventPostError;
 import sample.users.ManagerDTO;
 import sample.users.UserDAO;
 import sample.users.UserDTO;
@@ -28,6 +26,9 @@ import sample.users.UserDTO;
  *
  * @author tvfep
  */
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 @WebServlet(name = "AddAnBlogController", urlPatterns = {"/AddAnBlogController"})
 public class AddAnBlogController extends HttpServlet {
 
@@ -60,12 +61,11 @@ public class AddAnBlogController extends HttpServlet {
             String orgID = manager.getOrgID();
             String content = request.getParameter("content");
             String title = request.getParameter("title");
-            String imgUrl = request.getParameter("imgUrl");
             int numberOfView = 0;
             String summary = request.getParameter("summary");
             Date createDate = nowDate;
             boolean status;
-            
+
             if ("MOD".equals(manager.getRoleID())) {
                 status = Boolean.parseBoolean(request.getParameter("status"));
 
@@ -73,7 +73,17 @@ public class AddAnBlogController extends HttpServlet {
                 status = true;
             }
 
-            Blog blog = new Blog(id, orgID, title, content, createDate.toString(), imgUrl, numberOfView, summary, status);
+            Part filePart = request.getPart("image");
+            String fileName = filePart.getSubmittedFileName();
+            String path = "";
+            if (!fileName.isEmpty()) {
+                for (Part part : request.getParts()) {
+                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                }
+                path = "Image\\" + fileName;
+            }
+            
+            Blog blog = new Blog(id, orgID, title, content, createDate.toString(), path, numberOfView, summary, status);
             boolean checkCreate = blogDao.createABlog(blog);
             if (checkCreate == true) {
                 url = SUCCESS;

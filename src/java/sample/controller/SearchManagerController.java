@@ -26,19 +26,18 @@ public class SearchManagerController extends HttpServlet {
 
     private static final String ERROR = "Admin_Manager.jsp";
     private static final String SUCCESS = "Admin_Manager.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
             String searchManager = request.getParameter("search");
-            List<ManagerDTO> listManager = new UserDAO().searchManager(searchManager);            
+            List<ManagerDTO> listManager = new UserDAO().searchManager(searchManager);
 
-            if (listManager.size() > 0) {
-                request.setAttribute("LIST_MANAGERS", listManager);
-                url = SUCCESS;
-            }
-            
+            request.setAttribute("LIST_MANAGERS", listManager);
+            url = SUCCESS;
+
         } catch (Exception e) {
             log("Error at SearchmanagerController" + e.toString());
         } finally {

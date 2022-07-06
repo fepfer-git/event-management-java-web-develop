@@ -8,10 +8,12 @@ package sample.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import sample.users.ManagerDTO;
 import sample.users.UserDAO;
 import sample.users.UserDTO;
@@ -22,6 +24,9 @@ import sample.users.UserError;
  * @author light
  */
 @WebServlet(name = "CreateManagerController", urlPatterns = {"/CreateManagerController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class CreateManagerController extends HttpServlet {
 
     private static final String ERROR = "UserDataController";
@@ -72,7 +77,6 @@ public class CreateManagerController extends HttpServlet {
                 role = "MOD";
             }
 
-            String avtURL = request.getParameter("imgUrl");
             String gender = request.getParameter("gender");
             String phone = request.getParameter("phone");
             if (dao.checkInputPhoneNumber(phone) == false) {
@@ -94,12 +98,23 @@ public class CreateManagerController extends HttpServlet {
 //                status = true;
 //            }
 
+            Part filePart = request.getPart("image");
+            String fileName = filePart.getSubmittedFileName();
+            String path = "";
+            if (!fileName.isEmpty()) {
+                for (Part part : request.getParts()) {
+                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                }
+                path = "Image\\" + fileName;
+            }
+
             if (check == false) {
                 request.setAttribute("ERROR", error);
             } else {
-                dto = new ManagerDTO(orgID, userName, fullName, password, email, status, type, role, gender, phone, avtURL);
+                dto = new ManagerDTO(orgID, userName, fullName, password, email, status, type, role, gender, phone, path);
                 if (dao.signUpByUser(dto)) {
                     if (dao.signUpByManager(dto)) {
+                        dao.updateImage(path, userName);
                         request.setAttribute("SUCCESS", "CREATE ACCOUNT SUCCESSFULLY!");
                         url = SUCCESS;
                     }

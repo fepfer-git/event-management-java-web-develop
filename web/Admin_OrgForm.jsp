@@ -31,7 +31,7 @@
                 error = new OrganizationError();
             }
 
-            String success = (String)request.getAttribute("SUCCESS");
+            String success = (String) request.getAttribute("SUCCESS");
             if (success == null) {
                 success = "";
             }
@@ -52,14 +52,14 @@
                     <img style="max-width: 25%; border-radius: 20px" src="<%= org.getImgUrl()%>">
                 </div>
 
-<!--       //          <form action="UploadImageController" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="page" value="Admin_OrgForm.jsp" />
-                    <input type="hidden" name="id" value="<%= org.getOrgID()%>"/>
-                    <input type="file" accept=".jpg, .jpeg, .png" name="image" />
-                    <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
-                        Upload Image
-                    </button>
-                </form> -->
+                <!--       //          <form action="UploadImageController" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="page" value="Admin_OrgForm.jsp" />
+                                    <input type="hidden" name="id" value="<%= org.getOrgID()%>"/>
+                                    <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                                    <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
+                                        Upload Image
+                                    </button>
+                                </form> -->
                 <% }%>
 
                 <form action="MainController" method="POST" enctype="multipart/form-data">
@@ -74,6 +74,12 @@
                         <div class="input-icon"><i class="fa-solid fa-file-signature"></i></div>
                         <p class="text-danger"><%= error.getOrgNameError()%></p>
 
+                    </div>
+
+
+                    <div class="input-group input-group-icon">
+                        <input type="email" required="" name="email" value="<%= org.getEmail()%>" placeholder="Email"/>
+                        <div class="input-icon"><i class="fa fa-envelope"></i></div>
                     </div>
 
                     <div class="input-group input-group-icon">
@@ -122,7 +128,14 @@
                     </div>
                   </div>
                 </div>-->
-                               <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+            
+            <div class="row">
+                <h4><i class="fa-solid fa-link" style="width: 25px"></i>Image</h4>
+                <div class="input-group input-group-icon">
+                    <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                    <div class="input-icon"><i class="fa-solid fa-link"></i></div>
+                </div>
+            </div>
 
             <%
                 if (org.getOrgID() == "") {
@@ -131,7 +144,7 @@
             <%
             } else {
             %>
-             <button style="cursor: pointer" class="login-box" type="submit" name="action" value="UpdateOrg"> Submit </button>
+            <button style="cursor: pointer" class="login-box" type="submit" name="action" value="UpdateOrg"> Submit </button>
             <input type="hidden" name="oldOrgID" value="<%= org.getOrgID()%>">
             <%
                 }

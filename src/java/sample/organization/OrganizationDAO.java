@@ -29,8 +29,8 @@ public class OrganizationDAO {
             + "             FROM tblOrgPage, tblStatusType\n"
             + "             WHERE (dbo.ufn_removeMark(orgName) like ? or orgName like ? or orgID like ?) AND tblStatusType.statusTypeID = tblOrgPage.statusTypeID";
 
-    private static final String CREATE_ORGANIZATION = "INSERT INTO tblOrgPage (orgID, status, orgName, createDate, description, imgUrl)\n"
-            + "VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String CREATE_ORGANIZATION = "INSERT INTO tblOrgPage (orgID, status, orgName, createDate, description, email, statusTypeID, imgUrl)\n"
+            + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_ID_ORGANIZATION = "SELECT orgID, orgName, createDate, email, description, imgUrl, status\n"
             + "FROM tblOrgPage\n"
@@ -66,7 +66,7 @@ public class OrganizationDAO {
     private static final String GET_ALL_ORG_FOLLOWER = "select tblUsers.userID, fullName, gender, email, phone, avatarUrl, tblUserTypes.typeName from tblOrg_Follower, tblUsers, tblUserTypes\n"
             + "where tblOrg_Follower.userID = tblUsers.userID and tblUsers.typeID = tblUserTypes.typeID and tblOrg_Follower.orgID = ?";
 
-        public List<OrganizationDTO> filterOrg(String type) throws SQLException {
+    public List<OrganizationDTO> filterOrg(String type) throws SQLException {
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -109,8 +109,6 @@ public class OrganizationDAO {
         }
         return list;
     }
-
-
 
 //    public List<OrganizationDTO> getOnGoingOrganization() throws SQLException {
 //        Connection conn = null;
@@ -328,9 +326,10 @@ public class OrganizationDAO {
                     String orgName = rs.getString("orgName");
                     String createDate = rs.getString("createDate");
                     String description = rs.getString("description");
+                    String email = rs.getString("email");
                     String imgUrl = rs.getString("imgUrl");
                     boolean status = rs.getBoolean("status");
-                    org = new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, status);
+                    org = new OrganizationDTO(orgID, orgName, createDate, description, imgUrl, email, status);
                 }
             }
         } catch (Exception e) {
@@ -363,7 +362,10 @@ public class OrganizationDAO {
                 Date importDate = Date.valueOf(org.getCreateDate());
                 ptm.setDate(4, importDate);
                 ptm.setString(5, org.getDescription());
-                ptm.setString(6, org.getImgUrl());
+                ptm.setString(6, org.getEmail());
+                ptm.setString(7, org.getStatusTypeID());
+                ptm.setString(8, org.getImgUrl());
+
                 if (ptm.executeUpdate() > 0) {
                     check = true;
                 } else {

@@ -66,7 +66,7 @@ public class UpdateOrgController extends HttpServlet {
 
                 Part filePart = request.getPart("image");
                 String fileName = filePart.getSubmittedFileName();
-                String path = "";
+                String path;
                 if (!fileName.isEmpty()) {
                     for (Part part : request.getParts()) {
                         part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);

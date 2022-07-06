@@ -4,6 +4,7 @@
     Author     : tvfep
 --%>
 
+<%@page import="sample.users.ManagerDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="sample.users.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -36,20 +37,20 @@
                 opacity: 0.8;
             }
         </style>
-        <title>F.E.M - List Participants</title>
+        <title>F.E.M - List Follower</title>
     </head>
 
-    <%List<UserDTO> listParticipants = (List) request.getAttribute("listParticipants");
-        String eventID = (String) request.getAttribute("eventID");
+    <%List<UserDTO> listFollower = (List) request.getAttribute("listFollower");
+            ManagerDTO user = (ManagerDTO) session.getAttribute("LOGIN_USER");
 
     %>
 
     <body>
         <div style="text-align: center" >
-            <h2 class="mb-3 mt-2" >Participants Table</h2>
+            <h2 class="mb-3 mt-2" >Followers Table</h2>
 
-            <div class="mt-3">
-                <a class="btn" href="MainController?action=EventDetail&eventID=<%=eventID%>" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
+             <div class="mt-3">
+                <a class="btn" href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID() %>" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
                     Back!
                 </a>
 
@@ -57,33 +58,32 @@
                     Export To Excel!
                 </button> 
             </div>
-                                </br>
-
+                    </br>
             <table id="tblListParicipants" class="m-md-auto" style="border-radius: 10px;">
                 <tr>
-                    <th>Event</th>
+                    <th>No.</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Gender</th>
                 </tr>
 
-                <%for (int i = 0; i < listParticipants.size(); i++) {
+                <%for (int i = 0; i < listFollower.size(); i++) {
                 %>
 
                 <tr>
-                    <td><%=eventID%></td>
-                    <td><%=listParticipants.get(i).getName()%> </td>
-                    <td><%=listParticipants.get(i).getEmail()%></td>
-                    <td><%=listParticipants.get(i).getPhoneNumber()%></td>
-                    <td><%=listParticipants.get(i).getGender()%></td>
+                    <td><%= i+1 %> </td>
+                    <td><%=listFollower.get(i).getName()%> </td>
+                    <td><%=listFollower.get(i).getEmail()%></td>
+                    <td><%=listFollower.get(i).getPhoneNumber()%></td>
+                    <td><%=listFollower.get(i).getGender()%></td>
 
                 </tr>
                 <%
                     }
                 %>
             </table>
-            
+           
         </div>
         <br>
 

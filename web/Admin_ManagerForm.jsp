@@ -59,15 +59,15 @@
                     <img style="max-width: 25%; border-radius: 20px" src="<%= user.getPicture()%>">
                 </div>
 
-<!--                <form action="MainController" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="page" value="Admin_ManagerForm.jsp" />
-                    <input type="hidden" name="id" value="<%= user.getId()%>"/>
-                    <input type="hidden" name="action" value="UploadImage" />
-                    <input type="file" accept=".jpg, .jpeg, .png" name="image" />
-                    <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
-                        Upload Image
-                    </button>
-                </form> -->
+                <!--                <form action="MainController" method="POST" enctype="multipart/form-data">
+                                    <input type="hidden" name="page" value="Admin_ManagerForm.jsp" />
+                                    <input type="hidden" name="id" value="<%= user.getId()%>"/>
+                                    <input type="hidden" name="action" value="UploadImage" />
+                                    <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                                    <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
+                                        Upload Image
+                                    </button>
+                                </form> -->
 
                 <% } %> 
 
@@ -261,7 +261,14 @@
             </div>
             <input type="hidden" name="page" value="Admin_ManagerForm.jsp" />
 
-            <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+            <div class="row">
+                <h4><i class="fa-solid fa-link" style="width: 25px"></i>Image</h4>
+                <div class="input-group input-group-icon">
+                    <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                    <div class="input-icon"><i class="fa-solid fa-link"></i></div>
+                </div>
+            </div>
+
 
             <%
                 if (user.getId() != "") {

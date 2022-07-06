@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import sample.posts.EventDAO;
 import sample.posts.EventPost;
 import sample.posts.EventPostError;
@@ -29,6 +31,9 @@ import sample.users.UserNotification;
  * @author tvfep
  */
 @WebServlet(name = "AddAnEventController", urlPatterns = {"/AddAnEventController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class AddAnEventController extends HttpServlet {
 
     private static final String ERROR = "EventTypeAndLocationController";
@@ -74,7 +79,6 @@ public class AddAnEventController extends HttpServlet {
             String content = request.getParameter("content");
             String title = request.getParameter("title");
             String location = request.getParameter("location");
-            String imgUrl = request.getParameter("imgUrl");
             String eventType = request.getParameter("eventType");
             int numberOfView = 0;
             String speaker = request.getParameter("speaker");
@@ -83,6 +87,17 @@ public class AddAnEventController extends HttpServlet {
 
             Date takePlaceDateCheck = Date.valueOf(takePlaceDate);
 
+            
+            Part filePart = request.getPart("image");
+            String fileName = filePart.getSubmittedFileName();
+            String path = "";
+            if (!fileName.isEmpty()) {
+                for (Part part : request.getParts()) {
+                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                }
+                path = "Image\\" + fileName;
+            }
+            
             Boolean status;
             if ("MOD".equals(manager.getRoleID())) {
                 status = Boolean.parseBoolean(request.getParameter("status"));
@@ -97,7 +112,7 @@ public class AddAnEventController extends HttpServlet {
 
             } else {
                 EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, statusTypeID, null,
-                        id, orgID, title, content, createDate.toString(), imgUrl, numberOfView, summary, status);
+                        id, orgID, title, content, createDate.toString(), path, numberOfView, summary, status);
                 boolean checkCreate = evtDao.createAnEvent(event);
                 if (checkCreate == true) {
                     if ("MOD".equals(manager.getRoleID())) {

@@ -33,18 +33,21 @@ public class OrganizationDTO {
         this.status = false;
     }
 
-    public OrganizationDTO(String orgID, String orgName, String createDate, String description, String imgUrl, boolean status) {
+    public OrganizationDTO(String orgID, String orgName, String createDate, String description, String imgUrl, String email, boolean status) {
         this.orgID = orgID;
         this.orgName = orgName;
         this.createDate = createDate;
         this.description = description;
         this.imgUrl = imgUrl;
+        this.email = email;
         this.status = status;
     }
 
-    public OrganizationDTO(String orgID, String orgName, String description, String imgUrl, boolean status) {
+    
+    public OrganizationDTO(String orgID, String orgName, String createDate, String description, String imgUrl, boolean status) {
         this.orgID = orgID;
         this.orgName = orgName;
+        this.createDate = createDate;
         this.description = description;
         this.imgUrl = imgUrl;
         this.status = status;

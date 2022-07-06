@@ -14,6 +14,7 @@ public class OrganizationError {
     private String orgIDError;
     private String orgNameError;
     private String descriptionError;
+    private String emailError;
     private String imgUrlError;
     private String statusError;
 
@@ -21,17 +22,18 @@ public class OrganizationError {
         this.orgIDError = "";
         this.orgNameError = "";
         this.descriptionError = "";
+        this.emailError = "";
         this.imgUrlError = "";
         this.statusError = "";
     }
 
-    public OrganizationError(String orgIDError, String orgNameError, String descriptionError, String imgUrlError, String statusError) {
+    public OrganizationError(String orgIDError, String orgNameError, String descriptionError, String imgUrlError, String statusError, String emailError) {
         this.orgIDError = orgIDError;
         this.orgNameError = orgNameError;
         this.descriptionError = descriptionError;
         this.imgUrlError = imgUrlError;
         this.statusError = statusError;
-
+        this.emailError = emailError;
     }
 
     public String getStatusError() {

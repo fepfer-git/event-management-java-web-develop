@@ -10,11 +10,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import sample.posts.EventDAO;
 import sample.posts.EventPost;
 import sample.users.UserDTO;
@@ -24,6 +26,9 @@ import sample.users.UserDTO;
  * @author tvfep
  */
 @WebServlet(name = "UpdateEventController", urlPatterns = {"/UpdateEventController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class UpdateEventController extends HttpServlet {
 
     private static final String CLB_PAGE = "EventListByOrgController";
@@ -54,23 +59,36 @@ public class UpdateEventController extends HttpServlet {
             user = (UserDTO) session.getAttribute("LOGIN_USER");
             String id = request.getParameter("eventID");
             String FPT = request.getParameter("FPT");
-
+            String page = request.getParameter("page");
             if ("CLB".equals(user.getRoleID())) {
 
                 takePlaceDate = request.getParameter("takePlaceDate");
                 content = request.getParameter("content");
                 title = request.getParameter("title");
                 location = request.getParameter("location");
-                imgUrl = request.getParameter("imgUrl");
                 eventType = request.getParameter("eventType");
                 speaker = request.getParameter("speaker");
                 summary = request.getParameter("summary");
-                
 
-                EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, id, title, content, imgUrl, summary);
+                Part filePart = request.getPart("image");
+                String fileName = filePart.getSubmittedFileName();
+                String path = "";
+                if (!fileName.isEmpty()) {
+                    for (Part part : request.getParts()) {
+                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                    }
+                    path = "Image\\" + fileName;
+                }
+
+                EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, id, title, content, path, summary);
                 check = evtDao.updateAnEvent(event);
                 if (check == true) {
-                    url = "MainController?action=EventDetail&eventID=" + id;
+                    if ("Club_Event.jsp".equals(page)) {
+                        url = CLB_PAGE;
+                    } else {
+                        url = "MainController?action=EventDetail&eventID=" + id;
+                    }
+
                 }
 
             } else if ("MOD".equals(user.getRoleID())) {
@@ -79,13 +97,22 @@ public class UpdateEventController extends HttpServlet {
                     content = request.getParameter("content");
                     title = request.getParameter("title");
                     location = request.getParameter("location");
-                    imgUrl = request.getParameter("imgUrl");
                     eventType = request.getParameter("eventType");
                     speaker = request.getParameter("speaker");
                     summary = request.getParameter("summary");
                     boolean status = Boolean.parseBoolean(request.getParameter("status"));
 
-                    EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, id, title, content, imgUrl, summary, status);
+                    Part filePart = request.getPart("image");
+                    String fileName = filePart.getSubmittedFileName();
+                    String path = "";
+                    if (!fileName.isEmpty()) {
+                        for (Part part : request.getParts()) {
+                            part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                        }
+                        path = "Image\\" + fileName;
+                    }
+
+                    EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, id, title, content, path, summary, status);
                     check = evtDao.updateAnEventByAdmin(event);
 
                 } else {
@@ -94,7 +121,11 @@ public class UpdateEventController extends HttpServlet {
                 }
 
                 if (check == true) {
-                    url = "MainController?action=EventDetail&eventID=" + id;
+                    if ("Club_Event.jsp".equals(page)) {
+                        url = MOD_PAGE;
+                    } else {
+                        url = "MainController?action=EventDetail&eventID=" + id;
+                    }
                 }
 
             }

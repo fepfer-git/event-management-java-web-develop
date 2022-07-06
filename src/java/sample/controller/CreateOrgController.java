@@ -9,19 +9,26 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import sample.organization.OrganizationDAO;
 import sample.organization.OrganizationDTO;
 import sample.organization.OrganizationError;
+import sample.users.ManagerDTO;
+import sample.users.UserDAO;
 
 /**
  *
  * @author light
  */
 @WebServlet(name = "CreateOrgController", urlPatterns = {"/CreateOrgController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class CreateOrgController extends HttpServlet {
 
     private static final String ERROR = "Admin_OrgForm.jsp";
@@ -34,12 +41,14 @@ public class CreateOrgController extends HttpServlet {
         OrganizationDTO orgDTO = null;
         OrganizationDAO orgDAO = new OrganizationDAO();
         OrganizationError orgError = new OrganizationError();
-
+        ManagerDTO manager = new ManagerDTO();
+        UserDAO userDAO = new UserDAO();
+        
         try {
             String orgID = request.getParameter("orgID");
             String orgName = request.getParameter("orgName");
             String description = request.getParameter("description");
-            String imgUrl = request.getParameter("imgUrl");
+            String email = request.getParameter("email");
             Boolean status = Boolean.parseBoolean(request.getParameter("status"));
             long millis = System.currentTimeMillis();
             java.sql.Date createDate = new java.sql.Date(millis);
@@ -53,16 +62,37 @@ public class CreateOrgController extends HttpServlet {
                 check = false;
             }
 
+            Part filePart = request.getPart("image");
+            String fileName = filePart.getSubmittedFileName();
+            String path = "";
+            if (!fileName.isEmpty()) {
+                for (Part part : request.getParts()) {
+                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                }
+                path = "Image\\" + fileName;
+            }
 
             //==========================================
             if (check) {
-                orgDTO = new OrganizationDTO(orgID.toUpperCase(), orgName, createDate.toString(), description, imgUrl, status);
+                orgDTO = new OrganizationDTO(orgID.toUpperCase(), orgName, createDate.toString(), description, path, email, "AP", "", status);
                 if (orgDAO.createOrg(orgDTO)) {
+                    manager.setName(orgName);
+                    manager.setPassword("1");
+                    manager.setStatus(true);
+                    manager.setTypeID("STU");
+                    manager.setRoleID("CLB");
+                    manager.setOrgID(orgID);
+                    for (int i = 0; i < 3; i++) {
+                        manager.setId(orgID + "_0" + (i + 1));
+                        userDAO.createClubMemberWhenApprovedOrg(manager);
+                        userDAO.signUpByManager(manager);
+                    }
                     request.setAttribute("SUCCESS", "CREATE SUCCESSFULLY!!");
                     url = SUCCESS;
                 }
-            } else
+            } else {
                 request.setAttribute("ERROR", orgError);
+            }
 
         } catch (Exception e) {
             log("Error at CreateOrgController " + e.toString());

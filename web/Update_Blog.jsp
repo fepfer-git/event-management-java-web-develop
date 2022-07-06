@@ -28,7 +28,7 @@
     <body>
         <!-- partial:index.partial.html -->
         <div  class="container">
-            <form action="MainController" method="GET">
+            <form action="MainController" method="POST" enctype="multipart/form-data">
                 <div style="text-align: center">
                     <h1 class="Information ">Update Blog</h1>
                 </div>
@@ -47,11 +47,6 @@
                     <div class="input-group input-group-icon">
                         <input required="" type="text" value="<%=blog.getTitle()%>" name="title" placeholder="Title"/>
                         <div class="input-icon"><i class="fa-solid fa-id-card"></i></div>
-                    </div>
-
-                    <div class="input-group input-group-icon">
-                        <input required="" type="url" value="<%=blog.getImgUrl()%>" name="imgUrl" placeholder="ImgURL"/>
-                        <div class="input-icon"><i class="fa-solid fa-link"></i></div>
                     </div>
 
                 </div>              
@@ -104,10 +99,6 @@
                     <div class="input-icon"><i class="fa-solid fa-id-card"></i></div>
                 </div>
 
-                <div class="input-group input-group-icon">
-                    <input required="" type="url" value="<%=blog.getImgUrl()%>" name="imgUrl" placeholder="ImgURL"/>
-                    <div class="input-icon"><i class="fa-solid fa-link"></i></div>
-                </div>
 
         </div>              
 
@@ -157,6 +148,14 @@
 
 
         <% }%>
+
+        <div class="row">
+            <h4><i class="fa-solid fa-link" style="width: 25px"></i>Image</h4>
+            <div class="input-group input-group-icon">
+                <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                <div class="input-icon"><i class="fa-solid fa-link"></i></div>
+            </div>
+        </div>
 
         <button type="submit" style="cursor: pointer" class="login-box" name="action" value="UpdateBlog">
             Update

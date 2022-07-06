@@ -10,10 +10,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import sample.users.UserDAO;
 import sample.users.UserDTO;
 import sample.users.UserError;
@@ -23,6 +25,9 @@ import sample.users.UserError;
  * @author Tuan Be
  */
 @WebServlet(name = "RegisterController", urlPatterns = {"/RegisterController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class RegisterController extends HttpServlet {
 
     /**
@@ -62,10 +67,7 @@ public class RegisterController extends HttpServlet {
 
             String email = request.getParameter("email");
             UserDTO checkEmailExist = dao.checkEmailExist(email);
-            if (dao.checkInputMail(email) == false) {
-                error.setEmailError("Wrong input email!");
-                check = false;
-            }
+            
             if (checkEmailExist != null) {
                 error.setEmailError("Email is exist!");
                 check = false;
@@ -78,7 +80,6 @@ public class RegisterController extends HttpServlet {
             }
 
             String role = "US";          
-            String avtURL = request.getParameter("imgUrl");
             String gender = request.getParameter("gender");
             String phone = request.getParameter("phone");
             if (dao.checkInputPhoneNumber(phone) == false) {
@@ -100,11 +101,22 @@ public class RegisterController extends HttpServlet {
                 status = true;
             }
 
+              Part filePart = request.getPart("image");
+                String fileName = filePart.getSubmittedFileName();
+                String path = "";
+                if (!fileName.isEmpty()) {
+                    for (Part part : request.getParts()) {
+                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                    }
+                    path = "Image\\" + fileName;
+                }
+            
             if (check == false) {
                 request.setAttribute("ERROR", error);
             } else {
-                dto = new UserDTO(userName, fullName, password, email, status, type, role, gender, phone, avtURL);
+                dto = new UserDTO(userName, fullName, password, email, status, type, role, gender, phone, path);
                 if (dao.signUpByUser(dto)) {
+                    dao.updateImage(path, userName);
                     request.setAttribute("Message", "CREATE ACCOUNT SUCCESSFULLY!");
                     url = SUCCESS;
                 }

@@ -46,7 +46,18 @@
 
     <body>
         <div style="text-align: center" >
-            <h2 class="mb-3 mt-2" >Participants Table</h2>
+            <h2 class="mb-3 mt-2" >Feedbacks Table</h2>
+
+            <div class="mt-3">
+                <a class="btn" href="MainController?action=EventDetail&eventID=<%=eventID%>" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
+                    Back!
+                </a>
+
+                    <a class="btn"  href="#!" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
+                    Export To Excel!
+                </a> 
+            </div>
+                                </br>
 
             <table class="m-md-auto" style="border-radius: 10px;">
                 <tr>
@@ -67,15 +78,7 @@
                     }
                 %>
             </table>
-            <div class="mt-3">
-                <a class="btn" href="MainController?action=EventDetail&eventID=<%=eventID%>" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
-                    Back!
-                </a>
-
-                    <a class="btn"  href="#!" class="brand-logo" style="font-size: 15pt; color: white; background-color: #FC8272">
-                    Export To Excel!
-                </a> 
-            </div>
+            
         </div>
         <br>
 
