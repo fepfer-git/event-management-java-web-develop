@@ -76,6 +76,12 @@
 
                     </div>
 
+                        
+                        <div class="input-group input-group-icon">
+                        <input type="email" required="" name="email" value="<%= org.getEmail()%>" placeholder="Email"/>
+                        <div class="input-icon"><i class="fa fa-envelope"></i></div>
+                    </div>
+                        
                     <div class="input-group input-group-icon">
                         <input type="text" required="" name="description" value="<%= org.getDescription()%>" placeholder="Description"/>
                         <div class="input-icon"><i class="fa fa-file-text-o"></i></div>

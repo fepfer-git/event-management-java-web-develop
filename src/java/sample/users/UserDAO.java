@@ -740,7 +740,7 @@ public class UserDAO {
     }
 
     public boolean checkInputUserID(String userID) {
-        Pattern p = Pattern.compile("^[a-zA-Z0-9]{6,32}$");
+        Pattern p = Pattern.compile("^[a-zA-Z0-9]{3,32}$");
         if (p.matcher(userID).find()) {
             return true;
         } else {
