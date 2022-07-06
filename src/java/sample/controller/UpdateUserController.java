@@ -8,10 +8,12 @@ package sample.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import sample.users.UserDAO;
 import sample.users.UserDTO;
 import sample.users.UserError;
@@ -20,7 +22,12 @@ import sample.users.UserError;
  *
  * @author light
  */
+
 @WebServlet(name = "UpdateUserController", urlPatterns = {"/UpdateUserController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
+
 public class UpdateUserController extends HttpServlet {
 
     private static final String ERROR = "UserDataController";
@@ -71,7 +78,7 @@ public class UpdateUserController extends HttpServlet {
 
                 String password = request.getParameter("password");
                 String repass = request.getParameter("confirm");
-                if (password == "" && repass == "") {
+                if ("".equals(password) && "".equals(repass)) {
                     password = oldUser.getPassword();
                 } else if (!password.equals(repass)) {
                     error.setPasswordConfirmError("Wrong confirm password!");
@@ -80,9 +87,22 @@ public class UpdateUserController extends HttpServlet {
 
                 boolean status = Boolean.parseBoolean(request.getParameter("status"));
 
+                Part filePart = request.getPart("image");
+                String fileName = filePart.getSubmittedFileName();
+                String path;
+                if (!fileName.isEmpty()) {
+                    for (Part part : request.getParts()) {
+                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                    }
+                    path = "Image\\" + fileName;
+                } else {
+                    path = oldUser.getPicture();
+                }
+                
                 if (check == true) {
                     user = new UserDTO(oldUser.getId(), fullName, password, email, status, type, role, gender, phone);
                     if (dao.updateUserProfileByAdmin(user)) {
+                        dao.updateImage(path, oldUser.getId());
                         request.setAttribute("SUCCESS", "UPDATED SUCCESSFULLY!!!");
                         request.setAttribute("USER", dao.checkUserExist(oldUser.getId()));
                         url = SUCCESS;

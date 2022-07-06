@@ -33,7 +33,6 @@ public class LoginController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private static final String ERROR = "Admin_Login.jsp";
-    private static final String US_PAGE = "homepage.jsp";
     private static final String ADM_PAGE = "AdminManagerPageController";
     private static final String MAN_PAGE = "MainController?action=ListOrgEvent";
     private static final String MOD_PAGE = "MainController?action=ListEvent";
@@ -55,7 +54,6 @@ public class LoginController extends HttpServlet {
         }
         HttpSession session = request.getSession();
         UserDAO dao = new UserDAO();
-        UserDTO dto = new UserDTO();
         ManagerDTO manager = new ManagerDTO();
 
         try {

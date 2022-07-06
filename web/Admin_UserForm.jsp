@@ -67,14 +67,14 @@
             </div>
 
 
-            <form action="UploadImageController" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="page" value="Admin_UserForm.jsp" />
-                <input type="hidden" name="id" value="<%= user.getId()%>"/>
-                <input type="file" accept=".jpg, .jpeg, .png" name="image" />
-                <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
-                    Upload Image
-                </button>
-            </form>    
+            <!--            <form action="UploadImageController" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="page" value="Admin_UserForm.jsp" />
+                            <input type="hidden" name="id" value="<%= user.getId()%>"/>
+                            <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                            <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
+                                Upload Image
+                            </button>
+                        </form>    -->
 
             <% }%>
 
@@ -87,7 +87,7 @@
 
                 <h4><i class="fa-solid fa-users" style="width: 25px"></i>Account</h4>
 
-                <form action="MainController" method="POST">
+                <form action="MainController" method="POST" enctype="multipart/form-data">
                     <%
                         if (user == null) {
                             user = new UserDTO();
@@ -229,6 +229,7 @@
                     %>
                 </div>
             </div>
+            <input type="file" accept=".jpg, .jpeg, .png" name="image" />
 
             <%
                 String action = request.getParameter("action");
