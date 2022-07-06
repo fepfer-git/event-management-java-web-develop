@@ -7,6 +7,7 @@ package sample.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author light
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class MainController extends HttpServlet {
 
     /**
@@ -205,6 +209,7 @@ public class MainController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
+  
             String action = request.getParameter("action");
             switch (action) {
                 case (SEARCH_ORG):
@@ -390,6 +395,9 @@ public class MainController extends HttpServlet {
 
                 case (FILTER_ORG):
                     url = FILTER_ORG_CONTROLLER;
+                    break;                   
+                case (UPLOAD_IMAGE):
+                    url = UPLOAD_IMAGE_CONTROLLER;
                     break;
             }
         } catch (Exception e) {

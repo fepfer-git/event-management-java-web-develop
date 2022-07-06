@@ -46,7 +46,7 @@
                     success = "";
                 }
                 ManagerDTO user = (ManagerDTO) request.getAttribute("MANAGER");
-               
+
             %>
             <h3 style="font-weight: 900" class="text-danger"><%= success%></h3>
 
@@ -54,30 +54,32 @@
                 <h1 style="font-size: 18px" class="Information">Manager Information</h1>
 
                 <% if (user != null) {%>
-                
+
                 <div style="text-align: center">
                     <img style="max-width: 25%; border-radius: 20px" src="<%= user.getPicture()%>">
                 </div>
 
-                <form action="MainController" method="POST" enctype="multipart/form-data">
+<!--                <form action="MainController" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="page" value="Admin_ManagerForm.jsp" />
                     <input type="hidden" name="id" value="<%= user.getId()%>"/>
+                    <input type="hidden" name="action" value="UploadImage" />
                     <input type="file" accept=".jpg, .jpeg, .png" name="image" />
-                    <button name="action" value="UploadImage" style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
+                    <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
                         Upload Image
                     </button>
-                </form> 
+                </form> -->
 
                 <% } %> 
 
 
                 <h4><i class="fa-solid fa-users" style="width: 25px"></i>Account</h4>
-                <form action="MainController" method="POST">
+                <form action="MainController" method="POST" enctype="multipart/form-data">
 
                     <%
                         if (user == null) {
                             user = new ManagerDTO();
                     %> 
+
 
                     <div class="input-group input-group-icon">
                         <input type="text" required="" name="username" placeholder="User Name"/>
@@ -113,7 +115,7 @@
                             <option value="<%= list.getOrgID()%>"><%= list.getOrgName()%> </option>
                             <% }%>
                         </select>
-                        
+
                         <p class="text-danger">     <%= error.getOrgIDError()%></p>
 
                     </div>
@@ -183,7 +185,7 @@
 
                     </div>
 
-                   
+
             </div>
 
             <div class="row">
@@ -259,8 +261,9 @@
             </div>
             <input type="hidden" name="page" value="Admin_ManagerForm.jsp" />
 
+            <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+
             <%
-                String action = request.getParameter("action");
                 if (user.getId() != "") {
             %>
             <button style="cursor: pointer" class="login-box" type="submit" name="action" value="UpdateManager"> Submit </button>

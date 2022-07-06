@@ -51,7 +51,7 @@ public class UserDAO {
 
     private static final String DELETE_USER = "UPDATE tblUsers SET status = '0' WHERE userID = ?";
 
-    private static final String UPDATE_USER_PROFILE_BY_ADMIN = "UPDATE tblUsers SET fullName = ?, email=?, typeID =?, gender=?, phone=?, password = ?, status = ?, roleID = ? "
+    private static final String UPDATE_USER_PROFILE_BY_ADMIN = "UPDATE tblUsers SET fullName = ?, email=?, typeID =?, gender=?, phone=?, password = ?, status = ?\n"
             + "WHERE userID = ?";
 
     private static final String SIGN_UP_BY_MANAGER = "INSERT INTO tblManagers (managerID, orgID) VALUES (?, ?)";
@@ -76,7 +76,7 @@ public class UserDAO {
             + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
             + "WHERE tblUsers.userID = tblManagers.managerID AND tblUsers.typeID = tblUserTypes.typeID AND tblOrgPage.orgID = tblManagers.orgID AND tblUsers.roleID = ?";
 
-    private static final String CREATE_CLUB_MEMBER_WHEN_APPROVED_ORG = "INSERT INTO tblUsers (userID, fullName, password, status, typeID, roleID, gender, phone, avatarUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String CREATE_CLUB_MEMBER_WHEN_APPROVED_ORG = "INSERT INTO tblUsers (userID, fullName, password, status, typeID, roleID, email, gender, phone, avatarUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String GET_CLUB_MEMBER_BY_ORG = "SELECT userID, fullName, password, tblUsers.email, tblUsers.status, roleID, gender, phone, avatarURL, tblOrgPage.orgID, tblUserTypes.typeID, tblUserTypes.typeName, tblOrgPage.orgName\n"
             + "FROM tblUsers, tblManagers, tblUserTypes, tblOrgPage\n"
@@ -140,9 +140,10 @@ public class UserDAO {
                 ptm.setBoolean(4, manager.isStatus());
                 ptm.setString(5, manager.getTypeID());
                 ptm.setString(6, manager.getRoleID());
-                ptm.setString(7, manager.getGender());
-                ptm.setString(8, manager.getPhoneNumber());
-                ptm.setString(9, manager.getPicture());
+                ptm.setString(7, "");
+                ptm.setString(8, "");
+                ptm.setString(9, "");
+                ptm.setString(10, "");
 
                 if (ptm.executeUpdate() > 0) {
                     check = true;
@@ -499,12 +500,11 @@ public class UserDAO {
         Connection conn = null;
         PreparedStatement ptm = null;
         boolean check = false;
-        String sql = UPDATE_USER_PROFILE_BY_ADMIN;
 
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(sql);
+                ptm = conn.prepareStatement(UPDATE_USER_PROFILE_BY_ADMIN);
 
                 ptm.setString(1, user.getName());
                 ptm.setString(2, user.getEmail());
@@ -513,8 +513,7 @@ public class UserDAO {
                 ptm.setString(5, user.getPhoneNumber());
                 ptm.setString(6, user.getPassword());
                 ptm.setBoolean(7, user.isStatus());
-                ptm.setString(8, user.getRoleID());
-                ptm.setString(9, user.getId());
+                ptm.setString(8, user.getId());
 
                 if (ptm.executeUpdate() > 0) {
                     check = true;

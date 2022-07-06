@@ -40,11 +40,8 @@ public class UploadImageController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private static final String ERROR = "error.jsp";
-    private static final String UPDATE_USER = "UpdateUserController";
-    private static final String UPDATE_MANAGER = "UpdateManagerController";
-    private static final String UPDATE_ORG = "UpdateOrgController";
     private static final String UPDATE_PROFILE_MAN = "Admin_Profile.jsp";
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -52,45 +49,30 @@ public class UploadImageController extends HttpServlet {
         UserDAO dao = new UserDAO();
         OrganizationDAO orgDao = new OrganizationDAO();
         HttpSession session = request.getSession();
-        
+
         try {
             String page = request.getParameter("page");
             String id = request.getParameter("id");
+
             Part filePart = request.getPart("image");
             String fileName = filePart.getSubmittedFileName();
             if (!fileName.isEmpty()) {
                 for (Part part : request.getParts()) {
-                    part.write("D:\\FPTU\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
                 }
                 String path = "Image\\" + fileName;
-                if ("Admin_UserForm.jsp".equals(page)) {
-                    dao.updateImage(path, id);
-                    url = UPDATE_USER;
-                } else if ("Admin_ManagerForm.jsp".equals(page)) {
-                    dao.updateImage(path, id);
-                    url = UPDATE_MANAGER;
-                } else if ("Admin_OrgForm.jsp".equals(page)) {
-                    url = UPDATE_ORG;
-                    orgDao.updateImage(path, id);
-                    
-                }else if (UPDATE_PROFILE_MAN.equals(page)) {
+
+                if (UPDATE_PROFILE_MAN.equals(page)) {
                     dao.updateImage(path, id);
                     session.setAttribute("LOGIN_USER", dao.checkManagerExist(id));
                     url = UPDATE_PROFILE_MAN;
                 }
             } else {
-                
-                if ("Admin_UserForm.jsp".equals(page)) {
-                    url = UPDATE_USER;
-                } else if ("Admin_ManagerForm.jsp".equals(page)) {
-                    url = UPDATE_MANAGER;
-                } else if ("Admin_OrgForm.jsp".equals(page)) {
-                    url = UPDATE_ORG;
-                    
-                } else if (UPDATE_PROFILE_MAN.equals(page)) {
+
+                if (UPDATE_PROFILE_MAN.equals(page)) {
                     url = UPDATE_PROFILE_MAN;
                 }
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();

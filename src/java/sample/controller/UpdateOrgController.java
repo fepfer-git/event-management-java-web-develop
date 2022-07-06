@@ -6,12 +6,16 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import sample.organization.OrganizationDAO;
 import sample.organization.OrganizationDTO;
 import sample.organization.OrganizationError;
@@ -21,13 +25,16 @@ import sample.organization.OrganizationError;
  * @author light
  */
 @WebServlet(name = "UpdateOrgController", urlPatterns = {"/UpdateOrgController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class UpdateOrgController extends HttpServlet {
 
     private static final String ERROR = "Admin_OrgForm.jsp";
     private static final String SUCCESS = "Admin_OrgForm.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         boolean check = true;
@@ -53,24 +60,33 @@ public class UpdateOrgController extends HttpServlet {
                     }
                 }
 
-            
-                if (check) {
-                    orgDTO = new OrganizationDTO(orgID.toUpperCase(), orgName, description, status);
-                    if (orgDAO.updateOrg(orgDTO, oldOrgID)) {
-                        request.setAttribute("SUCCESS", "Updated Successfully!!!");
-                        request.setAttribute("ORG", orgDAO.getOrganization(orgID.toUpperCase()));
-                        url = SUCCESS;
+                Part filePart = request.getPart("image");
+                String fileName = filePart.getSubmittedFileName();
+                if (!fileName.isEmpty()) {
+                    for (Part part : request.getParts()) {
+                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
                     }
-                } else {
-                    request.setAttribute("ERROR", orgError);
-                    orgDTO = new OrganizationDAO().getOrganization(oldOrgID);
-                    request.setAttribute("ORG", orgDTO);
+                    String path = "Image\\" + fileName;
+
+                    if (check) {
+                        orgDTO = new OrganizationDTO(orgID.toUpperCase(), orgName, description, status);
+                        if (orgDAO.updateOrg(orgDTO, oldOrgID)) {
+                            orgDAO.updateImage(path, orgID);
+                            request.setAttribute("SUCCESS", "Updated Successfully!!!");
+                            request.setAttribute("ORG", orgDAO.getOrganization(orgID.toUpperCase()));
+                            url = SUCCESS;
+                        }
+                    } else {
+                        request.setAttribute("ERROR", orgError);
+                        orgDTO = new OrganizationDAO().getOrganization(oldOrgID);
+                        request.setAttribute("ORG", orgDTO);
+                    }
+
                 }
             } else {
                 orgDTO = new OrganizationDAO().getOrganization(id);
                 request.setAttribute("ORG", orgDTO);
             }
-
         } catch (Exception e) {
             log("Error at UpdateOrgController " + e.toString());
         } finally {
@@ -91,7 +107,11 @@ public class UpdateOrgController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateOrgController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -105,7 +125,11 @@ public class UpdateOrgController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateOrgController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

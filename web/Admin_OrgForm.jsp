@@ -52,17 +52,17 @@
                     <img style="max-width: 25%; border-radius: 20px" src="<%= org.getImgUrl()%>">
                 </div>
 
-                <form action="UploadImageController" method="POST" enctype="multipart/form-data">
+<!--       //          <form action="UploadImageController" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="page" value="Admin_OrgForm.jsp" />
                     <input type="hidden" name="id" value="<%= org.getOrgID()%>"/>
                     <input type="file" accept=".jpg, .jpeg, .png" name="image" />
                     <button style="width: 150px; font-size: 12px; cursor: pointer" type="submit" class="login-box" >
                         Upload Image
                     </button>
-                </form> 
+                </form> -->
                 <% }%>
 
-                <form action="MainController">
+                <form action="MainController" method="POST" enctype="multipart/form-data">
                     <h4><i class="fa-solid fa-id-card" style="width: 25px"></i>Organization</h4>
                     <div class="input-group input-group-icon">
                         <input type="text" required="" name="orgID" value="<%= org.getOrgID()%>" placeholder="Organization ID"/>
@@ -122,7 +122,8 @@
                     </div>
                   </div>
                 </div>-->
-           
+                               <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+
             <%
                 if (org.getOrgID() == "") {
             %>
