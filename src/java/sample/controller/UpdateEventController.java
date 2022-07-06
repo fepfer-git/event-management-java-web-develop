@@ -72,12 +72,14 @@ public class UpdateEventController extends HttpServlet {
 
                 Part filePart = request.getPart("image");
                 String fileName = filePart.getSubmittedFileName();
-                String path = "";
+                String path;
                 if (!fileName.isEmpty()) {
                     for (Part part : request.getParts()) {
                         part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
                     }
                     path = "Image\\" + fileName;
+                } else {
+                    path = evtDao.getAnEventByID(id).getImgUrl();
                 }
 
                 EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, id, title, content, path, summary);
@@ -104,13 +106,15 @@ public class UpdateEventController extends HttpServlet {
 
                     Part filePart = request.getPart("image");
                     String fileName = filePart.getSubmittedFileName();
-                    String path = "";
+                    String path;
                     if (!fileName.isEmpty()) {
                         for (Part part : request.getParts()) {
                             part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
                         }
                         path = "Image\\" + fileName;
-                    }
+                    } else {
+                    path = evtDao.getAnEventByID(id).getImgUrl();
+                }
 
                     EventPost event = new EventPost(takePlaceDate, location, eventType, speaker, id, title, content, path, summary, status);
                     check = evtDao.updateAnEventByAdmin(event);

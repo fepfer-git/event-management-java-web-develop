@@ -49,54 +49,68 @@ public class UpdateBlogController extends HttpServlet {
         ManagerDTO manager = (ManagerDTO) session.getAttribute("LOGIN_USER");
         try {
 
-            String type = request.getParameter("type");
-            String activity = request.getParameter("activity");
+            String id = request.getParameter("id");
+            if (id == null) {
 
-            String id = request.getParameter("blogID");
-            String content = request.getParameter("content");
-            String title = request.getParameter("title");
-            String summary = request.getParameter("summary");
+                String type = request.getParameter("type");
+                String activity = request.getParameter("activity");
 
-            Part filePart = request.getPart("image");
-            String fileName = filePart.getSubmittedFileName();
-            String path = "";
-            if (!fileName.isEmpty()) {
-                for (Part part : request.getParts()) {
-                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                id = request.getParameter("blogID");
+                String content = request.getParameter("content");
+                String title = request.getParameter("title");
+                String summary = request.getParameter("summary");
+
+                Part filePart = request.getPart("image");
+                String fileName = filePart.getSubmittedFileName();
+                String path;
+                if (!fileName.isEmpty()) {
+                    for (Part part : request.getParts()) {
+                        part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                    }
+                    path = "Image\\" + fileName;
+                } else {
+                    path = blogDao.getAnBlogByID(id).getImgUrl();
                 }
-                path = "Image\\" + fileName;
-            }
-            
-            if (activity == null) {
-                blog = blogDao.getAnBlogByID(id);
-                request.setAttribute("blog", blog);
-                url = UPDATE_PAGE;
 
-            } else if ("CLB".equals(manager.getRoleID())) {
+                if (activity == null) {
+                    blog = blogDao.getAnBlogByID(id);
+                    request.setAttribute("blog", blog);
+                    url = UPDATE_PAGE;
 
-                blog = new Blog(id, title, content, path, summary);
-                boolean checkUpdate = blogDao.updateABlog(blog, manager.getRoleID());
-                if (checkUpdate == true) {
-                    url = SUCCESS;
+                } else if ("CLB".equals(manager.getRoleID())) {
 
-                }
-            } else if ("MOD".equals(manager.getRoleID())) {
-                if (type == null) {
-                    boolean status = Boolean.parseBoolean(request.getParameter("status"));
-                    blog = new Blog(id, title, content, path, summary, status);
-
+                    blog = new Blog(id, title, content, path, summary);
                     boolean checkUpdate = blogDao.updateABlog(blog, manager.getRoleID());
                     if (checkUpdate == true) {
                         url = SUCCESS;
-                    }
 
-                } else if ("FPT".equals(type)) {
-                    boolean status = Boolean.parseBoolean(request.getParameter("status"));
-                    boolean checkUpdate = blogDao.updateBlogStatus(id, status);
-                    if (checkUpdate == true) {
-                        url = SUCCESS;
+                    }
+                } else if ("MOD".equals(manager.getRoleID())) {
+                    if (type == null) {
+                        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                        blog = new Blog(id, title, content, path, summary, status);
+
+                        boolean checkUpdate = blogDao.updateABlog(blog, manager.getRoleID());
+                        if (checkUpdate == true) {
+                            url = SUCCESS;
+                        }
+
+                    } else if ("FPT".equals(type)) {
+                        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+                        boolean checkUpdate = blogDao.updateBlogStatus(id, status);
+                        if (checkUpdate == true) {
+                            url = SUCCESS;
+                        } else {
+                            request.setAttribute("blog", blogDao.getAnBlogByID(id));
+                            url = UPDATE_PAGE;
+
+                        }
+
                     }
                 }
+            } else {
+                request.setAttribute("blog", blogDao.getAnBlogByID(id));
+                url = UPDATE_PAGE;
             }
 
         } catch (SQLException ex) {

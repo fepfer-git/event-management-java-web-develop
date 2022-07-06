@@ -19,6 +19,8 @@
         <link href="./css_Admin/vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
         <link href="./css_Admin/css/style.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     </head>
 
     <%Blog blog = (Blog) request.getAttribute("blog");
@@ -214,10 +216,27 @@
 
                                                     <div class="media bg-light p-3 rounded align-items-center mr-3">
                                                         <div class="media-body mr-2">
-                                                            <span class="fs-12 d-block mb-1">Status</span>                                                           
-                                                            <span style="color: green" class="fs-16"><%=blog.isStatus()%></span>                                                           
+                                                            <span class= "fs-12 d-block mb-1"><i class="fa-solid fa-circle-check"></i> Status</span>               
+                                                            <%if (blog.isStatus()) {
+                                                            %>
+                                                            <span style="color: green; font-weight: bold">Active</span>
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                            <span style="color: red; font-weight: bold">Inactive</span>
+                                                            <%
+                                                                }
+                                                            %>  
                                                         </div>                                                       
-                                                    </div>                                                    
+                                                    </div>
+
+                                                    <div class="media bg-light p-3 rounded align-items-center">	
+                                                        <div class="media-body">
+                                                            <span class="fs-12 d-block mb-1"> <i class="fa-solid fa-users"></i>Club</span>
+                                                            <span class="fs-16 text-black"><%=blog.getOrgName()%></span>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="dropdown">
                                                         <div class="share-icon" role="button" data-toggle="dropdown" aria-expanded="false">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -228,7 +247,7 @@
                                                         </div>
                                                         <div class="dropdown-menu dropdown-menu-right">
 
-                                                            <a class="dropdown-item" href="MainController?action=UpdateBlog&blogID=<%=blog.getId()%>">Edit</a>
+                                                            <a class="dropdown-item" href="MainController?action=UpdateBlog&id=<%=blog.getId()%>">Edit</a>
                                                             <a class="dropdown-item" href="MainController?action=DeleteBlog&blogID=<%=blog.getId()%>">Delete</a>
                                                         </div>
                                                     </div>

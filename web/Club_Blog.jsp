@@ -389,7 +389,7 @@
                                                         <div class="text-center">
 
 
-                                                            <a href="MainController?action=UpdateBlog&blogID=<%=listBlog.get(i).getId()%>" class="mr-4">
+                                                            <a href="MainController?action=UpdateBlog&id=<%=listBlog.get(i).getId()%>" class="mr-4">
                                                                 <i class=" las la-pencil-alt scale-2"></i>
                                                             </a>
 

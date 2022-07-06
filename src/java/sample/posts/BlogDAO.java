@@ -14,8 +14,8 @@ public class BlogDAO {
 
     private static final String GET_ALL_BLOG = "SELECT blogID, tblBlog.orgID, orgName, tblBlog.status, title, tblBlog.createDate, content, tblBlog.imgUrl, numberOfView, summary\n"
             + "FROM tblBlog, tblOrgPage WHERE tblBlog.orgID = tblOrgPage.orgID";
-    private static final String GET_A_BLOG_BY_ID = "SELECT blogID, orgID, status, title, createDate, content, imgUrl, numberOfView, summary \n"
-            + "FROM tblBlog WHERE blogID = ?";
+    private static final String GET_A_BLOG_BY_ID = "SELECT blogID, tblBlog.orgID, orgName, tblBlog.status, title, tblBlog.createDate, content, tblBlog.imgUrl, numberOfView, summary \n"
+            + "FROM tblBlog, tblOrgPage WHERE blogID = ? AND tblOrgPage.orgID = tblBlog.orgID";
 
     private static final String GET_ALL_BLOG_BY_ORG = "SELECT blogID, tblBlog.orgID, orgName, tblBlog.status, title, tblBlog.createDate, content, tblBlog.imgUrl, numberOfView, summary\n"
             + " FROM tblBlog, tblOrgPage WHERE tblBlog.orgID = tblOrgPage.orgID AND tblBlog.orgID = ?";
@@ -124,6 +124,7 @@ public class BlogDAO {
             if (rs.next()) {
                 String id = rs.getString("blogID");
                 String orgID = rs.getString("orgID");
+                String orgName = rs.getString("orgName");
                 String createDate = rs.getString("createDate");
                 String content = rs.getString("content");
                 String title = rs.getString("title");
@@ -132,7 +133,7 @@ public class BlogDAO {
                 String summary = rs.getString("summary");
                 Boolean status = rs.getBoolean("status");
 
-                blog = new Blog(id, orgID, title, content, createDate, imgUrl, numberOfView, summary, status);
+                blog = new Blog(id, orgID, orgName, title, content, createDate, imgUrl, numberOfView, summary, status);
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
