@@ -8,6 +8,8 @@
         <servlet-name>AdminPageController</servlet-name>
         <url-pattern>/AdminPageController</url-pattern>
     </servlet-mapping>
+  
+    
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>

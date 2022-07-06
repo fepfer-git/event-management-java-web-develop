@@ -229,7 +229,14 @@
                     %>
                 </div>
             </div>
-            <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                
+           <div class="row">
+                <h4><i class="fa-solid fa-link" style="width: 25px"></i>Image</h4>
+                <div class="input-group input-group-icon">
+                    <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                    <div class="input-icon"><i class="fa-solid fa-link"></i></div>
+                </div>
+            </div>
 
             <%
                 String action = request.getParameter("action");

@@ -34,7 +34,7 @@
     <body>
         <!-- partial:index.partial.html -->
         <div  class="container">
-            <form action="MainController" method="GET">
+            <form action="MainController" method="POST" enctype="multipart/form-data">
                 <div style="text-align: center">
                     <h1 class="Information ">Add Event</h1>
                 </div>
@@ -49,12 +49,7 @@
                     <div class="input-group input-group-icon">
                         <input type="text" value="" name="speaker" placeholder="Speaker"/>
                         <div class="input-icon"><i class="fa fa-user"></i></div>
-                    </div>
-
-                    <div class="input-group input-group-icon">
-                        <input required="" type="url" value="" name="imgUrl" placeholder="ImgURL"/>
-                        <div class="input-icon"><i class="fa-solid fa-link"></i></div>
-                    </div>
+                    </div>                   
 
 
                     <h4><i class="fa-solid fa-file-pen" style="width: 25px;"></i>Event's Type and Location</h4>
@@ -94,6 +89,14 @@
                 <div class="update-content">
                     <textarea required="" name="content" id="role" cols="30" rows="9" style="width: 480px; border-color: #dddada; font-family: 'Open Sans','Helvetica Neue',Helvetica, Arial, sans-serif;"
                               placeholder="Enter Event's Description Here*"></textarea>
+                </div>
+
+                <div class="row">
+                    <h4><i class="fa-solid fa-link" style="width: 25px"></i>Image</h4>
+                    <div class="input-group input-group-icon">
+                        <input type="file" accept=".jpg, .jpeg, .png" name="image" />
+                        <div class="input-icon"><i class="fa-solid fa-link"></i></div>
+                    </div>
                 </div>
 
                 <button type="submit" style="cursor: pointer" class="login-box" name="action" value="CreateEvent">

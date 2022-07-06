@@ -10,11 +10,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import sample.posts.Blog;
 import sample.posts.BlogDAO;
 import sample.users.ManagerDTO;
@@ -24,6 +26,9 @@ import sample.users.ManagerDTO;
  * @author tvfep
  */
 @WebServlet(name = "UpdateBlogController", urlPatterns = {"/UpdateBlogController"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 50, // 50MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class UpdateBlogController extends HttpServlet {
 
     private static final String SUCCESS = "BlogListController";
@@ -50,9 +55,18 @@ public class UpdateBlogController extends HttpServlet {
             String id = request.getParameter("blogID");
             String content = request.getParameter("content");
             String title = request.getParameter("title");
-            String imgUrl = request.getParameter("imgUrl");
             String summary = request.getParameter("summary");
 
+            Part filePart = request.getPart("image");
+            String fileName = filePart.getSubmittedFileName();
+            String path = "";
+            if (!fileName.isEmpty()) {
+                for (Part part : request.getParts()) {
+                    part.write("D:\\Document\\Semester 5 FPT\\SWP391\\event-management-java-web-develop\\web\\Image\\" + fileName);
+                }
+                path = "Image\\" + fileName;
+            }
+            
             if (activity == null) {
                 blog = blogDao.getAnBlogByID(id);
                 request.setAttribute("blog", blog);
@@ -60,7 +74,7 @@ public class UpdateBlogController extends HttpServlet {
 
             } else if ("CLB".equals(manager.getRoleID())) {
 
-                blog = new Blog(id, title, content, imgUrl, summary);
+                blog = new Blog(id, title, content, path, summary);
                 boolean checkUpdate = blogDao.updateABlog(blog, manager.getRoleID());
                 if (checkUpdate == true) {
                     url = SUCCESS;
@@ -69,7 +83,7 @@ public class UpdateBlogController extends HttpServlet {
             } else if ("MOD".equals(manager.getRoleID())) {
                 if (type == null) {
                     boolean status = Boolean.parseBoolean(request.getParameter("status"));
-                    blog = new Blog(id, title, content, imgUrl, summary, status);
+                    blog = new Blog(id, title, content, path, summary, status);
 
                     boolean checkUpdate = blogDao.updateABlog(blog, manager.getRoleID());
                     if (checkUpdate == true) {
