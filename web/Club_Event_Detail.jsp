@@ -208,11 +208,10 @@
                                     %>
                                 <li><a href="MainController?action=ListOrgEvent">Event</a></li>
                                 <li><a href="MainController?action=ListBlog">Blog</a></li>
-                                <li><a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID()%>">Statistic</a></li>
-
                                 <%
                                     }
                                 %>
+                                <li><a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID()%>">Statistic</a></li>
                             </ul>
                         </li>
                         <li>

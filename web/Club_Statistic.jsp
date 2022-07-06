@@ -61,11 +61,11 @@
         Nav header start
     ***********************************-->
             <div class="nav-header">
-             
-                <a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID() %>" class="brand-logo">
+
+                <a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID()%>" class="brand-logo">
                     <img class="brand-title" src="./css_Admin/images/femLogo.png" alt="">
                 </a>
-                
+
 
                 <div class="nav-control">
                     <div class="hamburger">
@@ -185,14 +185,30 @@
     ***********************************-->
             <div class="deznav">
                 <div class="deznav-scroll">
-                    
+
                     <ul class="metismenu" id="menu">
                         <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                                 <i class="flaticon-381-networking"></i>
                                 <span class="nav-text">Dashboard</span>
                             </a>
                             <ul aria-expanded="false">
-                                <li><a href="MainController?action=ListOrgEvent">Event</a></li>                               
+                                <%
+                                    if ("CLB".equals(user.getRoleID())) {
+                                %>
+                                <li><a href="MainController?action=ListOrgEvent">Event</a></li>                                        
+                                    <% } else { %>
+
+                                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Event</a>
+                                    <ul aria-expanded="false">
+                                        <li><a href="MainController?action=ListEvent">List Event</a></li>
+                                        <li><a href="MainController?action=ListLocation">Location</a></li>
+                                        <li><a href="MainController?action=ListEventType">Event Type</a></li>
+                                        </br>
+                                    </ul>
+                                </li>
+
+
+                                <% }%>
                                 <li><a href="MainController?action=ListBlog">Blog</a></li>
                                 <li><a href="MainController?action=ClubStatistic&orgID=<%=user.getOrgID()%>">Statistic</a></li>
                             </ul>
@@ -232,8 +248,8 @@
                                                 <div class="">
                                                     <img src="<%=listFollower.get(i).getPicture()%>" alt="" width="42"
                                                          class="rounded-circle mr-2">
-                                                    
-                                                    
+
+
                                                     <%=listFollower.get(i).getName()%>
                                                 </div>
                                             </div>
@@ -245,7 +261,7 @@
                                         </div>
                                         <div class="card-footer text-center border-0">
                                             <a class="btn btn-primary btn-sm"
-                                               href="MainController?action=ClubFollower&orgID=<%=user.getOrgID() %>" >View More</a>
+                                               href="MainController?action=ClubFollower&orgID=<%=user.getOrgID()%>" >View More</a>
                                         </div>
                                     </div>
                                 </div>
