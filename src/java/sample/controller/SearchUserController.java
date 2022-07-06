@@ -33,12 +33,11 @@ public class SearchUserController extends HttpServlet {
         String url = ERROR;
         try {
             String searchUser = request.getParameter("search");
-            List<UserDTO> listUser = new UserDAO().searchUser(searchUser);            
+            List<UserDTO> listUser = new UserDAO().searchUser(searchUser);
 
-            if (listUser.size() > 0) {
-                request.setAttribute("LIST_USERS", listUser);
-                url = SUCCESS;
-            }
+            request.setAttribute("LIST_USERS", listUser);
+            url = SUCCESS;
+
         } catch (Exception e) {
             log("Error at SearchAccController " + e.toString());
         } finally {

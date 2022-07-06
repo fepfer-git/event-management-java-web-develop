@@ -32,12 +32,10 @@ public class SearchOrgController extends HttpServlet {
         try {
             String searchOrg = request.getParameter("search");
             List<OrganizationDTO> listOrg = new OrganizationDAO().searchOrganization(searchOrg);
-            
-            if(listOrg.size() > 0) {
-                request.setAttribute("LIST_ORG", listOrg);
-                url = SUCCESS;
-            }
-            
+
+            request.setAttribute("LIST_ORG", listOrg);
+            url = SUCCESS;
+
         } catch (Exception e) {
             log("Error at SearchOrgController " + e.toString());
         } finally {
