@@ -36,7 +36,7 @@
             <div style="text-align: center">
                 <img style="max-width: 25%; border-radius: 20px" src="">
             </div>
-            <%                    UserError error = (UserError) request.getAttribute("ERROR");
+            <%                UserError error = (UserError) request.getAttribute("ERROR");
                 if (error == null) {
                     error = new UserError();
                 }
@@ -90,13 +90,13 @@
                     <div class="input-group input-group-icon">
                         <input type="password" required="" name="password" value="" placeholder="Password"/>
                         <div class="input-icon"><i class="fa-regular fa-user"></i></div>
-                        <p class="text-danger"><%= error.getPasswordError()%></p>
+                        //<p class="text-danger"><%= error.getPasswordError()%></p>
                     </div>
 
                     <div class="input-group input-group-icon">
                         <input type="password" required="" name="confirm" value="" placeholder="Confirm Password"/>
                         <div class="input-icon"><i class="fa-regular fa-user"></i></div>
-                        <p class="text-danger"><%= error.getPasswordError()%></p>
+                        <p class="text-danger"><%= error.getPasswordConfirmError()%></p>
                     </div>
 
                     <div class="input-group">
@@ -139,7 +139,7 @@
                     <div class="input-group input-group-icon">
                         <input type="password" name="confirm" value="" placeholder="Confirm Password"/>
                         <div class="input-icon"><i class="fa-regular fa-user"></i></div>
-                        <p class="text-danger"><%= error.getPasswordError()%></p>
+                        <p class="text-danger"><%= error.getPasswordConfirmError()%></p>
                     </div>
 
                     <div class="input-group"> 

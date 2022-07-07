@@ -109,7 +109,7 @@
                     <div class="input-group input-group-icon">
                         <input type="password" required="" name="confirm" value="" placeholder="Confirm Password"/>
                         <div class="input-icon"><i class="fa-regular fa-user"></i></div>
-                        <p class="text-danger"><%= error.getPasswordError()%></p>
+                        <p class="text-danger"><%= error.getPasswordConfirmError()%></p>
                     </div>
 
 
@@ -131,7 +131,7 @@
                     <div class="input-group input-group-icon">
                         <input type="password" name="confirm" value="" placeholder="Confirm Password"/>
                         <div class="input-icon"><i class="fa-regular fa-user"></i></div>
-                        <p class="text-danger"><%= error.getPasswordError()%></p>
+                        <p class="text-danger"><%= error.getPasswordConfirmError()%></p>
                     </div>
 
                     <% }%>

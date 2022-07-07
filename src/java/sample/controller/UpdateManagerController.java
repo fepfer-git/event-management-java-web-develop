@@ -51,7 +51,7 @@ public class UpdateManagerController extends HttpServlet {
             String id = request.getParameter("id");
             if (id == null) {
                 String userName = request.getParameter("username");
-                UserDTO oldUser = dao.checkUserExist(userName);
+                UserDTO oldUser = dao.checkManagerExist(userName);
 
                 String fullName = request.getParameter("fullName");
 
